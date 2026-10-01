@@ -1,0 +1,45 @@
+name: Build APK
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "android/**"
+      - ".github/workflows/build-apk.yml"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: android
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Compila APK
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleRelease --no-daemon \
+            -PdataUrl="https://raw.githubusercontent.com/${{ github.repository }}/main/data/hotels.json" \
+            -PversionCode=${{ github.run_number }}
+      - name: Rinomina
+        run: cp app/build/outputs/apk/release/app-release.apk ../VeneziaHotelWatch.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: VeneziaHotelWatch
+          path: VeneziaHotelWatch.apk
+      - name: Pubblica release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: Venezia Hotel Watch · build ${{ github.run_number }}
+          files: VeneziaHotelWatch.apk
+          make_latest: true
