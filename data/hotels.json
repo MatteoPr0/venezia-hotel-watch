@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-01T08:37:47Z",
+ "updated_at": "2026-10-01T22:44:51Z",
  "discovered_on": "2026-10-01",
  "trip_name": "Mostra del Cinema · Venezia 2027",
  "stay": {
@@ -16,9 +16,9 @@
  "last_run": {
   "ok": true,
   "errors": [],
-  "api_calls": 3,
+  "api_calls": 0,
   "found": 43,
-  "searches_left": 246,
+  "searches_left": null,
   "waiting_until": "2026-10-08"
  },
  "hotels": [
