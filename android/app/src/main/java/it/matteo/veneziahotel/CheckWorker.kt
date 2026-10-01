@@ -64,8 +64,8 @@ class CheckWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx,
             val fresh = snap.events.filter { it.time > last }
             repo.lastNotifiedEvent = maxOf(last, newest)
             val relevant = fresh.filter { e ->
-                e.type in setOf("new", "back", "drop") &&
-                    (!repo.notifyOnlyWithinMax || e.total == null || e.total <= snap.budgetMax)
+                e.type in setOf("new", "back", "drop", "priced") && e.total != null &&
+                    (!repo.notifyOnlyWithinMax || e.total <= snap.budgetMax)
             }
             if (relevant.isEmpty()) return
             if (Build.VERSION.SDK_INT >= 33 &&
@@ -79,6 +79,7 @@ class CheckWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx,
                 when (e.type) {
                     "new" -> "Nuovo · ${e.name} ($zone) · $price"
                     "back" -> "Di nuovo libero · ${e.name} · $price"
+                    "priced" -> "Prezzi usciti · ${e.name} ($zone) · $price"
                     else -> "↓ ${e.name} · $price (era € ${e.prevTotal})"
                 }
             }

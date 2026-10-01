@@ -56,6 +56,7 @@ data class Snapshot(
     val runOk: Boolean,
     val runErrors: List<String>,
     val searchesLeft: Int?,
+    val waitingUntil: String?,
     val hotels: List<Hotel>,
     val events: List<HotelEvent>,
 )
@@ -124,6 +125,7 @@ fun parseSnapshot(text: String): Snapshot {
         runOk = run.optBoolean("ok", true),
         runErrors = run.optJSONArray("errors")?.let { a -> (0 until a.length()).map { a.optString(it) } } ?: emptyList(),
         searchesLeft = run.optIntOrNull("searches_left"),
+        waitingUntil = run.optStr("waiting_until"),
         hotels = hotels,
         events = events,
     )

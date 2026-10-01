@@ -26,6 +26,9 @@ DATA = ROOT / "data" / "hotels.json"
 SERPAPI = "https://serpapi.com/search.json"
 MAX_EVENTS = 150
 MAX_HISTORY = 120
+# Google Hotels accetta/mostra tariffe solo fino a 330 giorni prima del check-in:
+# oltre, risponde con prezzi di altre date. Prima di allora non interroghiamo nulla.
+BOOKING_WINDOW_DAYS = 330
 
 
 def now_iso() -> str:
@@ -124,7 +127,7 @@ def parse_property(p: dict, nights: int) -> dict | None:
     }
 
 
-def run_searches(cfg: dict, fetcher: Fetcher) -> tuple[dict, list[str]]:
+def run_searches(cfg: dict, fetcher: Fetcher, ignore_prices: bool = False) -> tuple[dict, list[str]]:
     ci, co = cfg["check_in"], cfg["check_out"]
     nights = (dt.date.fromisoformat(co) - dt.date.fromisoformat(ci)).days
     cap = cfg["budget_max"] * cfg.get("show_up_to_factor", 1.25)
@@ -142,7 +145,7 @@ def run_searches(cfg: dict, fetcher: Fetcher) -> tuple[dict, list[str]]:
             "hl": "it",
         }
         params.update(s.get("params", {}))
-        if s.get("use_max_price"):
+        if s.get("use_max_price") and not ignore_prices:
             params["max_price"] = str(math.ceil(cap / nights))
         token = None
         for page in range(s.get("pages", 1)):
@@ -164,7 +167,9 @@ def run_searches(cfg: dict, fetcher: Fetcher) -> tuple[dict, list[str]]:
                 zone = classify_zone(h["lat"], h["lon"])
                 if zone not in ("lido", "centro"):
                     continue  # Mestre, terraferma, isole minori
-                if h["total"] is not None and h["total"] > cap:
+                if ignore_prices:
+                    h["total"] = h["per_night"] = None  # prezzi non validi per le nostre date
+                elif h["total"] is not None and h["total"] > cap:
                     continue
                 h["zone"] = zone
                 prev = found.get(h["id"])
@@ -210,16 +215,21 @@ def merge(old: dict, found: dict, cfg: dict, ts: str, run_ok: bool) -> tuple[lis
         rec["badge"], rec["badge_at"] = None, None
         if o is None:
             rec["badge"], rec["badge_at"] = "new", ts
-            ev("new", rec)
+            if rec["total"] is not None:  # senza prezzo = nessuna disponibilità per quelle date: niente evento
+                ev("new", rec)
         elif not o.get("available", True):
             rec["badge"], rec["badge_at"] = "back", ts
             ev("back", rec, prev_total)
+        elif prev_total is None and rec["total"] is not None:
+            # l'hotel c'era già ma senza prezzo: ora le tariffe sono uscite
+            rec["badge"], rec["badge_at"] = "priced", ts
+            ev("priced", rec)
         elif prev_total is not None and rec["total"] is not None and rec["total"] != prev_total:
             rec["change"] = rec["total"] - prev_total
             rec["badge"], rec["badge_at"] = ("drop" if rec["change"] < 0 else "up"), ts
             if -rec["change"] >= drop_min:
                 ev("drop", rec, prev_total)
-        elif o.get("badge") in ("new", "drop", "up", "back") and (o.get("badge_at") or "") >= day_ago:
+        elif o.get("badge") in ("new", "drop", "up", "back", "priced") and (o.get("badge_at") or "") >= day_ago:
             # il badge resta visibile per 24h
             rec["badge"], rec["badge_at"], rec["change"] = o["badge"], o["badge_at"], o.get("change", 0)
         out.append(rec)
@@ -241,14 +251,14 @@ def merge(old: dict, found: dict, cfg: dict, ts: str, run_ok: bool) -> tuple[lis
 
 
 def notify_ntfy(topic: str, events: list[dict], cfg: dict):
-    good = [e for e in events if e["type"] in ("new", "back", "drop")
+    good = [e for e in events if e["type"] in ("new", "back", "drop", "priced")
             and (e["total"] is None or e["total"] <= cfg["budget_max"])]
     if not good:
         return
     lines = []
     for e in good[:8]:
         price = f"{e['total']} €" if e["total"] is not None else "prezzo n.d."
-        tag = {"new": "Nuovo", "back": "Di nuovo libero", "drop": "Prezzo giù"}[e["type"]]
+        tag = {"new": "Nuovo", "back": "Di nuovo libero", "drop": "Prezzo giù", "priced": "Prezzi usciti"}[e["type"]]
         extra = f" (era {e['prev_total']} €)" if e["type"] == "drop" and e["prev_total"] else ""
         lines.append(f"{tag}: {e['name']} · {e['zone'].capitalize()} · {price}{extra}")
     req = urllib.request.Request(
@@ -269,11 +279,54 @@ def main() -> int:
         return 1
     old = json.loads(DATA.read_text()) if DATA.exists() else {}
     ts = now_iso()
+    nights = (dt.date.fromisoformat(cfg["check_out"]) - dt.date.fromisoformat(cfg["check_in"])).days
+    check_in = dt.date.fromisoformat(cfg["check_in"])
+    opens = check_in - dt.timedelta(days=BOOKING_WINDOW_DAYS)
+    today = dt.datetime.now(dt.timezone.utc).date()
+    if today < opens:
+        # Fuori finestra: Google non ha tariffe vere per le nostre date. Facciamo solo
+        # "scoperta" degli hotel in zona (una volta al giorno), senza prezzi né notifiche.
+        was_waiting = bool((old.get("last_run") or {}).get("waiting_until"))
+        prev = {h["id"]: h for h in old.get("hotels", [])} if was_waiting else {}
+        calls, errors, left = 0, [], None
+        if was_waiting and old.get("hotels") and (old.get("discovered_on") == today.isoformat()):
+            hotels = old["hotels"]
+            discovered_on = old.get("discovered_on")
+        else:
+            fetcher = Fetcher(key, mock)
+            found, errors = run_searches(cfg, fetcher, ignore_prices=True)
+            calls, left = fetcher.calls, fetcher.searches_left()
+            hotels = []
+            for hid, h in found.items():
+                o = prev.get(hid)
+                hotels.append({**h, "first_seen": o["first_seen"] if o else ts, "last_seen": ts,
+                               "available": True, "misses": 0, "history": [], "min_total": None,
+                               "change": 0, "badge": None, "badge_at": None})
+            if errors and prev:
+                hotels = list(prev.values())
+            discovered_on = today.isoformat()
+        data = {
+            "updated_at": ts,
+            "discovered_on": discovered_on,
+            "trip_name": cfg.get("trip_name"),
+            "stay": {"check_in": cfg["check_in"], "check_out": cfg["check_out"], "nights": nights,
+                     "adults": cfg.get("adults", 2)},
+            "budget": {"target": cfg["budget_target"], "max": cfg["budget_max"], "currency": cfg.get("currency", "EUR")},
+            "last_run": {"ok": not errors, "errors": errors, "api_calls": calls, "found": len(hotels),
+                         "searches_left": left, "waiting_until": opens.isoformat()},
+            "hotels": hotels,
+            "events": [],
+        }
+        DATA.parent.mkdir(parents=True, exist_ok=True)
+        DATA.write_text(json.dumps(data, ensure_ascii=False, indent=1))
+        print(f"In attesa tariffe (dal {opens}). Hotel in elenco: {len(hotels)}, chiamate API: {calls}.")
+        return 0
     fetcher = Fetcher(key, mock)
     found, errors = run_searches(cfg, fetcher)
     run_ok = not errors
+    if (old.get("last_run") or {}).get("waiting_until"):
+        old = {}  # primo controllo vero dopo l'attesa: si parte puliti
     hotels, events = merge(old, found, cfg, ts, run_ok)
-    nights = (dt.date.fromisoformat(cfg["check_out"]) - dt.date.fromisoformat(cfg["check_in"])).days
     data = {
         "updated_at": ts,
         "trip_name": cfg.get("trip_name"),

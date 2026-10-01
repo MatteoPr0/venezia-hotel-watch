@@ -28,6 +28,8 @@ class MainVm(app: Application) : AndroidViewModel(app) {
     var sort by mutableStateOf(SortBy.PRICE)
     var onlyWithinMax by mutableStateOf(false)
     var showGone by mutableStateOf(false)
+    var curated by mutableStateOf(repo.cachedCurated(app))
+    var checkedTick by mutableStateOf(0)
     var tab by mutableStateOf(0)
     var selected by mutableStateOf<Hotel?>(null)
 
@@ -44,6 +46,7 @@ class MainVm(app: Application) : AndroidViewModel(app) {
                     s.events.firstOrNull()?.time?.let { if (it > repo.lastNotifiedEvent) repo.lastNotifiedEvent = it }
                 }
                 .onFailure { error = it.message ?: "errore di rete" }
+            runCatching { repo.fetchCurated(getApplication()) }.onSuccess { curated = it }
             loading = false
         }
     }
