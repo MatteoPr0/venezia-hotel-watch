@@ -1,0 +1,9 @@
+{
+ "updated_at": null,
+ "trip_name": "Mostra del Cinema · Venezia 2027",
+ "stay": {"check_in": "2027-09-03", "check_out": "2027-09-06", "nights": 3, "adults": 2},
+ "budget": {"target": 1000, "max": 1200, "currency": "EUR"},
+ "last_run": {"ok": true, "errors": [], "api_calls": 0, "found": 0, "searches_left": null},
+ "hotels": [],
+ "events": []
+}

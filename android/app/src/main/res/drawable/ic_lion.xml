@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="108" android:viewportHeight="108">
+    <!-- arco gotico veneziano -->
+    <path android:fillColor="#00000000" android:strokeColor="#D4AF5F" android:strokeWidth="3.2"
+        android:pathData="M38,74 L38,52 C38,42 46,36 54,30 C62,36 70,42 70,52 L70,74 Z" />
+    <!-- onda della laguna -->
+    <path android:fillColor="#00000000" android:strokeColor="#D4AF5F" android:strokeWidth="2.6"
+        android:strokeLineCap="round"
+        android:pathData="M34,80 C40,76 44,84 50,80 C56,76 60,84 66,80 C70,77.5 72,80 74,80" />
+    <!-- stella -->
+    <path android:fillColor="#D4AF5F"
+        android:pathData="M54,44 L56.4,50.2 L63,50.4 L57.8,54.4 L59.7,60.8 L54,57 L48.3,60.8 L50.2,54.4 L45,50.4 L51.6,50.2 Z" />
+</vector>
