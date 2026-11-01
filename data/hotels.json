@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-31T21:37:13Z",
+ "updated_at": "2026-11-01T13:32:09Z",
  "trip_name": "Mostra del Cinema · Venezia 2027",
  "stay": {
   "check_in": "2027-09-03",
@@ -16,8 +16,8 @@
   "ok": true,
   "errors": [],
   "api_calls": 3,
-  "found": 50,
-  "searches_left": 87
+  "found": 49,
+  "searches_left": 248
  },
  "hotels": [
   {
@@ -32,7 +32,7 @@
    "total": 350,
    "per_night": 117,
    "link": "https://www.mezzopozzovenice.com/en",
-   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLeNA-DQmfGEi2Sw0nAYGtAs-cNbpS7I1YxYadQeXlcQnmgKCY4toHgfvY04ai0kA5sguhFAHk3a_lPNdEIyYFZ-Kk21hYx30ZRBOcOdJXzkDY7C_bTUR8CvBtkE5NZMxYMBJ7nb=s10000",
+   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLcAFoopnxcEJzwTNb-bT8eZkOyBDjaKEgR1oYv5sUxEaxTyM9biY035lou1CYBq9QA4VyPzjL6IIrByEjnmGLTyO_cCJ2Y_TuBTGye_rL5jsAGrPjNZWmwTCWRJVWoHV_aYw6ik=s10000",
    "amenities": [
     "Free breakfast",
     "Free Wi-Fi",
@@ -43,9 +43,9 @@
    ],
    "zone": "centro",
    "first_seen": "2026-10-10T21:46:12Z",
-   "last_seen": "2026-10-31T12:41:26Z",
+   "last_seen": "2026-11-01T13:32:09Z",
    "available": true,
-   "misses": 1,
+   "misses": 0,
    "history": [
     {
      "d": "2026-10-10",
@@ -126,6 +126,10 @@
     {
      "d": "2026-10-31",
      "total": 350
+    },
+    {
+     "d": "2026-11-01",
+     "total": 350
     }
    ],
    "min_total": 350,
@@ -134,95 +138,49 @@
    "badge_at": null
   },
   {
-   "id": "residenza-de-losmarin-suites",
-   "token": "ChgIltCfm5HvpIhpGgwvZy8xaGMzc3hkbW4QAQ",
-   "name": "Residenza de l’Osmarin Suites",
-   "lat": 45.4356053,
-   "lon": 12.343034999999999,
+   "id": "40-17-san-marco",
+   "token": "ChoIq5OQnLG63enzARoNL2cvMTFjNzA3cnQ5YhAB",
+   "name": "40.17 San Marco",
+   "lat": 45.435192799999996,
+   "lon": 12.333636,
    "stars": 4,
-   "rating": 4.8,
-   "reviews": 97,
-   "total": 579,
-   "per_night": 193,
-   "link": "http://www.residenzadelosmarin.com/",
-   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLfKFZoIEZaot4X3hGunYjLMtvlj1o82sT6sq0QiP0Z9zP_1QNJOgfjQcFOPk9ZK89ipgwTsbNWaqJUpQus7PDYL3LdoyngVblEaNNoVBQPdwlzp_yxb0N64TZpf5P7ukPzNd90=s10000",
+   "rating": 4.5,
+   "reviews": 143,
+   "total": 562,
+   "per_night": 187,
+   "link": "https://www.4017sanmarco.com/",
+   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLfF2tmV72J5Iq4nwnJKgWaAv1TbWOlaZ0o6-zQFjv4oSMgLp5uLUooN2d-3brI8F12ThcsSdAMD-JHyTCRrbr3DVNvgHJqjBIHKoGhRm_iMpGdP-Eu-HpuIJ0eRz_Xm_GnhUUYdhJuJWBo=s10000",
    "amenities": [
+    "Free breakfast",
     "Free Wi-Fi",
     "Air conditioning",
-    "Kitchen in some rooms",
+    "Airport shuttle",
     "Kid-friendly",
     "Smoke-free property"
    ],
    "zone": "centro",
-   "first_seen": "2026-10-10T21:46:12Z",
-   "last_seen": "2026-10-31T12:41:26Z",
+   "first_seen": "2026-10-12T15:36:12Z",
+   "last_seen": "2026-11-01T13:32:09Z",
    "available": true,
-   "misses": 1,
+   "misses": 0,
    "history": [
     {
-     "d": "2026-10-10",
-     "total": 579
+     "d": "2026-10-12",
+     "total": 667
     },
     {
      "d": "2026-10-31",
-     "total": 579
+     "total": 693
+    },
+    {
+     "d": "2026-11-01",
+     "total": 562
     }
    ],
-   "min_total": 579,
-   "change": 0,
-   "badge": "back",
-   "badge_at": "2026-10-31T12:41:26Z"
-  },
-  {
-   "id": "ca-dalisera-b-b",
-   "token": "ChgI4uO7mcDezIScARoLL2cvMXR4eTE0enMQAQ",
-   "name": "Ca Dalisera B&B Venezia",
-   "lat": 45.4328489,
-   "lon": 12.3364665,
-   "stars": null,
-   "rating": 4.3,
-   "reviews": 164,
-   "total": 591,
-   "per_night": 197,
-   "link": "http://www.cadalisera.it/",
-   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLfccljKkq5a322tvyaUyvfWGfEl5PIJfKp1ExE9hS8DcI77a0nSf4fzxGYEZsdMIKjsEYN73kK6su5DRtyO6DG9xfrPbs4fB7IKO0Z6AWtmolHSfKLhMZMfTh-IBZXCxLeILlUm=s10000",
-   "amenities": [
-    "Free Wi-Fi",
-    "Air conditioning",
-    "Kitchen in some rooms",
-    "Smoke-free property"
-   ],
-   "zone": "centro",
-   "first_seen": "2026-10-16T21:11:30Z",
-   "last_seen": "2026-10-31T12:41:26Z",
-   "available": true,
-   "misses": 1,
-   "history": [
-    {
-     "d": "2026-10-16",
-     "total": 478
-    },
-    {
-     "d": "2026-10-18",
-     "total": 478
-    },
-    {
-     "d": "2026-10-25",
-     "total": 478
-    },
-    {
-     "d": "2026-10-26",
-     "total": 478
-    },
-    {
-     "d": "2026-10-31",
-     "total": 591
-    }
-   ],
-   "min_total": 478,
-   "change": 0,
-   "badge": "back",
-   "badge_at": "2026-10-31T12:41:26Z"
+   "min_total": 562,
+   "change": -131,
+   "badge": "drop",
+   "badge_at": "2026-11-01T13:32:09Z"
   },
   {
    "id": "ca-dei-conti",
@@ -233,8 +191,8 @@
    "stars": 4,
    "rating": 4.0,
    "reviews": 1192,
-   "total": 596,
-   "per_night": 199,
+   "total": 589,
+   "per_night": 196,
    "link": "https://www.cadeiconti.com/?utm_source=google&utm_medium=organic&utm_campaign=GoogleMyBusiness",
    "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLfpnMbjfDY7yBXLJDy59SW-riBlqIounDYwHswBuy5YvQdMPKYmp9H4LgIw-62dgFYBasr8W28Gdn_ndgWgd3yTdtdcEJ5Qi-U7AWMAYbFWNNFj1vivZIvAHIdLWIUrd9Pe-IdX=s10000",
    "amenities": [
@@ -247,7 +205,7 @@
    ],
    "zone": "centro",
    "first_seen": "2026-10-08T13:37:52Z",
-   "last_seen": "2026-10-31T21:37:13Z",
+   "last_seen": "2026-11-01T13:32:09Z",
    "available": true,
    "misses": 0,
    "history": [
@@ -330,52 +288,16 @@
     {
      "d": "2026-10-31",
      "total": 596
+    },
+    {
+     "d": "2026-11-01",
+     "total": 589
     }
    ],
    "min_total": 585,
-   "change": -51,
+   "change": -7,
    "badge": "drop",
-   "badge_at": "2026-10-31T21:37:13Z"
-  },
-  {
-   "id": "san-lio-tourist-house",
-   "token": "ChcInLCspf_brvRGGgsvZy8xMjF0YmxocRAB",
-   "name": "San Lio Tourist House",
-   "lat": 45.437554899999995,
-   "lon": 12.338117599999999,
-   "stars": 4,
-   "rating": 4.3,
-   "reviews": 324,
-   "total": 605,
-   "per_night": 202,
-   "link": "https://www.san-lio.com/?utm_source=gbp&utm_medium=organic",
-   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLejRo9NdDu5IYtGGngrMIAEI5Y9lw6ZcmvA3D3R9nDVi6VW_dVORus_TJTlkjUz9z77Mpbk5UoIk1bTJlisYHVgRNNOESXXXgg5pJ6he_BF1ey_UnwNT2KSSu8bMcEuwfBi774=s10000",
-   "amenities": [
-    "Free Wi-Fi",
-    "Air conditioning",
-    "Bar",
-    "Airport shuttle",
-    "Smoke-free property"
-   ],
-   "zone": "centro",
-   "first_seen": "2026-10-10T21:46:12Z",
-   "last_seen": "2026-10-31T12:41:26Z",
-   "available": true,
-   "misses": 1,
-   "history": [
-    {
-     "d": "2026-10-10",
-     "total": 605
-    },
-    {
-     "d": "2026-10-31",
-     "total": 605
-    }
-   ],
-   "min_total": 605,
-   "change": 0,
-   "badge": "back",
-   "badge_at": "2026-10-31T12:41:26Z"
+   "badge_at": "2026-11-01T13:32:09Z"
   },
   {
    "id": "canaletto",
@@ -404,7 +326,7 @@
    "first_seen": "2026-10-08T13:37:52Z",
    "last_seen": "2026-10-31T21:37:13Z",
    "available": true,
-   "misses": 0,
+   "misses": 1,
    "history": [
     {
      "d": "2026-10-08",
@@ -501,43 +423,6 @@
    "badge_at": null
   },
   {
-   "id": "naturalmente",
-   "token": "ChkIg763zZHi4bZCGg0vZy8xMWR5MXRkN3NfEAE",
-   "name": "Venezia Naturalmente",
-   "lat": 45.4330089,
-   "lon": 12.3295841,
-   "stars": 3,
-   "rating": 4.5,
-   "reviews": 113,
-   "total": 663,
-   "per_night": 221,
-   "link": "http://www.venezianaturalmente.it/",
-   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLfGhnOodIaJVJvHv_AlCA9g_JIeKB9SZ0WNhBHPYCrfCDdm3dzIKA_DTQ5qWrt9OQ2Xm1RHvcN-Bn5ZTHfLL6ltxs-L6abnF02dynNkm2B5b76b2-Jc3xaS7G-JmHOCQd-2Y10d=s10000",
-   "amenities": [
-    "Free breakfast",
-    "Free Wi-Fi",
-    "Pet-friendly",
-    "Kitchen in some rooms",
-    "Kid-friendly",
-    "Smoke-free property"
-   ],
-   "zone": "centro",
-   "first_seen": "2026-10-31T12:41:26Z",
-   "last_seen": "2026-10-31T12:41:26Z",
-   "available": true,
-   "misses": 1,
-   "history": [
-    {
-     "d": "2026-10-31",
-     "total": 663
-    }
-   ],
-   "min_total": 663,
-   "change": 0,
-   "badge": "new",
-   "badge_at": "2026-10-31T12:41:26Z"
-  },
-  {
    "id": "firenze",
    "token": "ChgI8OayhorfncRpGgwvZy8xMTl3MHJ2eXIQAQ",
    "name": "Hotel Firenze",
@@ -564,7 +449,7 @@
    "first_seen": "2026-10-08T13:37:52Z",
    "last_seen": "2026-10-31T21:37:13Z",
    "available": true,
-   "misses": 0,
+   "misses": 1,
    "history": [
     {
      "d": "2026-10-08",
@@ -601,133 +486,6 @@
    "badge_at": "2026-10-31T21:37:13Z"
   },
   {
-   "id": "residenza-calle-larga-san-marco",
-   "token": "ChkIy_Sp8Y3o-OBUGg0vZy8xMWYwX2dyMWpsEAE",
-   "name": "Residenza Calle Larga San Marco",
-   "lat": 45.435289,
-   "lon": 12.340176,
-   "stars": null,
-   "rating": 4.7,
-   "reviews": 27,
-   "total": 677,
-   "per_night": 226,
-   "link": "http://www.residenzacallelargasanmarco.com/",
-   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLfLyGCvhUlaA-lwt3TLbbfD8K8qgm4goUgko22WO0sNGZKb5l-MLhxmzJYW2Mwtc-Joq9CzshQ3VU8DZkSpL8Wwb13lLN1TsY-8j4OqPVyMpkC_QCaufzASJdVaEueH-E4890dX0A=s10000",
-   "amenities": [
-    "Free breakfast",
-    "Free Wi-Fi"
-   ],
-   "zone": "centro",
-   "first_seen": "2026-10-14T21:42:51Z",
-   "last_seen": "2026-10-31T12:41:26Z",
-   "available": true,
-   "misses": 1,
-   "history": [
-    {
-     "d": "2026-10-14",
-     "total": 677
-    },
-    {
-     "d": "2026-10-25",
-     "total": 677
-    },
-    {
-     "d": "2026-10-31",
-     "total": 677
-    }
-   ],
-   "min_total": 677,
-   "change": 0,
-   "badge": "back",
-   "badge_at": "2026-10-31T12:41:26Z"
-  },
-  {
-   "id": "casa-alla-fenice",
-   "token": "ChcIwKDGtviBm5l1GgsvZy8xdGZjbTVndBAB",
-   "name": "Casa Alla Fenice",
-   "lat": 45.4348725,
-   "lon": 12.333557899999999,
-   "stars": 4,
-   "rating": 4.3,
-   "reviews": 154,
-   "total": 682,
-   "per_night": 227,
-   "link": "https://www.casallafenice.it/",
-   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLdjjG94RUb8kTHz6A8H31bMv5MMQbAyVUADjHcjjkZbQpoFSRi0SwOm139SL_Poy4KhWYRMHZl4gMoSTDovMTlm1I6A8xtUyV2g1hk8IKp7QFuOvvACWxycQuTnhUepQDS-DcekhosFTTyN=s10000",
-   "amenities": [
-    "Free Wi-Fi",
-    "Air conditioning",
-    "Kid-friendly",
-    "Smoke-free property"
-   ],
-   "zone": "centro",
-   "first_seen": "2026-10-09T13:23:48Z",
-   "last_seen": "2026-10-31T12:41:26Z",
-   "available": true,
-   "misses": 1,
-   "history": [
-    {
-     "d": "2026-10-09",
-     "total": 682
-    },
-    {
-     "d": "2026-10-10",
-     "total": 682
-    },
-    {
-     "d": "2026-10-31",
-     "total": 682
-    }
-   ],
-   "min_total": 682,
-   "change": 0,
-   "badge": "back",
-   "badge_at": "2026-10-31T12:41:26Z"
-  },
-  {
-   "id": "san-marco",
-   "token": "ChgI0q2GvZGb5uiLARoLL2cvMXRnN3F2eV8QAQ",
-   "name": "Albergo San Marco",
-   "lat": 45.4345261,
-   "lon": 12.3377327,
-   "stars": 3,
-   "rating": 4.2,
-   "reviews": 998,
-   "total": 685,
-   "per_night": 228,
-   "link": "http://www.hotelsanmarcovenice.com/",
-   "image": "https://d2hyz2bfif3cr8.cloudfront.net/imageRepo/4/0/59/74/296/IMG_0020_S.jpg",
-   "amenities": [
-    "Free breakfast",
-    "Free Wi-Fi",
-    "Air conditioning",
-    "Pet-friendly",
-    "Bar",
-    "Restaurant",
-    "Room service",
-    "Airport shuttle"
-   ],
-   "zone": "centro",
-   "first_seen": "2026-10-12T15:36:12Z",
-   "last_seen": "2026-10-31T12:41:26Z",
-   "available": true,
-   "misses": 1,
-   "history": [
-    {
-     "d": "2026-10-12",
-     "total": 535
-    },
-    {
-     "d": "2026-10-31",
-     "total": 685
-    }
-   ],
-   "min_total": 535,
-   "change": 0,
-   "badge": "back",
-   "badge_at": "2026-10-31T12:41:26Z"
-  },
-  {
    "id": "mercurio",
    "token": "ChcI-L7Gh4awkrBsGgsvZy8xdGQ5cGNnbBAB",
    "name": "Hotel Mercurio",
@@ -736,10 +494,10 @@
    "stars": 3,
    "rating": 4.4,
    "reviews": 947,
-   "total": 692,
-   "per_night": 231,
+   "total": 691,
+   "per_night": 230,
    "link": "http://www.hotelmercurio.com/",
-   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLeVorZ3aamIagjsHL8BTilwAk_fPW7r8bUsfcLCv-RetDrREoy3wlEdXdvkVljpzUPepo3yIaEGaKDfYZLZysVHJuTh7ZNf0N7ThSm49KcmoOG5Kb-TAgz_73fGG10zgn-Xhuca=s10000",
+   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLeCNiJSApJp3QiIu-Y4WIJL6tAk2Hc0EqfYiFZG2cgJ7b5gTCV-JzAqxGIHB7N0uoX63HsGJQx-4H3KA641G47V7EgBQRlj5JAvrJlIcb0jPyvrMQmanfYvB7rDl0rvp_o8UJMF=s10000",
    "amenities": [
     "Free breakfast",
     "Free Wi-Fi",
@@ -750,7 +508,7 @@
    ],
    "zone": "centro",
    "first_seen": "2026-10-08T13:37:52Z",
-   "last_seen": "2026-10-31T21:37:13Z",
+   "last_seen": "2026-11-01T13:32:09Z",
    "available": true,
    "misses": 0,
    "history": [
@@ -837,204 +595,63 @@
     {
      "d": "2026-10-31",
      "total": 692
+    },
+    {
+     "d": "2026-11-01",
+     "total": 691
     }
    ],
    "min_total": 654,
-   "change": 36,
-   "badge": "up",
-   "badge_at": "2026-10-31T21:37:13Z"
+   "change": -1,
+   "badge": "drop",
+   "badge_at": "2026-11-01T13:32:09Z"
   },
   {
-   "id": "40-17-san-marco",
-   "token": "ChoIq5OQnLG63enzARoNL2cvMTFjNzA3cnQ5YhAB",
-   "name": "40.17 San Marco",
-   "lat": 45.435192799999996,
-   "lon": 12.333636,
+   "id": "al-codega",
+   "token": "ChcIlMuc9J-ykrskGgsvZy8xdHYyMl9mcBAB",
+   "name": "Hotel Al Codega",
+   "lat": 45.4355784,
+   "lon": 12.335503500000002,
    "stars": 4,
-   "rating": 4.5,
-   "reviews": 143,
-   "total": 693,
-   "per_night": 231,
-   "link": "https://www.4017sanmarco.com/",
-   "image": "https://images.trvl-media.com/lodging/21000000/20490000/20486100/20486009/dd45a18f_z.jpg",
+   "rating": 4.7,
+   "reviews": 548,
+   "total": 744,
+   "per_night": 248,
+   "link": "http://www.hotelalcodega.com/",
+   "image": "https://images.trvl-media.com/lodging/2000000/1620000/1617500/1617442/fb72a1fa.jpg?impolicy=ccrop&w=1000&h=666&q=medium",
    "amenities": [
     "Free breakfast",
     "Free Wi-Fi",
-    "Air conditioning",
-    "Airport shuttle",
-    "Kid-friendly",
-    "Smoke-free property"
-   ],
-   "zone": "centro",
-   "first_seen": "2026-10-12T15:36:12Z",
-   "last_seen": "2026-10-31T12:41:26Z",
-   "available": true,
-   "misses": 1,
-   "history": [
-    {
-     "d": "2026-10-12",
-     "total": 667
-    },
-    {
-     "d": "2026-10-31",
-     "total": 693
-    }
-   ],
-   "min_total": 667,
-   "change": 0,
-   "badge": "back",
-   "badge_at": "2026-10-31T12:41:26Z"
-  },
-  {
-   "id": "palazzo-sanluca",
-   "token": "ChcI582hrL3DzPx4GgsvZy8xdHl6eHYyOBAB",
-   "name": "Palazzo SanLuca",
-   "lat": 45.4357459,
-   "lon": 12.3338036,
-   "stars": 3,
-   "rating": 4.5,
-   "reviews": 382,
-   "total": 711,
-   "per_night": 237,
-   "link": "http://www.palazzosanluca.com/",
-   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLfa03UCfzFTZYFRuUq6fsA7XHbP2jzglpz7LTQghvcqu6Q4I84Hb2WSBIHzdSsok0v8U673Cvq2p4IhGQJXK6OSLaUpMCeW8DB0cDV_fd6qeT0yX_8s8BgkKTpNTivt0-bDbA8t=s10000",
-   "amenities": [
-    "Free Wi-Fi",
-    "Air conditioning",
-    "Kitchen in some rooms",
-    "Airport shuttle",
-    "Full-service laundry",
-    "Kid-friendly",
-    "Smoke-free property"
-   ],
-   "zone": "centro",
-   "first_seen": "2026-10-16T21:11:30Z",
-   "last_seen": "2026-10-31T12:41:26Z",
-   "available": true,
-   "misses": 1,
-   "history": [
-    {
-     "d": "2026-10-16",
-     "total": 695
-    },
-    {
-     "d": "2026-10-18",
-     "total": 711
-    },
-    {
-     "d": "2026-10-31",
-     "total": 711
-    }
-   ],
-   "min_total": 695,
-   "change": 0,
-   "badge": "back",
-   "badge_at": "2026-10-31T12:41:26Z"
-  },
-  {
-   "id": "palazzo-pianca",
-   "token": "ChkIs47biNj1kaINGg0vZy8xMXE4dnFmeTc2EAE",
-   "name": "PALAZZO PIANCA",
-   "lat": 45.4320936,
-   "lon": 12.3328679,
-   "stars": null,
-   "rating": 4.3,
-   "reviews": 188,
-   "total": 755,
-   "per_night": 252,
-   "link": "https://www.palazzopianca.com/",
-   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLd9JIzowgxH50RxluKDV8wYwNVmRzqZEYg06AOnnAXbu0pTRWSenBi4KiVwiqKSXl4LaJaz3fjt4DdWqHhj32mdklJTZ0RDaPtqq1knGlRuS6IDLazzALdHUI5ir6ibd0z86H-V=s10000",
-   "amenities": [
-    "Free Wi-Fi",
+    "Parking",
     "Air conditioning",
     "Pet-friendly",
-    "Kitchen in some rooms",
+    "Restaurant",
     "Kid-friendly",
     "Smoke-free property"
    ],
    "zone": "centro",
-   "first_seen": "2026-10-08T13:37:52Z",
-   "last_seen": "2026-10-31T21:37:13Z",
+   "first_seen": "2026-10-24T11:09:50Z",
+   "last_seen": "2026-11-01T13:32:09Z",
    "available": true,
    "misses": 0,
    "history": [
     {
-     "d": "2026-10-08",
-     "total": 1461
-    },
-    {
-     "d": "2026-10-11",
-     "total": 744
-    },
-    {
-     "d": "2026-10-13",
-     "total": 594
-    },
-    {
-     "d": "2026-10-15",
-     "total": 680
-    },
-    {
-     "d": "2026-10-16",
-     "total": 681
-    },
-    {
-     "d": "2026-10-17",
-     "total": 617
-    },
-    {
-     "d": "2026-10-18",
-     "total": 679
-    },
-    {
-     "d": "2026-10-19",
-     "total": 690
-    },
-    {
-     "d": "2026-10-20",
-     "total": 691
-    },
-    {
-     "d": "2026-10-21",
-     "total": 666
-    },
-    {
-     "d": "2026-10-22",
-     "total": 680
-    },
-    {
      "d": "2026-10-24",
-     "total": 745
+     "total": 746
     },
     {
      "d": "2026-10-25",
-     "total": 679
+     "total": 744
     },
     {
-     "d": "2026-10-27",
-     "total": 679
-    },
-    {
-     "d": "2026-10-28",
-     "total": 679
-    },
-    {
-     "d": "2026-10-29",
-     "total": 679
-    },
-    {
-     "d": "2026-10-30",
-     "total": 758
-    },
-    {
-     "d": "2026-10-31",
-     "total": 755
+     "d": "2026-11-01",
+     "total": 744
     }
    ],
-   "min_total": 594,
-   "change": -3,
-   "badge": "drop",
-   "badge_at": "2026-10-31T21:37:13Z"
+   "min_total": 744,
+   "change": 0,
+   "badge": "back",
+   "badge_at": "2026-11-01T13:32:09Z"
   },
   {
    "id": "dell-opera",
@@ -1048,7 +665,7 @@
    "total": 797,
    "per_night": 266,
    "link": "https://www.hoteldelloperavenice.com/?utm_source=google&utm_medium=organic&utm_campaign=GoogleMyBusiness",
-   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLcT2TGyzOIKoajo6nq1wD1-sO6ICix7dr-H0SiGX2Ubv9BJTb_h5fa1rSLK3y3P4CAhmKdC4Y_4-BDZ9skvZkIc3msGNC94R3JZJDTyE87CWXPhwJHFUB30JvBWEJtC_lt9lRAJ=s10000",
+   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLeZGO_FG_kYJMnNNgwxJUG81mOmxrl5uMcIwJC94TaS32xtt2KEFlwh2WWj3EanQrnkZFTIT3u7zTnu-vkojQKgZcZXro-lJ32kD2Lp0LUHwn7XjLX47SE1dfbs5hiNKtEorCAv=s10000",
    "amenities": [
     "Breakfast ($)",
     "Free Wi-Fi",
@@ -1061,7 +678,7 @@
    ],
    "zone": "centro",
    "first_seen": "2026-10-10T21:46:12Z",
-   "last_seen": "2026-10-31T21:37:13Z",
+   "last_seen": "2026-11-01T13:32:09Z",
    "available": true,
    "misses": 0,
    "history": [
@@ -1128,6 +745,10 @@
     {
      "d": "2026-10-31",
      "total": 797
+    },
+    {
+     "d": "2026-11-01",
+     "total": 797
     }
    ],
    "min_total": 780,
@@ -1136,53 +757,111 @@
    "badge_at": "2026-10-31T21:37:13Z"
   },
   {
-   "id": "palazzina-fortuny",
-   "token": "ChoIjNG2iJOds-KEARoNL2cvMTFyejQxeGN0ORAB",
-   "name": "Palazzina Fortuny",
-   "lat": 45.434929,
-   "lon": 12.332483199999999,
+   "id": "all-angelo-art",
+   "token": "ChgI1PHknurd89ZAGgwvZy8xaGMxMzk0anMQAQ",
+   "name": "All'Angelo Art Hotel",
+   "lat": 45.4356003,
+   "lon": 12.339957199999999,
    "stars": 4,
-   "rating": 4.4,
-   "reviews": 284,
-   "total": 853,
-   "per_night": 284,
-   "link": "https://www.palazzinafortuny.it/?utm_source=gbp&utm_medium=organic",
-   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLd-iJQBcNuceZf2IeBx8Mp8IBlXDRw7VbWlkMY-0PeKT9qEYlaw3iQahhMzgNTCjP8ukNjucuLjX8FR8vmlXmL9KIeq6dqVpe6ZEkFJuMr6KWr8w3Y18jD73YkvUO8XO_aRXU7Z=s10000",
+   "rating": 4.0,
+   "reviews": 1145,
+   "total": 843,
+   "per_night": 281,
+   "link": "http://www.allangelo.it/",
+   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLcmQm8c-0tu6p5sXLNUB3yu5Q19BjnyLJpdofKqhwpCPDljBwLR68rviBrXxi5YfWEYC9sGbKIY1WObIAZeAJLxR1wa5uDTQIuMFitd9wYZG-y9yfnUBE8ZFc3ppDeNdOkRuwVp0N0gCJmW=s10000",
    "amenities": [
+    "Free breakfast",
     "Free Wi-Fi",
     "Parking",
     "Air conditioning",
     "Pet-friendly",
     "Bar",
-    "Airport shuttle"
+    "Restaurant",
+    "Room service"
    ],
    "zone": "centro",
-   "first_seen": "2026-10-10T21:46:12Z",
-   "last_seen": "2026-10-31T12:41:26Z",
+   "first_seen": "2026-10-09T13:23:48Z",
+   "last_seen": "2026-11-01T13:32:09Z",
    "available": true,
-   "misses": 1,
+   "misses": 0,
    "history": [
     {
-     "d": "2026-10-10",
-     "total": 829
+     "d": "2026-10-09",
+     "total": 947
     },
     {
      "d": "2026-10-11",
-     "total": 829
+     "total": 732
+    },
+    {
+     "d": "2026-10-13",
+     "total": 810
+    },
+    {
+     "d": "2026-10-14",
+     "total": 804
+    },
+    {
+     "d": "2026-10-15",
+     "total": 785
+    },
+    {
+     "d": "2026-10-16",
+     "total": 812
+    },
+    {
+     "d": "2026-10-17",
+     "total": 771
+    },
+    {
+     "d": "2026-10-18",
+     "total": 772
+    },
+    {
+     "d": "2026-10-19",
+     "total": 785
+    },
+    {
+     "d": "2026-10-20",
+     "total": 767
     },
     {
      "d": "2026-10-21",
-     "total": 829
+     "total": 753
     },
     {
-     "d": "2026-10-31",
-     "total": 853
+     "d": "2026-10-22",
+     "total": 768
+    },
+    {
+     "d": "2026-10-25",
+     "total": 768
+    },
+    {
+     "d": "2026-10-26",
+     "total": 768
+    },
+    {
+     "d": "2026-10-27",
+     "total": 768
+    },
+    {
+     "d": "2026-10-28",
+     "total": 768
+    },
+    {
+     "d": "2026-10-29",
+     "total": 775
+    },
+    {
+     "d": "2026-11-01",
+     "total": 843
     }
    ],
-   "min_total": 829,
+   "min_total": 732,
    "change": 0,
    "badge": "back",
-   "badge_at": "2026-10-31T12:41:26Z"
+   "badge_at": "2026-11-01T13:32:09Z"
   },
   {
    "id": "la-fenice-et-des-artistes",
@@ -1211,7 +890,7 @@
    "first_seen": "2026-10-11T21:59:39Z",
    "last_seen": "2026-10-31T21:37:13Z",
    "available": true,
-   "misses": 0,
+   "misses": 1,
    "history": [
     {
      "d": "2026-10-11",
@@ -1308,7 +987,7 @@
    ],
    "zone": "centro",
    "first_seen": "2026-10-08T13:37:52Z",
-   "last_seen": "2026-10-31T21:37:13Z",
+   "last_seen": "2026-11-01T13:32:09Z",
    "available": true,
    "misses": 0,
    "history": [
@@ -1407,135 +1086,16 @@
     {
      "d": "2026-10-31",
      "total": 868
+    },
+    {
+     "d": "2026-11-01",
+     "total": 868
     }
    ],
    "min_total": 868,
    "change": 0,
    "badge": null,
    "badge_at": null
-  },
-  {
-   "id": "ruzzini-palace",
-   "token": "ChcIvNCKwtef4JpZGgsvZy8xdGRsOWtoNxAB",
-   "name": "Ruzzini Palace Hotel",
-   "lat": 45.4377583,
-   "lon": 12.3406278,
-   "stars": 4,
-   "rating": 4.8,
-   "reviews": 978,
-   "total": 870,
-   "per_night": 290,
-   "link": "https://www.ruzzinipalace.com/?utm_source=google&utm_medium=organic&utm_campaign=GoogleMyBusiness",
-   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLcyNdGBzXTeewvztUlfQ1yvoEs-IddKHrHbDQ3EfouAwdZVOwYHgiSSq_JVYHq-YO3_5o5PJvlG8VJtY4HSL69qENNxZryi0zQCCqQ7In4tfepSY7yP8xFBGkKPrBlE-86Fz66GYA=s10000",
-   "amenities": [
-    "Free breakfast",
-    "Free Wi-Fi",
-    "Parking",
-    "Air conditioning",
-    "Bar",
-    "Restaurant",
-    "Airport shuttle",
-    "Full-service laundry"
-   ],
-   "zone": "centro",
-   "first_seen": "2026-10-08T23:22:30Z",
-   "last_seen": "2026-10-31T21:37:13Z",
-   "available": true,
-   "misses": 0,
-   "history": [
-    {
-     "d": "2026-10-08",
-     "total": 936
-    },
-    {
-     "d": "2026-10-09",
-     "total": 1432
-    },
-    {
-     "d": "2026-10-11",
-     "total": 891
-    },
-    {
-     "d": "2026-10-12",
-     "total": 852
-    },
-    {
-     "d": "2026-10-13",
-     "total": 852
-    },
-    {
-     "d": "2026-10-14",
-     "total": 936
-    },
-    {
-     "d": "2026-10-15",
-     "total": 891
-    },
-    {
-     "d": "2026-10-16",
-     "total": 899
-    },
-    {
-     "d": "2026-10-17",
-     "total": 936
-    },
-    {
-     "d": "2026-10-18",
-     "total": 886
-    },
-    {
-     "d": "2026-10-19",
-     "total": 895
-    },
-    {
-     "d": "2026-10-20",
-     "total": 893
-    },
-    {
-     "d": "2026-10-21",
-     "total": 869
-    },
-    {
-     "d": "2026-10-22",
-     "total": 894
-    },
-    {
-     "d": "2026-10-24",
-     "total": 896
-    },
-    {
-     "d": "2026-10-25",
-     "total": 892
-    },
-    {
-     "d": "2026-10-26",
-     "total": 887
-    },
-    {
-     "d": "2026-10-27",
-     "total": 869
-    },
-    {
-     "d": "2026-10-28",
-     "total": 885
-    },
-    {
-     "d": "2026-10-29",
-     "total": 935
-    },
-    {
-     "d": "2026-10-30",
-     "total": 887
-    },
-    {
-     "d": "2026-10-31",
-     "total": 870
-    }
-   ],
-   "min_total": 852,
-   "change": -17,
-   "badge": "drop",
-   "badge_at": "2026-10-31T21:37:13Z"
   },
   {
    "id": "cavalletto-doge-orseolo",
@@ -1564,7 +1124,7 @@
    "first_seen": "2026-10-08T13:37:52Z",
    "last_seen": "2026-10-31T21:37:13Z",
    "available": true,
-   "misses": 0,
+   "misses": 1,
    "history": [
     {
      "d": "2026-10-08",
@@ -1613,6 +1173,242 @@
    "badge_at": "2026-10-31T21:37:13Z"
   },
   {
+   "id": "palazzo-pianca",
+   "token": "ChkIs47biNj1kaINGg0vZy8xMXE4dnFmeTc2EAE",
+   "name": "PALAZZO PIANCA",
+   "lat": 45.4320936,
+   "lon": 12.3328679,
+   "stars": null,
+   "rating": 4.3,
+   "reviews": 188,
+   "total": 880,
+   "per_night": 293,
+   "link": "https://www.palazzopianca.com/",
+   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLd9JIzowgxH50RxluKDV8wYwNVmRzqZEYg06AOnnAXbu0pTRWSenBi4KiVwiqKSXl4LaJaz3fjt4DdWqHhj32mdklJTZ0RDaPtqq1knGlRuS6IDLazzALdHUI5ir6ibd0z86H-V=s10000",
+   "amenities": [
+    "Free Wi-Fi",
+    "Air conditioning",
+    "Pet-friendly",
+    "Kitchen in some rooms",
+    "Kid-friendly",
+    "Smoke-free property"
+   ],
+   "zone": "centro",
+   "first_seen": "2026-10-08T13:37:52Z",
+   "last_seen": "2026-11-01T13:32:09Z",
+   "available": true,
+   "misses": 0,
+   "history": [
+    {
+     "d": "2026-10-08",
+     "total": 1461
+    },
+    {
+     "d": "2026-10-11",
+     "total": 744
+    },
+    {
+     "d": "2026-10-13",
+     "total": 594
+    },
+    {
+     "d": "2026-10-15",
+     "total": 680
+    },
+    {
+     "d": "2026-10-16",
+     "total": 681
+    },
+    {
+     "d": "2026-10-17",
+     "total": 617
+    },
+    {
+     "d": "2026-10-18",
+     "total": 679
+    },
+    {
+     "d": "2026-10-19",
+     "total": 690
+    },
+    {
+     "d": "2026-10-20",
+     "total": 691
+    },
+    {
+     "d": "2026-10-21",
+     "total": 666
+    },
+    {
+     "d": "2026-10-22",
+     "total": 680
+    },
+    {
+     "d": "2026-10-24",
+     "total": 745
+    },
+    {
+     "d": "2026-10-25",
+     "total": 679
+    },
+    {
+     "d": "2026-10-27",
+     "total": 679
+    },
+    {
+     "d": "2026-10-28",
+     "total": 679
+    },
+    {
+     "d": "2026-10-29",
+     "total": 679
+    },
+    {
+     "d": "2026-10-30",
+     "total": 758
+    },
+    {
+     "d": "2026-10-31",
+     "total": 755
+    },
+    {
+     "d": "2026-11-01",
+     "total": 880
+    }
+   ],
+   "min_total": 594,
+   "change": 125,
+   "badge": "up",
+   "badge_at": "2026-11-01T13:32:09Z"
+  },
+  {
+   "id": "palazzo-paruta-wellness-suites",
+   "token": "ChcI8az_uPqsw9FdGgsvZy8xdGZkYzliZhAB",
+   "name": "Hotel Palazzo Paruta & Wellness Suites",
+   "lat": 45.434309999999996,
+   "lon": 12.331237699999999,
+   "stars": 4,
+   "rating": 4.6,
+   "reviews": 928,
+   "total": 899,
+   "per_night": 300,
+   "link": "http://palazzoparuta.com/",
+   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLfjSlIlxZ-01P6IduLjrGxdf1gIMl_kC-faBSytlIxEEHNRjaIp1_Kzy6GrZJlm1l0WYvnBaf0Vtp_4Z0vvIr4HuarINFf3-rcgLKpB9rzrPKBHoldo9JwpZRQrOXkqVW7uEd3H=s10000",
+   "amenities": [
+    "Free breakfast",
+    "Free Wi-Fi",
+    "Hot tub",
+    "Air conditioning",
+    "Bar",
+    "Kitchen in some rooms",
+    "Airport shuttle",
+    "Full-service laundry"
+   ],
+   "zone": "centro",
+   "first_seen": "2026-10-10T21:46:12Z",
+   "last_seen": "2026-11-01T13:32:09Z",
+   "available": true,
+   "misses": 0,
+   "history": [
+    {
+     "d": "2026-10-10",
+     "total": 1136
+    },
+    {
+     "d": "2026-10-11",
+     "total": 919
+    },
+    {
+     "d": "2026-10-12",
+     "total": 937
+    },
+    {
+     "d": "2026-10-13",
+     "total": 910
+    },
+    {
+     "d": "2026-10-14",
+     "total": 1017
+    },
+    {
+     "d": "2026-10-15",
+     "total": 935
+    },
+    {
+     "d": "2026-10-16",
+     "total": 939
+    },
+    {
+     "d": "2026-10-17",
+     "total": 944
+    },
+    {
+     "d": "2026-10-18",
+     "total": 951
+    },
+    {
+     "d": "2026-10-19",
+     "total": 933
+    },
+    {
+     "d": "2026-10-20",
+     "total": 941
+    },
+    {
+     "d": "2026-10-21",
+     "total": 907
+    },
+    {
+     "d": "2026-10-22",
+     "total": 942
+    },
+    {
+     "d": "2026-10-23",
+     "total": 943
+    },
+    {
+     "d": "2026-10-24",
+     "total": 943
+    },
+    {
+     "d": "2026-10-25",
+     "total": 943
+    },
+    {
+     "d": "2026-10-26",
+     "total": 942
+    },
+    {
+     "d": "2026-10-27",
+     "total": 935
+    },
+    {
+     "d": "2026-10-28",
+     "total": 935
+    },
+    {
+     "d": "2026-10-29",
+     "total": 941
+    },
+    {
+     "d": "2026-10-30",
+     "total": 943
+    },
+    {
+     "d": "2026-10-31",
+     "total": 943
+    },
+    {
+     "d": "2026-11-01",
+     "total": 899
+    }
+   ],
+   "min_total": 899,
+   "change": -44,
+   "badge": "drop",
+   "badge_at": "2026-11-01T13:32:09Z"
+  },
+  {
    "id": "rosa-salva",
    "token": "ChoIyufI247g3-PZARoNL2cvMTFrd3RtZjUwOBAB",
    "name": "Rosa Salva Hotel",
@@ -1621,10 +1417,10 @@
    "stars": 3,
    "rating": 4.8,
    "reviews": 700,
-   "total": 882,
-   "per_night": 294,
+   "total": 916,
+   "per_night": 305,
    "link": "http://www.rosasalvahotel.it/?utm_source=google&utm_medium=organic&utm_campaign=GoogleMyBusiness",
-   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLcx1QYst6tQM7op13y__F8cqkxw16eSUN9MsNush2cs_0x_Qo740WimpxhxXg2bD-tRFM58iwhY_edHJImT2hsnz0iYnqjikW6psaxTXmFs387Pxj49PMopakn1RRnYmtqpLkiL=s10000",
+   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLcrVdOtnHW553a5v8zlltXREuGR_lBj_mVf4P0RimgIToLfvvNhJyQM686VuQNt9aU9mx3-JbAMOh2W8Kor1Qj1ogE50Jezu7w_YlW2x6pZge_FeB93RadS1-xo9S0vAsEfVqj0=s10000",
    "amenities": [
     "Free Wi-Fi",
     "Air conditioning",
@@ -1633,7 +1429,7 @@
    ],
    "zone": "centro",
    "first_seen": "2026-10-08T13:37:52Z",
-   "last_seen": "2026-10-31T21:37:13Z",
+   "last_seen": "2026-11-01T13:32:09Z",
    "available": true,
    "misses": 0,
    "history": [
@@ -1732,172 +1528,143 @@
     {
      "d": "2026-10-31",
      "total": 882
+    },
+    {
+     "d": "2026-11-01",
+     "total": 916
     }
    ],
    "min_total": 848,
-   "change": -92,
-   "badge": "drop",
-   "badge_at": "2026-10-31T21:37:13Z"
+   "change": 34,
+   "badge": "up",
+   "badge_at": "2026-11-01T13:32:09Z"
   },
   {
-   "id": "residenza-corte-antica",
-   "token": "ChoIr5yph7rBupLyARoNL2cvMTFiN3hxNjFxdhAB",
-   "name": "Residenza Corte Antica",
-   "lat": 45.4326497,
-   "lon": 12.329268599999999,
-   "stars": null,
-   "rating": 4.8,
-   "reviews": 100,
-   "total": 885,
-   "per_night": 295,
-   "link": "https://www.residenzacorteantica.com/",
-   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLd6Fh5Tll5yX_CNmfrkrTwJLHPmL7UyEJ1lmoNXGZMzLVLOLsPG0U6ex9wpzETDBci7Gc06u_UjFUCpGdhPJvBrWhRwh2DNjWZ8KXSpAyrntHdlB7ApfzHU_axtDG-W5w3GPzk=s10000",
-   "amenities": [
-    "Free breakfast",
-    "Free Wi-Fi",
-    "Air conditioning",
-    "Room service",
-    "Kid-friendly",
-    "Smoke-free property"
-   ],
-   "zone": "centro",
-   "first_seen": "2026-10-31T12:41:26Z",
-   "last_seen": "2026-10-31T12:41:26Z",
-   "available": true,
-   "misses": 1,
-   "history": [
-    {
-     "d": "2026-10-31",
-     "total": 885
-    }
-   ],
-   "min_total": 885,
-   "change": 0,
-   "badge": "new",
-   "badge_at": "2026-10-31T12:41:26Z"
-  },
-  {
-   "id": "palazzo-paruta-wellness-suites",
-   "token": "ChcI8az_uPqsw9FdGgsvZy8xdGZkYzliZhAB",
-   "name": "Hotel Palazzo Paruta & Wellness Suites",
-   "lat": 45.434309999999996,
-   "lon": 12.331237699999999,
+   "id": "ruzzini-palace",
+   "token": "ChcIvNCKwtef4JpZGgsvZy8xdGRsOWtoNxAB",
+   "name": "Ruzzini Palace Hotel",
+   "lat": 45.4377583,
+   "lon": 12.3406278,
    "stars": 4,
-   "rating": 4.6,
-   "reviews": 928,
-   "total": 943,
-   "per_night": 314,
-   "link": "http://palazzoparuta.com/",
-   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLfjSlIlxZ-01P6IduLjrGxdf1gIMl_kC-faBSytlIxEEHNRjaIp1_Kzy6GrZJlm1l0WYvnBaf0Vtp_4Z0vvIr4HuarINFf3-rcgLKpB9rzrPKBHoldo9JwpZRQrOXkqVW7uEd3H=s10000",
+   "rating": 4.8,
+   "reviews": 978,
+   "total": 981,
+   "per_night": 327,
+   "link": "https://www.ruzzinipalace.com/?utm_source=google&utm_medium=organic&utm_campaign=GoogleMyBusiness",
+   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLeBB0IZQTb7LxQGr_ykUrE2cmEwp9vUHfKYOE9y_k0ZRJH9L8iCsvDLXZU7mbUO5vEenIsryg7lyPyzqQxXmCEh91tl58kCpS_tEwK9Oy2PxxEhb5Jx1ROyONbn0iOtFMjctXDNoA=s10000",
    "amenities": [
     "Free breakfast",
     "Free Wi-Fi",
-    "Hot tub",
+    "Parking",
     "Air conditioning",
     "Bar",
-    "Kitchen in some rooms",
+    "Restaurant",
     "Airport shuttle",
     "Full-service laundry"
    ],
    "zone": "centro",
-   "first_seen": "2026-10-10T21:46:12Z",
-   "last_seen": "2026-10-31T21:37:13Z",
+   "first_seen": "2026-10-08T23:22:30Z",
+   "last_seen": "2026-11-01T13:32:09Z",
    "available": true,
    "misses": 0,
    "history": [
     {
-     "d": "2026-10-10",
-     "total": 1136
+     "d": "2026-10-08",
+     "total": 936
+    },
+    {
+     "d": "2026-10-09",
+     "total": 1432
     },
     {
      "d": "2026-10-11",
-     "total": 919
+     "total": 891
     },
     {
      "d": "2026-10-12",
-     "total": 937
+     "total": 852
     },
     {
      "d": "2026-10-13",
-     "total": 910
+     "total": 852
     },
     {
      "d": "2026-10-14",
-     "total": 1017
+     "total": 936
     },
     {
      "d": "2026-10-15",
-     "total": 935
+     "total": 891
     },
     {
      "d": "2026-10-16",
-     "total": 939
+     "total": 899
     },
     {
      "d": "2026-10-17",
-     "total": 944
+     "total": 936
     },
     {
      "d": "2026-10-18",
-     "total": 951
+     "total": 886
     },
     {
      "d": "2026-10-19",
-     "total": 933
+     "total": 895
     },
     {
      "d": "2026-10-20",
-     "total": 941
+     "total": 893
     },
     {
      "d": "2026-10-21",
-     "total": 907
+     "total": 869
     },
     {
      "d": "2026-10-22",
-     "total": 942
-    },
-    {
-     "d": "2026-10-23",
-     "total": 943
+     "total": 894
     },
     {
      "d": "2026-10-24",
-     "total": 943
+     "total": 896
     },
     {
      "d": "2026-10-25",
-     "total": 943
+     "total": 892
     },
     {
      "d": "2026-10-26",
-     "total": 942
+     "total": 887
     },
     {
      "d": "2026-10-27",
-     "total": 935
+     "total": 869
     },
     {
      "d": "2026-10-28",
-     "total": 935
+     "total": 885
     },
     {
      "d": "2026-10-29",
-     "total": 941
+     "total": 935
     },
     {
      "d": "2026-10-30",
-     "total": 943
+     "total": 887
     },
     {
      "d": "2026-10-31",
-     "total": 943
+     "total": 870
+    },
+    {
+     "d": "2026-11-01",
+     "total": 981
     }
    ],
-   "min_total": 907,
-   "change": -41,
-   "badge": "drop",
-   "badge_at": "2026-10-31T21:37:13Z"
+   "min_total": 852,
+   "change": 111,
+   "badge": "up",
+   "badge_at": "2026-11-01T13:32:09Z"
   },
   {
    "id": "al-theatro-palace",
@@ -1926,7 +1693,7 @@
    "first_seen": "2026-10-09T13:23:48Z",
    "last_seen": "2026-10-31T21:37:13Z",
    "available": true,
-   "misses": 0,
+   "misses": 1,
    "history": [
     {
      "d": "2026-10-09",
@@ -1983,6 +1750,45 @@
    "badge_at": "2026-10-31T21:37:13Z"
   },
   {
+   "id": "concordia",
+   "token": "ChgIhaHPsYrDyp-XARoLL2cvMXRrcXoycnQQAQ",
+   "name": "Hotel Concordia",
+   "lat": 45.4351145,
+   "lon": 12.3394397,
+   "stars": 4,
+   "rating": 4.4,
+   "reviews": 719,
+   "total": 1051,
+   "per_night": 350,
+   "link": "http://www.hotelconcordia.com/",
+   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLf8gOFxrVFYvN_TdpD0ZxFU9WzQSeHs-0ZFAcore0g-9fFCNg3-pmp2TpYueip47G6wJQYEh21LkBRSFZ1tDcK39GrYJg_3_-pDF1uDbsKeb-lgknapuTmw4JBk_d5_GtR-Cqaw=s10000",
+   "amenities": [
+    "Free breakfast",
+    "Free Wi-Fi",
+    "Air conditioning",
+    "Pet-friendly",
+    "Bar",
+    "Room service",
+    "Full-service laundry",
+    "Kid-friendly"
+   ],
+   "zone": "centro",
+   "first_seen": "2026-11-01T13:32:09Z",
+   "last_seen": "2026-11-01T13:32:09Z",
+   "available": true,
+   "misses": 0,
+   "history": [
+    {
+     "d": "2026-11-01",
+     "total": 1051
+    }
+   ],
+   "min_total": 1051,
+   "change": 0,
+   "badge": "new",
+   "badge_at": "2026-11-01T13:32:09Z"
+  },
+  {
    "id": "a-la-commedia",
    "token": "ChcI3sKPorKGoOwSGgsvZy8xdGs4OXpjNBAB",
    "name": "Hotel A La Commedia",
@@ -1991,10 +1797,10 @@
    "stars": 4,
    "rating": 4.8,
    "reviews": 829,
-   "total": 1240,
-   "per_night": 413,
+   "total": 1182,
+   "per_night": 394,
    "link": "https://www.commediahotel.com/?utm_source=google&utm_medium=organic&utm_campaign=GoogleMyBusiness",
-   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLfUtyDyvlMPOqOFknABBK-PDqEIM-iuKIKWkqzTQxagZMSxrRbZUchm5tTkPeJW_ZvIr08pqcou8T3SbU_auH7UYiWSOLxkShswGC2s9A96OqpyVD9xDQNrvIqWdtpdug0WlKwzxQ=s10000",
+   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLegf67ScpCEkKv4ArrQgIM7yh45fOW0khAxaHZAuDC3zPpul4c8hqBpK44RwGrt1XiROd4kc25dzF8c-bRuB5-oTjCDUiHs_WzTiE35QD3QmZ30z_qQUMXjmec7q-LceR4hLTQY=s10000",
    "amenities": [
     "Free breakfast",
     "Free Wi-Fi",
@@ -2007,7 +1813,7 @@
    ],
    "zone": "centro",
    "first_seen": "2026-10-13T00:42:39Z",
-   "last_seen": "2026-10-31T21:37:13Z",
+   "last_seen": "2026-11-01T13:32:09Z",
    "available": true,
    "misses": 0,
    "history": [
@@ -2070,12 +1876,16 @@
     {
      "d": "2026-10-31",
      "total": 1240
+    },
+    {
+     "d": "2026-11-01",
+     "total": 1182
     }
    ],
-   "min_total": 1223,
-   "change": -12,
+   "min_total": 1182,
+   "change": -58,
    "badge": "drop",
-   "badge_at": "2026-10-31T21:37:13Z"
+   "badge_at": "2026-11-01T13:32:09Z"
   },
   {
    "id": "novecento-boutique",
@@ -2104,7 +1914,7 @@
    "first_seen": "2026-10-12T15:36:12Z",
    "last_seen": "2026-10-31T21:37:13Z",
    "available": true,
-   "misses": 0,
+   "misses": 1,
    "history": [
     {
      "d": "2026-10-12",
@@ -2193,6 +2003,125 @@
    "badge_at": "2026-10-31T21:37:13Z"
   },
   {
+   "id": "becher",
+   "token": "ChgIgYySrsis3_q0ARoLL2cvMXZkNzRycHQQAQ",
+   "name": "Hotel Becher Venice",
+   "lat": 45.434255799999995,
+   "lon": 12.334619199999999,
+   "stars": 3,
+   "rating": 4.8,
+   "reviews": 320,
+   "total": 1283,
+   "per_night": 428,
+   "link": "http://www.hotelbecher.com/",
+   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLcHH8_9VeQEOPWCvEvdcgpI_3D2-1e8YHKUVEwdRpRNce-rOiHKTTJVxGcAiVh-1iTnem4AJrFr-aYCfXnxvm8ZGTZxSErh2w9TplMq6tnYI6UxeKzKViIF-Dcd8eee4fjTcZIYlA=s10000",
+   "amenities": [
+    "Free breakfast",
+    "Free Wi-Fi",
+    "Parking",
+    "Air conditioning",
+    "Bar",
+    "Restaurant",
+    "Room service",
+    "Airport shuttle"
+   ],
+   "zone": "centro",
+   "first_seen": "2026-10-08T13:37:52Z",
+   "last_seen": "2026-11-01T13:32:09Z",
+   "available": true,
+   "misses": 0,
+   "history": [
+    {
+     "d": "2026-10-08",
+     "total": 1283
+    },
+    {
+     "d": "2026-10-09",
+     "total": 1283
+    },
+    {
+     "d": "2026-10-11",
+     "total": 1152
+    },
+    {
+     "d": "2026-10-12",
+     "total": 1283
+    },
+    {
+     "d": "2026-10-13",
+     "total": 1089
+    },
+    {
+     "d": "2026-10-14",
+     "total": 1283
+    },
+    {
+     "d": "2026-10-15",
+     "total": 1132
+    },
+    {
+     "d": "2026-10-16",
+     "total": 1127
+    },
+    {
+     "d": "2026-10-17",
+     "total": 1128
+    },
+    {
+     "d": "2026-10-19",
+     "total": 1127
+    },
+    {
+     "d": "2026-10-20",
+     "total": 1140
+    },
+    {
+     "d": "2026-10-21",
+     "total": 1083
+    },
+    {
+     "d": "2026-10-22",
+     "total": 1141
+    },
+    {
+     "d": "2026-10-23",
+     "total": 1141
+    },
+    {
+     "d": "2026-10-24",
+     "total": 1180
+    },
+    {
+     "d": "2026-10-25",
+     "total": 1094
+    },
+    {
+     "d": "2026-10-27",
+     "total": 1128
+    },
+    {
+     "d": "2026-10-28",
+     "total": 1127
+    },
+    {
+     "d": "2026-10-29",
+     "total": 1113
+    },
+    {
+     "d": "2026-10-30",
+     "total": 1111
+    },
+    {
+     "d": "2026-11-01",
+     "total": 1283
+    }
+   ],
+   "min_total": 1083,
+   "change": 0,
+   "badge": "back",
+   "badge_at": "2026-11-01T13:32:09Z"
+  },
+  {
    "id": "2000",
    "token": "ChcI5q6uoMnwocd6GgsvZy8xdl93MTY4eRAB",
    "name": "Hotel Venezia 2000",
@@ -2200,11 +2129,11 @@
    "lon": 12.379993899999999,
    "stars": 3,
    "rating": 4.2,
-   "reviews": 743,
+   "reviews": 744,
    "total": null,
    "per_night": null,
    "link": "https://thecaesarhotels.com/venezia-2000/",
-   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLdDykzh2lp7o1krEssAi-2GYkYPRkaitjK4gdp9PYdirZaE65go-9HPNfaNbQ93qR-XcUDoLTb9FuO1YbdEEdDjPSXZ9bhYW9hJVa1um8TcyOYd7mxYXntLy2b3G0Gq6mZlgw2Fvw=s10000",
+   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLd65KloNAKC9SsKGdlNFzy9QLuXkiGBJdnF9K-9tFu3EaoZa7k3HOtcuTrwYxBToV-sTBUvx8eowXr-pXrtI0zmmqOvQhJ1lipZHRP9eYHhzCKxNA2xu2uylglQVUXUaMtpAxBobw=s10000",
    "amenities": [
     "Free breakfast",
     "Free Wi-Fi",
@@ -2217,7 +2146,7 @@
    ],
    "zone": "lido",
    "first_seen": "2026-10-08T13:37:52Z",
-   "last_seen": "2026-10-31T21:37:13Z",
+   "last_seen": "2026-11-01T13:32:09Z",
    "available": true,
    "misses": 0,
    "history": [],
@@ -2234,7 +2163,7 @@
    "lon": 12.3668537,
    "stars": 5,
    "rating": 4.5,
-   "reviews": 2315,
+   "reviews": 2316,
    "total": null,
    "per_night": null,
    "link": "http://www.hotelexcelsiorvenezia.com/en/?utm_source=google&utm_medium=organic&utm_campaign=google_local_hotel_excelsior",
@@ -2251,7 +2180,7 @@
    ],
    "zone": "lido",
    "first_seen": "2026-10-08T13:37:52Z",
-   "last_seen": "2026-10-31T21:37:13Z",
+   "last_seen": "2026-11-01T13:32:09Z",
    "available": true,
    "misses": 0,
    "history": [],
@@ -2285,7 +2214,7 @@
    ],
    "zone": "lido",
    "first_seen": "2026-10-08T13:37:52Z",
-   "last_seen": "2026-10-31T21:37:13Z",
+   "last_seen": "2026-11-01T13:32:09Z",
    "available": true,
    "misses": 0,
    "history": [],
@@ -2319,7 +2248,7 @@
    ],
    "zone": "lido",
    "first_seen": "2026-10-08T13:37:52Z",
-   "last_seen": "2026-10-31T21:37:13Z",
+   "last_seen": "2026-11-01T13:32:09Z",
    "available": true,
    "misses": 0,
    "history": [],
@@ -2353,7 +2282,7 @@
    ],
    "zone": "lido",
    "first_seen": "2026-10-08T13:37:52Z",
-   "last_seen": "2026-10-31T21:37:13Z",
+   "last_seen": "2026-11-01T13:32:09Z",
    "available": true,
    "misses": 0,
    "history": [],
@@ -2387,7 +2316,7 @@
    ],
    "zone": "lido",
    "first_seen": "2026-10-08T13:37:52Z",
-   "last_seen": "2026-10-31T21:37:13Z",
+   "last_seen": "2026-11-01T13:32:09Z",
    "available": true,
    "misses": 0,
    "history": [],
@@ -2421,7 +2350,7 @@
    ],
    "zone": "lido",
    "first_seen": "2026-10-08T13:37:52Z",
-   "last_seen": "2026-10-31T21:37:13Z",
+   "last_seen": "2026-11-01T13:32:09Z",
    "available": true,
    "misses": 0,
    "history": [],
@@ -2455,7 +2384,7 @@
    ],
    "zone": "lido",
    "first_seen": "2026-10-08T13:37:52Z",
-   "last_seen": "2026-10-31T21:37:13Z",
+   "last_seen": "2026-11-01T13:32:09Z",
    "available": true,
    "misses": 0,
    "history": [],
@@ -2472,7 +2401,7 @@
    "lon": 12.374799999999999,
    "stars": 2,
    "rating": 3.6,
-   "reviews": 291,
+   "reviews": 292,
    "total": null,
    "per_night": null,
    "link": "http://www.lapergoladivenezia.it/",
@@ -2489,7 +2418,7 @@
    ],
    "zone": "lido",
    "first_seen": "2026-10-08T13:37:52Z",
-   "last_seen": "2026-10-31T21:37:13Z",
+   "last_seen": "2026-11-01T13:32:09Z",
    "available": true,
    "misses": 0,
    "history": [],
@@ -2514,7 +2443,7 @@
    "amenities": [],
    "zone": "lido",
    "first_seen": "2026-10-08T13:37:52Z",
-   "last_seen": "2026-10-31T21:37:13Z",
+   "last_seen": "2026-11-01T13:32:09Z",
    "available": true,
    "misses": 0,
    "history": [],
@@ -2548,7 +2477,7 @@
    ],
    "zone": "lido",
    "first_seen": "2026-10-08T13:37:52Z",
-   "last_seen": "2026-10-31T21:37:13Z",
+   "last_seen": "2026-11-01T13:32:09Z",
    "available": true,
    "misses": 0,
    "history": [],
@@ -2582,7 +2511,7 @@
    ],
    "zone": "lido",
    "first_seen": "2026-10-08T23:22:30Z",
-   "last_seen": "2026-10-31T21:37:13Z",
+   "last_seen": "2026-11-01T13:32:09Z",
    "available": true,
    "misses": 0,
    "history": [],
@@ -2599,7 +2528,7 @@
    "lon": 12.365338699999999,
    "stars": 2,
    "rating": 4.6,
-   "reviews": 153,
+   "reviews": 155,
    "total": null,
    "per_night": null,
    "link": "http://www.villastella.com/",
@@ -2615,7 +2544,7 @@
    ],
    "zone": "lido",
    "first_seen": "2026-10-08T13:37:52Z",
-   "last_seen": "2026-10-31T21:37:13Z",
+   "last_seen": "2026-11-01T13:32:09Z",
    "available": true,
    "misses": 0,
    "history": [],
@@ -2636,7 +2565,7 @@
    "total": null,
    "per_night": null,
    "link": "http://www.villa-ines.com/",
-   "image": "https://photos.hotelbeds.com/giata/original/81/813394/813394a_hb_w_009.jpg",
+   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLeruAzkm9DlaYu6QcEhmfdeh4lXnAKwu42wIU6A6_jB5u0US3sA8oi4Rm8u95WAZl0S-ZUEdv7w5AzX_yW_oBPazX44gBxDWqC4FyENcd76vqQYmEDCpYH5K55KT2jkg7NLIxnrIA=s10000",
    "amenities": [
     "Free breakfast",
     "Free Wi-Fi",
@@ -2648,7 +2577,7 @@
    ],
    "zone": "lido",
    "first_seen": "2026-10-08T23:22:30Z",
-   "last_seen": "2026-10-31T21:37:13Z",
+   "last_seen": "2026-11-01T13:32:09Z",
    "available": true,
    "misses": 0,
    "history": [],
@@ -2682,7 +2611,7 @@
    ],
    "zone": "lido",
    "first_seen": "2026-10-08T13:37:52Z",
-   "last_seen": "2026-10-31T21:37:13Z",
+   "last_seen": "2026-11-01T13:32:09Z",
    "available": true,
    "misses": 0,
    "history": [],
@@ -2703,7 +2632,7 @@
    "total": null,
    "per_night": null,
    "link": "http://www.cristallovenezia.com/",
-   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLdafsXVnGeBhuCZfCvSbFc4Fx3bIab7EKTlNDgPakQBIio7UW24K0C_y_grFtLi3oUJkvmTszlA8SYPBa3PhhjVUwnG-2HQ8P1AFR6ppl_LlYYTEWrA6RXfeNeA3evVKMaTXJRVGTnnp_Au=s10000",
+   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLfkP1GFPYJEiZ4VOs0TZsjdl0zhD-pQiq2XokroLmCg1jqFKztonHd8_cq36Ua-Zz1S4_3q4BLfBOjmEn3BaeXo74GM0UPOemxaq_JfstxTspYczeXsBua_TPnO0BsD9DDgfT5T=s10000",
    "amenities": [
     "Free breakfast",
     "Free Wi-Fi",
@@ -2716,7 +2645,7 @@
    ],
    "zone": "lido",
    "first_seen": "2026-10-08T13:37:52Z",
-   "last_seen": "2026-10-31T21:37:13Z",
+   "last_seen": "2026-11-01T13:32:09Z",
    "available": true,
    "misses": 0,
    "history": [],
@@ -2750,75 +2679,7 @@
    ],
    "zone": "lido",
    "first_seen": "2026-10-08T13:37:52Z",
-   "last_seen": "2026-10-31T21:37:13Z",
-   "available": true,
-   "misses": 0,
-   "history": [],
-   "min_total": null,
-   "change": 0,
-   "badge": null,
-   "badge_at": null
-  },
-  {
-   "id": "villa-delle-palme",
-   "token": "ChgIsLXDsOPRtbHpARoLL2cvMXRmX3JxajgQAQ",
-   "name": "Hotel Villa delle Palme",
-   "lat": 45.415075599999994,
-   "lon": 12.3683675,
-   "stars": 3,
-   "rating": 4.7,
-   "reviews": 236,
-   "total": null,
-   "per_night": null,
-   "link": "http://www.hotelvilladellepalme.com/",
-   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLc6WRa949MNRvTj6qgxRDeF7zv4XYtV4prA_iGzu2gKQuXBWwY04BLGVgSWV3jSW4RLBDHJYXmpcTlVubO3ASKGcNwkzvoKYmyCHp1kQYGHmSrrkwStvvKi2499oy86MIRbFrJz=s10000",
-   "amenities": [
-    "Free breakfast",
-    "Free Wi-Fi",
-    "Free parking",
-    "Air conditioning",
-    "Bar",
-    "Room service",
-    "Full-service laundry",
-    "Kid-friendly"
-   ],
-   "zone": "lido",
-   "first_seen": "2026-10-08T13:37:52Z",
-   "last_seen": "2026-10-31T21:37:13Z",
-   "available": true,
-   "misses": 0,
-   "history": [],
-   "min_total": null,
-   "change": 0,
-   "badge": null,
-   "badge_at": null
-  },
-  {
-   "id": "agricampeggio-mose",
-   "token": "ChgI3vmSk9_etfv-ARoLL2cvMXRkOXpqYncQAQ",
-   "name": "Agricampeggio Mose",
-   "lat": 45.4354181,
-   "lon": 12.4299974,
-   "stars": null,
-   "rating": 4.7,
-   "reviews": 797,
-   "total": null,
-   "per_night": null,
-   "link": "http://www.campingmose.com/",
-   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLcsoKd97suhOOzN8tJyyc0t9NJ9k3vUtfr54z34RzEUb3BDgCgCN9t9wy2lovH7OaNM0vLfryjd0bqU4nQBStVKS49afJNBuIJfGxBq6sIlKoYb_qxg-C3UBSi2mRTjmjLw9VTieHGuAuJo=s10000",
-   "amenities": [
-    "Free Wi-Fi",
-    "Free parking",
-    "Air conditioning",
-    "Pet-friendly",
-    "Restaurant",
-    "Kitchen",
-    "Accessible",
-    "Kid-friendly"
-   ],
-   "zone": "lido",
-   "first_seen": "2026-10-08T13:37:52Z",
-   "last_seen": "2026-10-31T21:37:13Z",
+   "last_seen": "2026-11-01T13:32:09Z",
    "available": true,
    "misses": 0,
    "history": [],
@@ -2852,7 +2713,41 @@
    ],
    "zone": "lido",
    "first_seen": "2026-10-09T13:23:48Z",
-   "last_seen": "2026-10-31T21:37:13Z",
+   "last_seen": "2026-11-01T13:32:09Z",
+   "available": true,
+   "misses": 0,
+   "history": [],
+   "min_total": null,
+   "change": 0,
+   "badge": null,
+   "badge_at": null
+  },
+  {
+   "id": "villa-delle-palme",
+   "token": "ChgIsLXDsOPRtbHpARoLL2cvMXRmX3JxajgQAQ",
+   "name": "Hotel Villa delle Palme",
+   "lat": 45.415075599999994,
+   "lon": 12.3683675,
+   "stars": 3,
+   "rating": 4.7,
+   "reviews": 236,
+   "total": null,
+   "per_night": null,
+   "link": "http://www.hotelvilladellepalme.com/",
+   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLc6WRa949MNRvTj6qgxRDeF7zv4XYtV4prA_iGzu2gKQuXBWwY04BLGVgSWV3jSW4RLBDHJYXmpcTlVubO3ASKGcNwkzvoKYmyCHp1kQYGHmSrrkwStvvKi2499oy86MIRbFrJz=s10000",
+   "amenities": [
+    "Free breakfast",
+    "Free Wi-Fi",
+    "Free parking",
+    "Air conditioning",
+    "Bar",
+    "Room service",
+    "Full-service laundry",
+    "Kid-friendly"
+   ],
+   "zone": "lido",
+   "first_seen": "2026-10-08T13:37:52Z",
+   "last_seen": "2026-11-01T13:32:09Z",
    "available": true,
    "misses": 0,
    "history": [],
@@ -2869,7 +2764,7 @@
    "lon": 12.3718171,
    "stars": 5,
    "rating": 4.6,
-   "reviews": 810,
+   "reviews": 811,
    "total": null,
    "per_night": null,
    "link": "https://www.ausoniahungaria.com/",
@@ -2886,7 +2781,7 @@
    ],
    "zone": "lido",
    "first_seen": "2026-10-08T23:22:30Z",
-   "last_seen": "2026-10-31T21:37:13Z",
+   "last_seen": "2026-11-01T13:32:09Z",
    "available": true,
    "misses": 0,
    "history": [],
@@ -2916,7 +2811,7 @@
    ],
    "zone": "lido",
    "first_seen": "2026-10-08T13:37:52Z",
-   "last_seen": "2026-10-31T21:37:13Z",
+   "last_seen": "2026-11-01T13:32:09Z",
    "available": true,
    "misses": 0,
    "history": [],
@@ -2950,37 +2845,7 @@
    ],
    "zone": "lido",
    "first_seen": "2026-10-08T13:37:52Z",
-   "last_seen": "2026-10-31T21:37:13Z",
-   "available": true,
-   "misses": 0,
-   "history": [],
-   "min_total": null,
-   "change": 0,
-   "badge": null,
-   "badge_at": null
-  },
-  {
-   "id": "b-b",
-   "token": "ChoIydWYvcOOuYfFARoNL2cvMTFjMmt2eDF6dxAB",
-   "name": "B&B Lido Venezia",
-   "lat": 45.4183587,
-   "lon": 12.374614099999999,
-   "stars": null,
-   "rating": 5.0,
-   "reviews": 5,
-   "total": null,
-   "per_night": null,
-   "link": "https://www.bnblidovenezia.it/",
-   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLcbMiVZqLLtuMSN2udxBMxXuYcRIh6lywFgYFUCCyKRlzzL1Y74cSeOvTVWV24vL4qbFkxLs9d6A8mJN6f1aW-tjTOj9QkYFt-e4l8J4SDwzJ4hocZxTF5AStlm76rUltIrbxxH8Q=s10000",
-   "amenities": [
-    "Free breakfast",
-    "Free Wi-Fi",
-    "Free parking",
-    "Kid-friendly"
-   ],
-   "zone": "lido",
-   "first_seen": "2026-10-08T13:37:52Z",
-   "last_seen": "2026-10-31T21:37:13Z",
+   "last_seen": "2026-11-01T13:32:09Z",
    "available": true,
    "misses": 0,
    "history": [],
@@ -3012,7 +2877,40 @@
    ],
    "zone": "lido",
    "first_seen": "2026-10-08T13:37:52Z",
-   "last_seen": "2026-10-31T21:37:13Z",
+   "last_seen": "2026-11-01T13:32:09Z",
+   "available": true,
+   "misses": 0,
+   "history": [],
+   "min_total": null,
+   "change": 0,
+   "badge": null,
+   "badge_at": null
+  },
+  {
+   "id": "villa-edera",
+   "token": "ChgIss2Kkaams_z5ARoLL2cvMXRkMjk0eTYQAQ",
+   "name": "Hotel Villa Edera",
+   "lat": 45.4172839,
+   "lon": 12.3722335,
+   "stars": 3,
+   "rating": 3.9,
+   "reviews": 259,
+   "total": null,
+   "per_night": null,
+   "link": "https://www.hotelvillaedera.com/?utm_source=google&utm_medium=organic&utm_campaign=GoogleMyBusiness",
+   "image": "https://photos.hotelbeds.com/giata/original/14/143588/143588a_hb_ro_029_20250529_174359.jpg",
+   "amenities": [
+    "Free breakfast",
+    "Free Wi-Fi",
+    "Parking ($)",
+    "Air conditioning",
+    "Pet-friendly",
+    "Restaurant",
+    "Kid-friendly"
+   ],
+   "zone": "lido",
+   "first_seen": "2026-10-08T13:37:52Z",
+   "last_seen": "2026-11-01T13:32:09Z",
    "available": true,
    "misses": 0,
    "history": [],
@@ -3033,7 +2931,7 @@
    "total": null,
    "per_night": null,
    "link": "https://www.viktoriapalacehotel.com/?utm_source=google&utm_medium=organic&utm_campaign=GoogleMyBusiness",
-   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLexaM5CTsbVC-xmg8spFxkscn7yjSDO7Lf-SfgLZ8rmhY64Q8Q8vmJ2gwpwKSUCeVfmZmO0kvlHzCLouzSx5T16sNRxvZN6ZcSAqMh1LOqyDn5LphaTRHvu_m2dd2I2ft00v0KbVw=s10000",
+   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLfkJ8vYO_ed16ZXSWDo9X-gPkv2kLebsVh3-L0ebsOajCNjLGok0lN7Xf5ornjqfBrLWCnZGWfqugWsr1IIxJFw3_z8AkxZIkZDkqAt32tLmNI_CuAqtYOUc4XIgh1NQ15Ggyh_=s10000",
    "amenities": [
     "Free breakfast",
     "Free Wi-Fi",
@@ -3046,7 +2944,41 @@
    ],
    "zone": "lido",
    "first_seen": "2026-10-08T13:37:52Z",
-   "last_seen": "2026-10-31T21:37:13Z",
+   "last_seen": "2026-11-01T13:32:09Z",
+   "available": true,
+   "misses": 0,
+   "history": [],
+   "min_total": null,
+   "change": 0,
+   "badge": null,
+   "badge_at": null
+  },
+  {
+   "id": "agricampeggio-mose",
+   "token": "ChgI3vmSk9_etfv-ARoLL2cvMXRkOXpqYncQAQ",
+   "name": "Agricampeggio Mose",
+   "lat": 45.4354181,
+   "lon": 12.4299974,
+   "stars": null,
+   "rating": 4.7,
+   "reviews": 797,
+   "total": null,
+   "per_night": null,
+   "link": "http://www.campingmose.com/",
+   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLcocMhzlDVuJRfBLV-SfJa7LiLUhIUKXt7gyFahj4YbjIGiN0QEMgp6HRP9--YVF7ujL-fq1mw7FCe6PCWkhAFb84VRkhzdyT4WVStC19QMEaMhCqxLc3UYlnq4q5NvKTvoQjUzkFnZphyX=s10000",
+   "amenities": [
+    "Free Wi-Fi",
+    "Free parking",
+    "Air conditioning",
+    "Pet-friendly",
+    "Restaurant",
+    "Kitchen",
+    "Accessible",
+    "Kid-friendly"
+   ],
+   "zone": "lido",
+   "first_seen": "2026-10-08T13:37:52Z",
+   "last_seen": "2026-11-01T13:32:09Z",
    "available": true,
    "misses": 0,
    "history": [],
@@ -3080,7 +3012,131 @@
    ],
    "zone": "lido",
    "first_seen": "2026-10-08T13:37:52Z",
-   "last_seen": "2026-10-31T21:37:13Z",
+   "last_seen": "2026-11-01T13:32:09Z",
+   "available": true,
+   "misses": 0,
+   "history": [],
+   "min_total": null,
+   "change": 0,
+   "badge": null,
+   "badge_at": null
+  },
+  {
+   "id": "new-reiter",
+   "token": "ChkIlM3o9Kiuq79kGg0vZy8xMWY1bHk3YzI1EAE",
+   "name": "NEW REITER HOTEL",
+   "lat": 45.4159745,
+   "lon": 12.372629799999999,
+   "stars": 4,
+   "rating": 4.5,
+   "reviews": 349,
+   "total": null,
+   "per_night": null,
+   "link": "http://www.newreiterhotel.com/",
+   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLeommo8nQIPMu4nOJ2vPn8Mki9VUn-iwUZ8EBvVR21VqKVpLVPzKSkwBa4FzLPkUUS3rr8zf-7WZ3cyaBdhP1JTIFb12VfyN3eii9Cm98LMkrtnwnTRYItpgQhSEAWmdFjmB-Ul=s10000",
+   "amenities": [
+    "Free breakfast",
+    "Free Wi-Fi",
+    "Parking",
+    "Air conditioning",
+    "Pet-friendly",
+    "Bar",
+    "Restaurant",
+    "Kid-friendly"
+   ],
+   "zone": "lido",
+   "first_seen": "2026-10-08T13:37:52Z",
+   "last_seen": "2026-11-01T13:32:09Z",
+   "available": true,
+   "misses": 0,
+   "history": [],
+   "min_total": null,
+   "change": 0,
+   "badge": null,
+   "badge_at": null
+  },
+  {
+   "id": "b-b-casa-delle-rose-cin-it027042b4lfya3am",
+   "token": "ChcIh9upmaHvhvVeGgsvZy8xdGN5cXAxbRAB",
+   "name": "B&B Casa delle Rose CIN:IT027042B4LFYA3AM",
+   "lat": 45.418521999999996,
+   "lon": 12.374377299999999,
+   "stars": 4,
+   "rating": 4.8,
+   "reviews": 39,
+   "total": null,
+   "per_night": null,
+   "link": "https://www.casadellerose.net/",
+   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLdG12sVNHcAPZzV2HPiEB2PSCPxqqbxLPHz1OSmbpLOdxDp2wyE-FHGsdceQdP1GLVReJPwGqn9xlxDSjuw43HmTmtT_5VPQv890o0gV1J_Em2F2J1kmRctP3i_bAUq_jGlu34=s10000",
+   "amenities": [
+    "Free breakfast",
+    "Free Wi-Fi",
+    "Free parking",
+    "Air conditioning",
+    "Restaurant",
+    "Kid-friendly",
+    "Smoke-free property"
+   ],
+   "zone": "lido",
+   "first_seen": "2026-10-08T13:37:52Z",
+   "last_seen": "2026-11-01T13:32:09Z",
+   "available": true,
+   "misses": 0,
+   "history": [],
+   "min_total": null,
+   "change": 0,
+   "badge": null,
+   "badge_at": null
+  },
+  {
+   "id": "villa-ricci",
+   "token": "ChkItJqw7vCWuvsIGg0vZy8xMWNzNmxuZzVrEAE",
+   "name": "Villa Ricci",
+   "lat": 45.4169768,
+   "lon": 12.3711259,
+   "stars": null,
+   "rating": 3.5,
+   "reviews": 2,
+   "total": null,
+   "per_night": null,
+   "link": null,
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0c/18/ac/0c/colazione-in-giardino.jpg?w=1300&h=700&s=1",
+   "amenities": [
+    "Kid-friendly"
+   ],
+   "zone": "lido",
+   "first_seen": "2026-10-08T13:37:52Z",
+   "last_seen": "2026-11-01T13:32:09Z",
+   "available": true,
+   "misses": 0,
+   "history": [],
+   "min_total": null,
+   "change": 0,
+   "badge": null,
+   "badge_at": null
+  },
+  {
+   "id": "b-b",
+   "token": "ChoIydWYvcOOuYfFARoNL2cvMTFjMmt2eDF6dxAB",
+   "name": "B&B Lido Venezia",
+   "lat": 45.4183587,
+   "lon": 12.374614099999999,
+   "stars": null,
+   "rating": 5.0,
+   "reviews": 5,
+   "total": null,
+   "per_night": null,
+   "link": "https://www.bnblidovenezia.it/",
+   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLcc0_MzKaRCRgTFTfaXG5iTjmgr5hmnd0W7ASH36J2lT08GmLdx1NSBVQFoIpV2SHvni0XNI7S4IKDYq0RKmpMn_1Oj-iY7CYBYu3MiHVBGyVIxJ8VTy5663PhTo915yIf8LdGL9w=s10000",
+   "amenities": [
+    "Free breakfast",
+    "Free Wi-Fi",
+    "Free parking",
+    "Kid-friendly"
+   ],
+   "zone": "lido",
+   "first_seen": "2026-10-08T13:37:52Z",
+   "last_seen": "2026-11-01T13:32:09Z",
    "available": true,
    "misses": 0,
    "history": [],
@@ -3107,7 +3163,7 @@
    ],
    "zone": "lido",
    "first_seen": "2026-10-08T13:37:52Z",
-   "last_seen": "2026-10-31T21:37:13Z",
+   "last_seen": "2026-11-01T13:32:09Z",
    "available": true,
    "misses": 0,
    "history": [],
@@ -3117,172 +3173,31 @@
    "badge_at": null
   },
   {
-   "id": "new-reiter",
-   "token": "ChkIlM3o9Kiuq79kGg0vZy8xMWY1bHk3YzI1EAE",
-   "name": "NEW REITER HOTEL",
-   "lat": 45.4159745,
-   "lon": 12.372629799999999,
-   "stars": 4,
-   "rating": 4.5,
-   "reviews": 349,
-   "total": null,
-   "per_night": null,
-   "link": "http://www.newreiterhotel.com/",
-   "image": "https://photos.hotelbeds.com/giata/original/35/354535/354535a_hb_ba_001.jpg",
-   "amenities": [
-    "Free breakfast",
-    "Free Wi-Fi",
-    "Parking",
-    "Air conditioning",
-    "Pet-friendly",
-    "Bar",
-    "Restaurant",
-    "Kid-friendly"
-   ],
-   "zone": "lido",
-   "first_seen": "2026-10-08T13:37:52Z",
-   "last_seen": "2026-10-31T21:37:13Z",
-   "available": true,
-   "misses": 0,
-   "history": [],
-   "min_total": null,
-   "change": 0,
-   "badge": null,
-   "badge_at": null
-  },
-  {
-   "id": "villa-edera",
-   "token": "ChgIss2Kkaams_z5ARoLL2cvMXRkMjk0eTYQAQ",
-   "name": "Hotel Villa Edera",
-   "lat": 45.4172839,
-   "lon": 12.3722335,
+   "id": "giardinetto",
+   "token": "ChgIrfDI8I-i3ZWHARoLL2cvMXYzbG5zeDUQAQ",
+   "name": "Hotel Giardinetto",
+   "lat": 45.417574099999996,
+   "lon": 12.3694384,
    "stars": 3,
-   "rating": 3.9,
-   "reviews": 258,
+   "rating": 4.3,
+   "reviews": 208,
    "total": null,
    "per_night": null,
-   "link": "https://www.hotelvillaedera.com/?utm_source=google&utm_medium=organic&utm_campaign=GoogleMyBusiness",
-   "image": "https://photos.hotelbeds.com/giata/original/14/143588/143588a_hb_ro_029_20250529_174359.jpg",
+   "link": "http://www.giardinettovenice.com/",
+   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLdeuvr6DpwaNpr-z5qS_b2GgpR_C87L2fDJmh5AfAPElKRFktGti63UvvAm43CSY0esBHMtGhplSEmXKBvJlOnxvE0_IrTa_SZhkks0h0unPFZJ4qN22kF0my_PzuORWVMK3O2O=s10000",
    "amenities": [
     "Free breakfast",
     "Free Wi-Fi",
-    "Parking ($)",
     "Air conditioning",
     "Pet-friendly",
-    "Restaurant",
+    "Airport shuttle",
+    "Full-service laundry",
+    "Accessible",
     "Kid-friendly"
    ],
    "zone": "lido",
-   "first_seen": "2026-10-08T13:37:52Z",
-   "last_seen": "2026-10-31T21:37:13Z",
-   "available": true,
-   "misses": 0,
-   "history": [],
-   "min_total": null,
-   "change": 0,
-   "badge": null,
-   "badge_at": null
-  },
-  {
-   "id": "central-holiday",
-   "token": "ChoIuubJjvii2I7vARoNL2cvMTFuOXAxYnc2cBAB",
-   "name": "Lido Central Holiday Venice-Lido",
-   "lat": 45.4122384,
-   "lon": 12.3712219,
-   "stars": null,
-   "rating": null,
-   "reviews": null,
-   "total": null,
-   "per_night": null,
-   "link": "https://bestplacesinmap.eu/lido-central-sea-amp-holiday-italy?correlationID=d2cf07ae-871d-418f-b4a3-89f5e95d082f",
-   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLcdZQP1cwV_epQEfBYierxd6X0Fr42Zc5uPnNAAxSjAp9g9qi3l5qsCNd6NpDMKTmConA14mZKDaJKsDhN3xcbS8MYXBFSJho7XJNLikUjbUqqgL-FqTNU3r03srN46mTiUnbMKgwfraZUA=s10000",
-   "amenities": [],
-   "zone": "lido",
-   "first_seen": "2026-10-08T13:37:52Z",
-   "last_seen": "2026-10-31T21:37:13Z",
-   "available": true,
-   "misses": 0,
-   "history": [],
-   "min_total": null,
-   "change": 0,
-   "badge": null,
-   "badge_at": null
-  },
-  {
-   "id": "b-b-casa-delle-rose-cin-it027042b4lfya3am",
-   "token": "ChcIh9upmaHvhvVeGgsvZy8xdGN5cXAxbRAB",
-   "name": "B&B Casa delle Rose CIN:IT027042B4LFYA3AM",
-   "lat": 45.418521999999996,
-   "lon": 12.374377299999999,
-   "stars": 4,
-   "rating": 4.8,
-   "reviews": 39,
-   "total": null,
-   "per_night": null,
-   "link": "https://www.casadellerose.net/",
-   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLdYzT-SxY0-r5ZA0Cql0gIni5CiA8U80szYeosg4_YjH12Kz2bI89bhKGhknyUM6S2_AlHY7Qnnl9MTQMA6338yLxRhPLK8JXPqEc-PaNQl0ImTt4xgQnrK7f_k23a7vZWxipU=s10000",
-   "amenities": [
-    "Free breakfast",
-    "Free Wi-Fi",
-    "Free parking",
-    "Air conditioning",
-    "Restaurant",
-    "Kid-friendly",
-    "Smoke-free property"
-   ],
-   "zone": "lido",
-   "first_seen": "2026-10-08T13:37:52Z",
-   "last_seen": "2026-10-31T21:37:13Z",
-   "available": true,
-   "misses": 0,
-   "history": [],
-   "min_total": null,
-   "change": 0,
-   "badge": null,
-   "badge_at": null
-  },
-  {
-   "id": "centro-soggiorno-f-morosini",
-   "token": "ChoIy9it-L_UhYzHARoNL2cvMTFjNTQzMWIzehAB",
-   "name": "Centro di Soggiorno F. Morosini",
-   "lat": 45.3574118,
-   "lon": 12.330882299999999,
-   "stars": null,
-   "rating": 4.3,
-   "reviews": 103,
-   "total": null,
-   "per_night": null,
-   "link": null,
-   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLeqG_MHOAEJaqFaigo3UNoI_p9j4_fWHnw4AlRv7Ov2LEkNtD6Q1Cm61LJno04ctX2Ms9IHCmqueqFLrcev0C58dieLuBd80IvSVJMArGaEB94tTFdQ0ahHJ35YK9OtdLcsb9ot=s10000",
-   "amenities": [],
-   "zone": "lido",
-   "first_seen": "2026-10-27T12:19:58Z",
-   "last_seen": "2026-10-31T21:37:13Z",
-   "available": true,
-   "misses": 0,
-   "history": [],
-   "min_total": null,
-   "change": 0,
-   "badge": null,
-   "badge_at": null
-  },
-  {
-   "id": "calicanto",
-   "token": "ChkIs7mbqYeslcd_Gg0vZy8xMXo4MDYyamo1EAE",
-   "name": "Calicanto",
-   "lat": 45.4169298,
-   "lon": 12.369418099999999,
-   "stars": null,
-   "rating": 5.0,
-   "reviews": 4,
-   "total": null,
-   "per_night": null,
-   "link": null,
-   "image": "https://xx.bstatic.com/xdata/w/hotel/840x460_watermarked_standard_bluecom/Ul4G65CxyC0DxVt0E8OQBxIEAHKtESlg9KVt9aZ8W8SOuORzFqf1cZfkZpIix3sETYvNpwDGVs1V20ezL54IfU488My7c0gINnW-laSUp9RObkWK9hBpC-Rmow3BjqTE.jpg",
-   "amenities": [],
-   "zone": "lido",
-   "first_seen": "2026-10-09T13:23:48Z",
-   "last_seen": "2026-10-31T21:37:13Z",
+   "first_seen": "2026-10-11T12:58:12Z",
+   "last_seen": "2026-11-01T13:32:09Z",
    "available": true,
    "misses": 0,
    "history": [],
@@ -3316,7 +3231,7 @@
    ],
    "zone": "lido",
    "first_seen": "2026-10-10T12:38:45Z",
-   "last_seen": "2026-10-31T21:37:13Z",
+   "last_seen": "2026-11-01T13:32:09Z",
    "available": true,
    "misses": 0,
    "history": [],
@@ -3326,65 +3241,79 @@
    "badge_at": null
   },
   {
-   "id": "villa-ricci",
-   "token": "ChkItJqw7vCWuvsIGg0vZy8xMWNzNmxuZzVrEAE",
-   "name": "Villa Ricci",
-   "lat": 45.4169768,
-   "lon": 12.3711259,
+   "id": "central-holiday",
+   "token": "ChoIuubJjvii2I7vARoNL2cvMTFuOXAxYnc2cBAB",
+   "name": "Lido Central Holiday Venice-Lido",
+   "lat": 45.4122384,
+   "lon": 12.3712219,
    "stars": null,
-   "rating": 3.5,
-   "reviews": 2,
+   "rating": null,
+   "reviews": null,
+   "total": null,
+   "per_night": null,
+   "link": "https://bestplacesinmap.eu/lido-central-sea-amp-holiday-italy?correlationID=d2cf07ae-871d-418f-b4a3-89f5e95d082f",
+   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLcdZQP1cwV_epQEfBYierxd6X0Fr42Zc5uPnNAAxSjAp9g9qi3l5qsCNd6NpDMKTmConA14mZKDaJKsDhN3xcbS8MYXBFSJho7XJNLikUjbUqqgL-FqTNU3r03srN46mTiUnbMKgwfraZUA=s10000",
+   "amenities": [],
+   "zone": "lido",
+   "first_seen": "2026-10-08T13:37:52Z",
+   "last_seen": "2026-10-31T21:37:13Z",
+   "available": true,
+   "misses": 1,
+   "history": [],
+   "min_total": null,
+   "change": 0,
+   "badge": null,
+   "badge_at": null
+  },
+  {
+   "id": "centro-soggiorno-f-morosini",
+   "token": "ChoIy9it-L_UhYzHARoNL2cvMTFjNTQzMWIzehAB",
+   "name": "Centro di Soggiorno F. Morosini",
+   "lat": 45.3574118,
+   "lon": 12.330882299999999,
+   "stars": null,
+   "rating": 4.3,
+   "reviews": 103,
    "total": null,
    "per_night": null,
    "link": null,
-   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0c/18/ac/0c/colazione-in-giardino.jpg?w=1300&h=700&s=1",
-   "amenities": [
-    "Kid-friendly"
-   ],
+   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLeqG_MHOAEJaqFaigo3UNoI_p9j4_fWHnw4AlRv7Ov2LEkNtD6Q1Cm61LJno04ctX2Ms9IHCmqueqFLrcev0C58dieLuBd80IvSVJMArGaEB94tTFdQ0ahHJ35YK9OtdLcsb9ot=s10000",
+   "amenities": [],
    "zone": "lido",
-   "first_seen": "2026-10-08T13:37:52Z",
-   "last_seen": "2026-10-31T12:41:26Z",
+   "first_seen": "2026-10-27T12:19:58Z",
+   "last_seen": "2026-10-31T21:37:13Z",
    "available": true,
    "misses": 1,
    "history": [],
    "min_total": null,
    "change": 0,
-   "badge": "back",
-   "badge_at": "2026-10-31T12:41:26Z"
+   "badge": null,
+   "badge_at": null
   },
   {
-   "id": "giardinetto",
-   "token": "ChgIrfDI8I-i3ZWHARoLL2cvMXYzbG5zeDUQAQ",
-   "name": "Hotel Giardinetto",
-   "lat": 45.417574099999996,
-   "lon": 12.3694384,
-   "stars": 3,
-   "rating": 4.3,
-   "reviews": 208,
+   "id": "calicanto",
+   "token": "ChkIs7mbqYeslcd_Gg0vZy8xMXo4MDYyamo1EAE",
+   "name": "Calicanto",
+   "lat": 45.4169298,
+   "lon": 12.369418099999999,
+   "stars": null,
+   "rating": 5.0,
+   "reviews": 4,
    "total": null,
    "per_night": null,
-   "link": "http://www.giardinettovenice.com/",
-   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLdeuvr6DpwaNpr-z5qS_b2GgpR_C87L2fDJmh5AfAPElKRFktGti63UvvAm43CSY0esBHMtGhplSEmXKBvJlOnxvE0_IrTa_SZhkks0h0unPFZJ4qN22kF0my_PzuORWVMK3O2O=s10000",
-   "amenities": [
-    "Free breakfast",
-    "Free Wi-Fi",
-    "Air conditioning",
-    "Pet-friendly",
-    "Airport shuttle",
-    "Full-service laundry",
-    "Accessible",
-    "Kid-friendly"
-   ],
+   "link": null,
+   "image": "https://xx.bstatic.com/xdata/w/hotel/840x460_watermarked_standard_bluecom/Ul4G65CxyC0DxVt0E8OQBxIEAHKtESlg9KVt9aZ8W8SOuORzFqf1cZfkZpIix3sETYvNpwDGVs1V20ezL54IfU488My7c0gINnW-laSUp9RObkWK9hBpC-Rmow3BjqTE.jpg",
+   "amenities": [],
    "zone": "lido",
-   "first_seen": "2026-10-11T12:58:12Z",
-   "last_seen": "2026-10-31T12:41:26Z",
+   "first_seen": "2026-10-09T13:23:48Z",
+   "last_seen": "2026-10-31T21:37:13Z",
    "available": true,
    "misses": 1,
    "history": [],
    "min_total": null,
    "change": 0,
-   "badge": "back",
-   "badge_at": "2026-10-31T12:41:26Z"
+   "badge": null,
+   "badge_at": null
   },
   {
    "id": "alberghiera",
@@ -3410,7 +3339,7 @@
    "first_seen": "2026-10-25T20:53:08Z",
    "last_seen": "2026-10-25T20:53:08Z",
    "available": false,
-   "misses": 12,
+   "misses": 13,
    "history": [
     {
      "d": "2026-10-25",
@@ -3443,7 +3372,7 @@
    "first_seen": "2026-10-16T21:11:30Z",
    "last_seen": "2026-10-25T20:53:08Z",
    "available": false,
-   "misses": 12,
+   "misses": 13,
    "history": [
     {
      "d": "2026-10-16",
@@ -3489,7 +3418,7 @@
    "first_seen": "2026-10-18T11:15:32Z",
    "last_seen": "2026-10-18T11:15:32Z",
    "available": false,
-   "misses": 27,
+   "misses": 28,
    "history": [
     {
      "d": "2026-10-18",
@@ -3527,7 +3456,7 @@
    "first_seen": "2026-10-08T13:37:52Z",
    "last_seen": "2026-10-18T11:15:32Z",
    "available": false,
-   "misses": 27,
+   "misses": 28,
    "history": [
     {
      "d": "2026-10-08",
@@ -3573,7 +3502,7 @@
    "first_seen": "2026-10-08T13:37:52Z",
    "last_seen": "2026-10-12T15:36:12Z",
    "available": false,
-   "misses": 39,
+   "misses": 40,
    "history": [
     {
      "d": "2026-10-08",
@@ -3617,7 +3546,7 @@
    "first_seen": "2026-10-18T11:15:32Z",
    "last_seen": "2026-10-25T20:53:08Z",
    "available": false,
-   "misses": 12,
+   "misses": 13,
    "history": [
     {
      "d": "2026-10-18",
@@ -3632,6 +3561,46 @@
    "change": 0,
    "badge": "gone",
    "badge_at": "2026-10-25T20:53:08Z"
+  },
+  {
+   "id": "residenza-de-losmarin-suites",
+   "token": "ChgIltCfm5HvpIhpGgwvZy8xaGMzc3hkbW4QAQ",
+   "name": "Residenza de l’Osmarin Suites",
+   "lat": 45.4356053,
+   "lon": 12.343034999999999,
+   "stars": 4,
+   "rating": 4.8,
+   "reviews": 97,
+   "total": 579,
+   "per_night": 193,
+   "link": "http://www.residenzadelosmarin.com/",
+   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLfKFZoIEZaot4X3hGunYjLMtvlj1o82sT6sq0QiP0Z9zP_1QNJOgfjQcFOPk9ZK89ipgwTsbNWaqJUpQus7PDYL3LdoyngVblEaNNoVBQPdwlzp_yxb0N64TZpf5P7ukPzNd90=s10000",
+   "amenities": [
+    "Free Wi-Fi",
+    "Air conditioning",
+    "Kitchen in some rooms",
+    "Kid-friendly",
+    "Smoke-free property"
+   ],
+   "zone": "centro",
+   "first_seen": "2026-10-10T21:46:12Z",
+   "last_seen": "2026-10-31T12:41:26Z",
+   "available": false,
+   "misses": 2,
+   "history": [
+    {
+     "d": "2026-10-10",
+     "total": 579
+    },
+    {
+     "d": "2026-10-31",
+     "total": 579
+    }
+   ],
+   "min_total": 579,
+   "change": 0,
+   "badge": "gone",
+   "badge_at": "2026-10-31T12:41:26Z"
   },
   {
    "id": "alla-vite-dorata",
@@ -3659,7 +3628,7 @@
    "first_seen": "2026-10-16T21:11:30Z",
    "last_seen": "2026-10-25T20:53:08Z",
    "available": false,
-   "misses": 12,
+   "misses": 13,
    "history": [
     {
      "d": "2026-10-16",
@@ -3674,6 +3643,57 @@
    "change": 0,
    "badge": "gone",
    "badge_at": "2026-10-25T20:53:08Z"
+  },
+  {
+   "id": "ca-dalisera-b-b",
+   "token": "ChgI4uO7mcDezIScARoLL2cvMXR4eTE0enMQAQ",
+   "name": "Ca Dalisera B&B Venezia",
+   "lat": 45.4328489,
+   "lon": 12.3364665,
+   "stars": null,
+   "rating": 4.3,
+   "reviews": 164,
+   "total": 591,
+   "per_night": 197,
+   "link": "http://www.cadalisera.it/",
+   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLfccljKkq5a322tvyaUyvfWGfEl5PIJfKp1ExE9hS8DcI77a0nSf4fzxGYEZsdMIKjsEYN73kK6su5DRtyO6DG9xfrPbs4fB7IKO0Z6AWtmolHSfKLhMZMfTh-IBZXCxLeILlUm=s10000",
+   "amenities": [
+    "Free Wi-Fi",
+    "Air conditioning",
+    "Kitchen in some rooms",
+    "Smoke-free property"
+   ],
+   "zone": "centro",
+   "first_seen": "2026-10-16T21:11:30Z",
+   "last_seen": "2026-10-31T12:41:26Z",
+   "available": false,
+   "misses": 2,
+   "history": [
+    {
+     "d": "2026-10-16",
+     "total": 478
+    },
+    {
+     "d": "2026-10-18",
+     "total": 478
+    },
+    {
+     "d": "2026-10-25",
+     "total": 478
+    },
+    {
+     "d": "2026-10-26",
+     "total": 478
+    },
+    {
+     "d": "2026-10-31",
+     "total": 591
+    }
+   ],
+   "min_total": 478,
+   "change": 0,
+   "badge": "gone",
+   "badge_at": "2026-10-31T12:41:26Z"
   },
   {
    "id": "locanda-ca-le-vele",
@@ -3699,7 +3719,7 @@
    "first_seen": "2026-10-25T20:53:08Z",
    "last_seen": "2026-10-25T20:53:08Z",
    "available": false,
-   "misses": 12,
+   "misses": 13,
    "history": [
     {
      "d": "2026-10-25",
@@ -3710,6 +3730,46 @@
    "change": 0,
    "badge": "gone",
    "badge_at": "2026-10-25T20:53:08Z"
+  },
+  {
+   "id": "san-lio-tourist-house",
+   "token": "ChcInLCspf_brvRGGgsvZy8xMjF0YmxocRAB",
+   "name": "San Lio Tourist House",
+   "lat": 45.437554899999995,
+   "lon": 12.338117599999999,
+   "stars": 4,
+   "rating": 4.3,
+   "reviews": 324,
+   "total": 605,
+   "per_night": 202,
+   "link": "https://www.san-lio.com/?utm_source=gbp&utm_medium=organic",
+   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLejRo9NdDu5IYtGGngrMIAEI5Y9lw6ZcmvA3D3R9nDVi6VW_dVORus_TJTlkjUz9z77Mpbk5UoIk1bTJlisYHVgRNNOESXXXgg5pJ6he_BF1ey_UnwNT2KSSu8bMcEuwfBi774=s10000",
+   "amenities": [
+    "Free Wi-Fi",
+    "Air conditioning",
+    "Bar",
+    "Airport shuttle",
+    "Smoke-free property"
+   ],
+   "zone": "centro",
+   "first_seen": "2026-10-10T21:46:12Z",
+   "last_seen": "2026-10-31T12:41:26Z",
+   "available": false,
+   "misses": 2,
+   "history": [
+    {
+     "d": "2026-10-10",
+     "total": 605
+    },
+    {
+     "d": "2026-10-31",
+     "total": 605
+    }
+   ],
+   "min_total": 605,
+   "change": 0,
+   "badge": "gone",
+   "badge_at": "2026-10-31T12:41:26Z"
   },
   {
    "id": "locanda-ca-del-brocchi",
@@ -3738,7 +3798,7 @@
    "first_seen": "2026-10-26T22:41:32Z",
    "last_seen": "2026-10-26T22:41:32Z",
    "available": false,
-   "misses": 10,
+   "misses": 11,
    "history": [
     {
      "d": "2026-10-26",
@@ -3749,6 +3809,43 @@
    "change": 0,
    "badge": "gone",
    "badge_at": "2026-10-26T22:41:32Z"
+  },
+  {
+   "id": "naturalmente",
+   "token": "ChkIg763zZHi4bZCGg0vZy8xMWR5MXRkN3NfEAE",
+   "name": "Venezia Naturalmente",
+   "lat": 45.4330089,
+   "lon": 12.3295841,
+   "stars": 3,
+   "rating": 4.5,
+   "reviews": 113,
+   "total": 663,
+   "per_night": 221,
+   "link": "http://www.venezianaturalmente.it/",
+   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLfGhnOodIaJVJvHv_AlCA9g_JIeKB9SZ0WNhBHPYCrfCDdm3dzIKA_DTQ5qWrt9OQ2Xm1RHvcN-Bn5ZTHfLL6ltxs-L6abnF02dynNkm2B5b76b2-Jc3xaS7G-JmHOCQd-2Y10d=s10000",
+   "amenities": [
+    "Free breakfast",
+    "Free Wi-Fi",
+    "Pet-friendly",
+    "Kitchen in some rooms",
+    "Kid-friendly",
+    "Smoke-free property"
+   ],
+   "zone": "centro",
+   "first_seen": "2026-10-31T12:41:26Z",
+   "last_seen": "2026-10-31T12:41:26Z",
+   "available": false,
+   "misses": 2,
+   "history": [
+    {
+     "d": "2026-10-31",
+     "total": 663
+    }
+   ],
+   "min_total": 663,
+   "change": 0,
+   "badge": "gone",
+   "badge_at": "2026-10-31T12:41:26Z"
   },
   {
    "id": "ca-gottardi",
@@ -3777,7 +3874,7 @@
    "first_seen": "2026-10-16T21:11:30Z",
    "last_seen": "2026-10-26T22:41:32Z",
    "available": false,
-   "misses": 10,
+   "misses": 11,
    "history": [
     {
      "d": "2026-10-16",
@@ -3824,7 +3921,7 @@
    "first_seen": "2026-10-08T13:37:52Z",
    "last_seen": "2026-10-30T13:03:22Z",
    "available": false,
-   "misses": 3,
+   "misses": 4,
    "history": [
     {
      "d": "2026-10-08",
@@ -3937,7 +4034,7 @@
    "first_seen": "2026-10-09T13:23:48Z",
    "last_seen": "2026-10-27T22:16:18Z",
    "available": false,
-   "misses": 8,
+   "misses": 9,
    "history": [
     {
      "d": "2026-10-09",
@@ -3974,6 +4071,47 @@
    "badge_at": "2026-10-27T22:16:18Z"
   },
   {
+   "id": "residenza-calle-larga-san-marco",
+   "token": "ChkIy_Sp8Y3o-OBUGg0vZy8xMWYwX2dyMWpsEAE",
+   "name": "Residenza Calle Larga San Marco",
+   "lat": 45.435289,
+   "lon": 12.340176,
+   "stars": null,
+   "rating": 4.7,
+   "reviews": 27,
+   "total": 677,
+   "per_night": 226,
+   "link": "http://www.residenzacallelargasanmarco.com/",
+   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLfLyGCvhUlaA-lwt3TLbbfD8K8qgm4goUgko22WO0sNGZKb5l-MLhxmzJYW2Mwtc-Joq9CzshQ3VU8DZkSpL8Wwb13lLN1TsY-8j4OqPVyMpkC_QCaufzASJdVaEueH-E4890dX0A=s10000",
+   "amenities": [
+    "Free breakfast",
+    "Free Wi-Fi"
+   ],
+   "zone": "centro",
+   "first_seen": "2026-10-14T21:42:51Z",
+   "last_seen": "2026-10-31T12:41:26Z",
+   "available": false,
+   "misses": 2,
+   "history": [
+    {
+     "d": "2026-10-14",
+     "total": 677
+    },
+    {
+     "d": "2026-10-25",
+     "total": 677
+    },
+    {
+     "d": "2026-10-31",
+     "total": 677
+    }
+   ],
+   "min_total": 677,
+   "change": 0,
+   "badge": "gone",
+   "badge_at": "2026-10-31T12:41:26Z"
+  },
+  {
    "id": "palazzetto-pisani-grand-canal",
    "token": "ChgI2KPMppnV48RxGgwvZy8xaGJfZ2swYmMQAQ",
    "name": "Palazzetto Pisani Grand Canal",
@@ -4000,7 +4138,7 @@
    "first_seen": "2026-10-09T13:23:48Z",
    "last_seen": "2026-10-22T21:37:49Z",
    "available": false,
-   "misses": 18,
+   "misses": 19,
    "history": [
     {
      "d": "2026-10-09",
@@ -4061,6 +4199,49 @@
    "badge_at": "2026-10-22T21:37:49Z"
   },
   {
+   "id": "casa-alla-fenice",
+   "token": "ChcIwKDGtviBm5l1GgsvZy8xdGZjbTVndBAB",
+   "name": "Casa Alla Fenice",
+   "lat": 45.4348725,
+   "lon": 12.333557899999999,
+   "stars": 4,
+   "rating": 4.3,
+   "reviews": 154,
+   "total": 682,
+   "per_night": 227,
+   "link": "https://www.casallafenice.it/",
+   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLdjjG94RUb8kTHz6A8H31bMv5MMQbAyVUADjHcjjkZbQpoFSRi0SwOm139SL_Poy4KhWYRMHZl4gMoSTDovMTlm1I6A8xtUyV2g1hk8IKp7QFuOvvACWxycQuTnhUepQDS-DcekhosFTTyN=s10000",
+   "amenities": [
+    "Free Wi-Fi",
+    "Air conditioning",
+    "Kid-friendly",
+    "Smoke-free property"
+   ],
+   "zone": "centro",
+   "first_seen": "2026-10-09T13:23:48Z",
+   "last_seen": "2026-10-31T12:41:26Z",
+   "available": false,
+   "misses": 2,
+   "history": [
+    {
+     "d": "2026-10-09",
+     "total": 682
+    },
+    {
+     "d": "2026-10-10",
+     "total": 682
+    },
+    {
+     "d": "2026-10-31",
+     "total": 682
+    }
+   ],
+   "min_total": 682,
+   "change": 0,
+   "badge": "gone",
+   "badge_at": "2026-10-31T12:41:26Z"
+  },
+  {
    "id": "liassidi-palace",
    "token": "ChoIyYXHrdOQ6sutARoNL2cvMTFnbDYyd2puYhAB",
    "name": "Liassidi Palace Hotel",
@@ -4087,7 +4268,7 @@
    "first_seen": "2026-10-16T21:11:30Z",
    "last_seen": "2026-10-26T22:41:32Z",
    "available": false,
-   "misses": 10,
+   "misses": 11,
    "history": [
     {
      "d": "2026-10-16",
@@ -4110,6 +4291,49 @@
    "change": 14,
    "badge": "gone",
    "badge_at": "2026-10-26T13:12:01Z"
+  },
+  {
+   "id": "san-marco",
+   "token": "ChgI0q2GvZGb5uiLARoLL2cvMXRnN3F2eV8QAQ",
+   "name": "Albergo San Marco",
+   "lat": 45.4345261,
+   "lon": 12.3377327,
+   "stars": 3,
+   "rating": 4.2,
+   "reviews": 998,
+   "total": 685,
+   "per_night": 228,
+   "link": "http://www.hotelsanmarcovenice.com/",
+   "image": "https://d2hyz2bfif3cr8.cloudfront.net/imageRepo/4/0/59/74/296/IMG_0020_S.jpg",
+   "amenities": [
+    "Free breakfast",
+    "Free Wi-Fi",
+    "Air conditioning",
+    "Pet-friendly",
+    "Bar",
+    "Restaurant",
+    "Room service",
+    "Airport shuttle"
+   ],
+   "zone": "centro",
+   "first_seen": "2026-10-12T15:36:12Z",
+   "last_seen": "2026-10-31T12:41:26Z",
+   "available": false,
+   "misses": 2,
+   "history": [
+    {
+     "d": "2026-10-12",
+     "total": 535
+    },
+    {
+     "d": "2026-10-31",
+     "total": 685
+    }
+   ],
+   "min_total": 535,
+   "change": 0,
+   "badge": "gone",
+   "badge_at": "2026-10-31T12:41:26Z"
   },
   {
    "id": "locanda-la-corte",
@@ -4138,7 +4362,7 @@
    "first_seen": "2026-10-10T12:38:45Z",
    "last_seen": "2026-10-16T21:11:30Z",
    "available": false,
-   "misses": 30,
+   "misses": 31,
    "history": [
     {
      "d": "2026-10-10",
@@ -4181,7 +4405,7 @@
    "first_seen": "2026-10-18T11:15:32Z",
    "last_seen": "2026-10-26T22:41:32Z",
    "available": false,
-   "misses": 10,
+   "misses": 11,
    "history": [
     {
      "d": "2026-10-18",
@@ -4227,7 +4451,7 @@
    "first_seen": "2026-10-13T00:42:39Z",
    "last_seen": "2026-10-13T22:46:51Z",
    "available": false,
-   "misses": 36,
+   "misses": 37,
    "history": [
     {
      "d": "2026-10-13",
@@ -4238,6 +4462,52 @@
    "change": -5,
    "badge": "gone",
    "badge_at": "2026-10-13T22:46:51Z"
+  },
+  {
+   "id": "palazzo-sanluca",
+   "token": "ChcI582hrL3DzPx4GgsvZy8xdHl6eHYyOBAB",
+   "name": "Palazzo SanLuca",
+   "lat": 45.4357459,
+   "lon": 12.3338036,
+   "stars": 3,
+   "rating": 4.5,
+   "reviews": 382,
+   "total": 711,
+   "per_night": 237,
+   "link": "http://www.palazzosanluca.com/",
+   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLfa03UCfzFTZYFRuUq6fsA7XHbP2jzglpz7LTQghvcqu6Q4I84Hb2WSBIHzdSsok0v8U673Cvq2p4IhGQJXK6OSLaUpMCeW8DB0cDV_fd6qeT0yX_8s8BgkKTpNTivt0-bDbA8t=s10000",
+   "amenities": [
+    "Free Wi-Fi",
+    "Air conditioning",
+    "Kitchen in some rooms",
+    "Airport shuttle",
+    "Full-service laundry",
+    "Kid-friendly",
+    "Smoke-free property"
+   ],
+   "zone": "centro",
+   "first_seen": "2026-10-16T21:11:30Z",
+   "last_seen": "2026-10-31T12:41:26Z",
+   "available": false,
+   "misses": 2,
+   "history": [
+    {
+     "d": "2026-10-16",
+     "total": 695
+    },
+    {
+     "d": "2026-10-18",
+     "total": 711
+    },
+    {
+     "d": "2026-10-31",
+     "total": 711
+    }
+   ],
+   "min_total": 695,
+   "change": 0,
+   "badge": "gone",
+   "badge_at": "2026-10-31T12:41:26Z"
   },
   {
    "id": "sant-antonin",
@@ -4266,7 +4536,7 @@
    "first_seen": "2026-10-25T20:53:08Z",
    "last_seen": "2026-10-25T20:53:08Z",
    "available": false,
-   "misses": 12,
+   "misses": 13,
    "history": [
     {
      "d": "2026-10-25",
@@ -4304,7 +4574,7 @@
    "first_seen": "2026-10-08T13:37:52Z",
    "last_seen": "2026-10-08T13:37:52Z",
    "available": false,
-   "misses": 47,
+   "misses": 48,
    "history": [
     {
      "d": "2026-10-08",
@@ -4343,7 +4613,7 @@
    "first_seen": "2026-10-16T21:11:30Z",
    "last_seen": "2026-10-26T22:41:32Z",
    "available": false,
-   "misses": 10,
+   "misses": 11,
    "history": [
     {
      "d": "2026-10-16",
@@ -4394,7 +4664,7 @@
    "first_seen": "2026-10-16T21:11:30Z",
    "last_seen": "2026-10-26T22:41:32Z",
    "available": false,
-   "misses": 10,
+   "misses": 11,
    "history": [
     {
      "d": "2026-10-16",
@@ -4417,49 +4687,6 @@
    "change": 14,
    "badge": "gone",
    "badge_at": "2026-10-26T13:12:01Z"
-  },
-  {
-   "id": "al-codega",
-   "token": "ChcIlMuc9J-ykrskGgsvZy8xdHYyMl9mcBAB",
-   "name": "Hotel Al Codega",
-   "lat": 45.4355784,
-   "lon": 12.335503500000002,
-   "stars": 4,
-   "rating": 4.7,
-   "reviews": 548,
-   "total": 744,
-   "per_night": 248,
-   "link": "http://www.hotelalcodega.com/",
-   "image": "https://photos.hotelbeds.com/giata/original/13/131448/131448a_hb_r_011.jpg",
-   "amenities": [
-    "Free breakfast",
-    "Free Wi-Fi",
-    "Parking",
-    "Air conditioning",
-    "Pet-friendly",
-    "Restaurant",
-    "Kid-friendly",
-    "Smoke-free property"
-   ],
-   "zone": "centro",
-   "first_seen": "2026-10-24T11:09:50Z",
-   "last_seen": "2026-10-25T11:39:29Z",
-   "available": false,
-   "misses": 13,
-   "history": [
-    {
-     "d": "2026-10-24",
-     "total": 746
-    },
-    {
-     "d": "2026-10-25",
-     "total": 744
-    }
-   ],
-   "min_total": 744,
-   "change": -2,
-   "badge": "gone",
-   "badge_at": "2026-10-25T11:39:29Z"
   },
   {
    "id": "riva-del-vin-boutique",
@@ -4488,7 +4715,7 @@
    "first_seen": "2026-10-28T13:03:28Z",
    "last_seen": "2026-10-28T13:03:28Z",
    "available": false,
-   "misses": 7,
+   "misses": 8,
    "history": [
     {
      "d": "2026-10-28",
@@ -4527,7 +4754,7 @@
    "first_seen": "2026-10-11T12:58:12Z",
    "last_seen": "2026-10-30T22:22:45Z",
    "available": false,
-   "misses": 2,
+   "misses": 3,
    "history": [
     {
      "d": "2026-10-11",
@@ -4598,7 +4825,7 @@
    "first_seen": "2026-10-09T22:40:21Z",
    "last_seen": "2026-10-21T11:57:40Z",
    "available": false,
-   "misses": 21,
+   "misses": 22,
    "history": [
     {
      "d": "2026-10-09",
@@ -4642,7 +4869,7 @@
    "first_seen": "2026-10-26T13:12:01Z",
    "last_seen": "2026-10-26T13:12:01Z",
    "available": false,
-   "misses": 11,
+   "misses": 12,
    "history": [
     {
      "d": "2026-10-26",
@@ -4653,109 +4880,6 @@
    "change": 0,
    "badge": "gone",
    "badge_at": "2026-10-26T13:12:01Z"
-  },
-  {
-   "id": "all-angelo-art",
-   "token": "ChgI1PHknurd89ZAGgwvZy8xaGMxMzk0anMQAQ",
-   "name": "All'Angelo Art Hotel",
-   "lat": 45.4356003,
-   "lon": 12.339957199999999,
-   "stars": 4,
-   "rating": 4.0,
-   "reviews": 1144,
-   "total": 775,
-   "per_night": 258,
-   "link": "http://www.allangelo.it/",
-   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLeDEgwIeVMGNJwSaY8LaMUQqb9qyAbinCGVcnZJYdPe4S5cD33Z5llzNZ5plx9iVz-l-kTU0Wyako2tkUm86VMwJ-QaiPUICZb7NW76SRIJGYPIEy76Utbi8FRpGN7QCLTxv95dw1P57QkB=s10000",
-   "amenities": [
-    "Free breakfast",
-    "Free Wi-Fi",
-    "Parking",
-    "Air conditioning",
-    "Pet-friendly",
-    "Bar",
-    "Restaurant",
-    "Room service"
-   ],
-   "zone": "centro",
-   "first_seen": "2026-10-09T13:23:48Z",
-   "last_seen": "2026-10-29T13:10:43Z",
-   "available": false,
-   "misses": 5,
-   "history": [
-    {
-     "d": "2026-10-09",
-     "total": 947
-    },
-    {
-     "d": "2026-10-11",
-     "total": 732
-    },
-    {
-     "d": "2026-10-13",
-     "total": 810
-    },
-    {
-     "d": "2026-10-14",
-     "total": 804
-    },
-    {
-     "d": "2026-10-15",
-     "total": 785
-    },
-    {
-     "d": "2026-10-16",
-     "total": 812
-    },
-    {
-     "d": "2026-10-17",
-     "total": 771
-    },
-    {
-     "d": "2026-10-18",
-     "total": 772
-    },
-    {
-     "d": "2026-10-19",
-     "total": 785
-    },
-    {
-     "d": "2026-10-20",
-     "total": 767
-    },
-    {
-     "d": "2026-10-21",
-     "total": 753
-    },
-    {
-     "d": "2026-10-22",
-     "total": 768
-    },
-    {
-     "d": "2026-10-25",
-     "total": 768
-    },
-    {
-     "d": "2026-10-26",
-     "total": 768
-    },
-    {
-     "d": "2026-10-27",
-     "total": 768
-    },
-    {
-     "d": "2026-10-28",
-     "total": 768
-    },
-    {
-     "d": "2026-10-29",
-     "total": 775
-    }
-   ],
-   "min_total": 732,
-   "change": 7,
-   "badge": "gone",
-   "badge_at": "2026-10-29T13:10:43Z"
   },
   {
    "id": "palazzo-abadessa",
@@ -4784,7 +4908,7 @@
    "first_seen": "2026-10-26T13:12:01Z",
    "last_seen": "2026-10-26T22:41:32Z",
    "available": false,
-   "misses": 10,
+   "misses": 11,
    "history": [
     {
      "d": "2026-10-26",
@@ -4823,7 +4947,7 @@
    "first_seen": "2026-10-18T11:15:32Z",
    "last_seen": "2026-10-18T11:15:32Z",
    "available": false,
-   "misses": 27,
+   "misses": 28,
    "history": [
     {
      "d": "2026-10-18",
@@ -4862,7 +4986,7 @@
    "first_seen": "2026-10-08T13:37:52Z",
    "last_seen": "2026-10-28T13:03:28Z",
    "available": false,
-   "misses": 7,
+   "misses": 8,
    "history": [
     {
      "d": "2026-10-08",
@@ -4913,7 +5037,7 @@
    "first_seen": "2026-10-26T13:12:01Z",
    "last_seen": "2026-10-26T22:41:32Z",
    "available": false,
-   "misses": 10,
+   "misses": 11,
    "history": [
     {
      "d": "2026-10-26",
@@ -4924,6 +5048,55 @@
    "change": 0,
    "badge": "gone",
    "badge_at": "2026-10-26T13:12:01Z"
+  },
+  {
+   "id": "palazzina-fortuny",
+   "token": "ChoIjNG2iJOds-KEARoNL2cvMTFyejQxeGN0ORAB",
+   "name": "Palazzina Fortuny",
+   "lat": 45.434929,
+   "lon": 12.332483199999999,
+   "stars": 4,
+   "rating": 4.4,
+   "reviews": 284,
+   "total": 853,
+   "per_night": 284,
+   "link": "https://www.palazzinafortuny.it/?utm_source=gbp&utm_medium=organic",
+   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLd-iJQBcNuceZf2IeBx8Mp8IBlXDRw7VbWlkMY-0PeKT9qEYlaw3iQahhMzgNTCjP8ukNjucuLjX8FR8vmlXmL9KIeq6dqVpe6ZEkFJuMr6KWr8w3Y18jD73YkvUO8XO_aRXU7Z=s10000",
+   "amenities": [
+    "Free Wi-Fi",
+    "Parking",
+    "Air conditioning",
+    "Pet-friendly",
+    "Bar",
+    "Airport shuttle"
+   ],
+   "zone": "centro",
+   "first_seen": "2026-10-10T21:46:12Z",
+   "last_seen": "2026-10-31T12:41:26Z",
+   "available": false,
+   "misses": 2,
+   "history": [
+    {
+     "d": "2026-10-10",
+     "total": 829
+    },
+    {
+     "d": "2026-10-11",
+     "total": 829
+    },
+    {
+     "d": "2026-10-21",
+     "total": 829
+    },
+    {
+     "d": "2026-10-31",
+     "total": 853
+    }
+   ],
+   "min_total": 829,
+   "change": 0,
+   "badge": "gone",
+   "badge_at": "2026-10-31T12:41:26Z"
   },
   {
    "id": "residenza-veneziana",
@@ -4949,7 +5122,7 @@
    "first_seen": "2026-10-26T13:12:01Z",
    "last_seen": "2026-10-26T13:12:01Z",
    "available": false,
-   "misses": 11,
+   "misses": 12,
    "history": [
     {
      "d": "2026-10-26",
@@ -4960,6 +5133,43 @@
    "change": 0,
    "badge": "gone",
    "badge_at": "2026-10-26T13:12:01Z"
+  },
+  {
+   "id": "residenza-corte-antica",
+   "token": "ChoIr5yph7rBupLyARoNL2cvMTFiN3hxNjFxdhAB",
+   "name": "Residenza Corte Antica",
+   "lat": 45.4326497,
+   "lon": 12.329268599999999,
+   "stars": null,
+   "rating": 4.8,
+   "reviews": 100,
+   "total": 885,
+   "per_night": 295,
+   "link": "https://www.residenzacorteantica.com/",
+   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLd6Fh5Tll5yX_CNmfrkrTwJLHPmL7UyEJ1lmoNXGZMzLVLOLsPG0U6ex9wpzETDBci7Gc06u_UjFUCpGdhPJvBrWhRwh2DNjWZ8KXSpAyrntHdlB7ApfzHU_axtDG-W5w3GPzk=s10000",
+   "amenities": [
+    "Free breakfast",
+    "Free Wi-Fi",
+    "Air conditioning",
+    "Room service",
+    "Kid-friendly",
+    "Smoke-free property"
+   ],
+   "zone": "centro",
+   "first_seen": "2026-10-31T12:41:26Z",
+   "last_seen": "2026-10-31T12:41:26Z",
+   "available": false,
+   "misses": 2,
+   "history": [
+    {
+     "d": "2026-10-31",
+     "total": 885
+    }
+   ],
+   "min_total": 885,
+   "change": 0,
+   "badge": "gone",
+   "badge_at": "2026-10-31T12:41:26Z"
   },
   {
    "id": "numa-palazzo-orseolo",
@@ -4985,7 +5195,7 @@
    "first_seen": "2026-10-10T21:46:12Z",
    "last_seen": "2026-10-10T21:46:12Z",
    "available": false,
-   "misses": 42,
+   "misses": 43,
    "history": [
     {
      "d": "2026-10-10",
@@ -5024,7 +5234,7 @@
    "first_seen": "2026-10-09T13:23:48Z",
    "last_seen": "2026-10-09T13:23:48Z",
    "available": false,
-   "misses": 45,
+   "misses": 46,
    "history": [
     {
      "d": "2026-10-09",
@@ -5063,7 +5273,7 @@
    "first_seen": "2026-10-26T13:12:01Z",
    "last_seen": "2026-10-26T22:41:32Z",
    "available": false,
-   "misses": 10,
+   "misses": 11,
    "history": [
     {
      "d": "2026-10-26",
@@ -5102,7 +5312,7 @@
    "first_seen": "2026-10-08T13:37:52Z",
    "last_seen": "2026-10-29T13:10:43Z",
    "available": false,
-   "misses": 5,
+   "misses": 6,
    "history": [
     {
      "d": "2026-10-08",
@@ -5196,7 +5406,7 @@
    "first_seen": "2026-10-08T13:37:52Z",
    "last_seen": "2026-10-09T13:23:48Z",
    "available": false,
-   "misses": 45,
+   "misses": 46,
    "history": [
     {
      "d": "2026-10-08",
@@ -5234,7 +5444,7 @@
    "first_seen": "2026-10-08T23:22:30Z",
    "last_seen": "2026-10-08T23:22:30Z",
    "available": false,
-   "misses": 46,
+   "misses": 47,
    "history": [
     {
      "d": "2026-10-08",
@@ -5273,7 +5483,7 @@
    "first_seen": "2026-10-26T13:12:01Z",
    "last_seen": "2026-10-26T22:41:32Z",
    "available": false,
-   "misses": 10,
+   "misses": 11,
    "history": [
     {
      "d": "2026-10-26",
@@ -5309,7 +5519,7 @@
    "first_seen": "2026-10-26T13:12:01Z",
    "last_seen": "2026-10-26T13:12:01Z",
    "available": false,
-   "misses": 11,
+   "misses": 12,
    "history": [
     {
      "d": "2026-10-26",
@@ -5348,7 +5558,7 @@
    "first_seen": "2026-10-08T13:37:52Z",
    "last_seen": "2026-10-30T22:22:45Z",
    "available": false,
-   "misses": 2,
+   "misses": 3,
    "history": [
     {
      "d": "2026-10-08",
@@ -5409,121 +5619,6 @@
    "badge_at": "2026-10-30T22:22:45Z"
   },
   {
-   "id": "becher",
-   "token": "ChgIgYySrsis3_q0ARoLL2cvMXZkNzRycHQQAQ",
-   "name": "Hotel Becher Venice",
-   "lat": 45.434255799999995,
-   "lon": 12.334619199999999,
-   "stars": 3,
-   "rating": 4.8,
-   "reviews": 320,
-   "total": 1111,
-   "per_night": 370,
-   "link": "http://www.hotelbecher.com/",
-   "image": "https://lh3.googleusercontent.com/grass-cs/AABkmLcHH8_9VeQEOPWCvEvdcgpI_3D2-1e8YHKUVEwdRpRNce-rOiHKTTJVxGcAiVh-1iTnem4AJrFr-aYCfXnxvm8ZGTZxSErh2w9TplMq6tnYI6UxeKzKViIF-Dcd8eee4fjTcZIYlA=s10000",
-   "amenities": [
-    "Free breakfast",
-    "Free Wi-Fi",
-    "Parking",
-    "Air conditioning",
-    "Bar",
-    "Restaurant",
-    "Room service",
-    "Airport shuttle"
-   ],
-   "zone": "centro",
-   "first_seen": "2026-10-08T13:37:52Z",
-   "last_seen": "2026-10-30T22:22:45Z",
-   "available": false,
-   "misses": 2,
-   "history": [
-    {
-     "d": "2026-10-08",
-     "total": 1283
-    },
-    {
-     "d": "2026-10-09",
-     "total": 1283
-    },
-    {
-     "d": "2026-10-11",
-     "total": 1152
-    },
-    {
-     "d": "2026-10-12",
-     "total": 1283
-    },
-    {
-     "d": "2026-10-13",
-     "total": 1089
-    },
-    {
-     "d": "2026-10-14",
-     "total": 1283
-    },
-    {
-     "d": "2026-10-15",
-     "total": 1132
-    },
-    {
-     "d": "2026-10-16",
-     "total": 1127
-    },
-    {
-     "d": "2026-10-17",
-     "total": 1128
-    },
-    {
-     "d": "2026-10-19",
-     "total": 1127
-    },
-    {
-     "d": "2026-10-20",
-     "total": 1140
-    },
-    {
-     "d": "2026-10-21",
-     "total": 1083
-    },
-    {
-     "d": "2026-10-22",
-     "total": 1141
-    },
-    {
-     "d": "2026-10-23",
-     "total": 1141
-    },
-    {
-     "d": "2026-10-24",
-     "total": 1180
-    },
-    {
-     "d": "2026-10-25",
-     "total": 1094
-    },
-    {
-     "d": "2026-10-27",
-     "total": 1128
-    },
-    {
-     "d": "2026-10-28",
-     "total": 1127
-    },
-    {
-     "d": "2026-10-29",
-     "total": 1113
-    },
-    {
-     "d": "2026-10-30",
-     "total": 1111
-    }
-   ],
-   "min_total": 1083,
-   "change": -2,
-   "badge": "gone",
-   "badge_at": "2026-10-30T13:03:22Z"
-  },
-  {
    "id": "dei-dragomanni",
    "token": "ChkIt7Da8PGvvoq2ARoML2cvMTIzMzhkcmpnEAE",
    "name": "Hotel dei Dragomanni",
@@ -5550,7 +5645,7 @@
    "first_seen": "2026-10-13T22:46:51Z",
    "last_seen": "2026-10-28T13:03:28Z",
    "available": false,
-   "misses": 7,
+   "misses": 8,
    "history": [
     {
      "d": "2026-10-13",
@@ -5617,7 +5712,7 @@
    "first_seen": "2026-10-30T22:22:45Z",
    "last_seen": "2026-10-30T22:22:45Z",
    "available": false,
-   "misses": 2,
+   "misses": 3,
    "history": [
     {
      "d": "2026-10-30",
@@ -5652,7 +5747,7 @@
    "first_seen": "2026-10-08T23:22:30Z",
    "last_seen": "2026-10-08T23:22:30Z",
    "available": false,
-   "misses": 46,
+   "misses": 47,
    "history": [
     {
      "d": "2026-10-08",
@@ -5690,7 +5785,7 @@
    "first_seen": "2026-10-12T15:36:12Z",
    "last_seen": "2026-10-30T13:03:22Z",
    "available": false,
-   "misses": 3,
+   "misses": 4,
    "history": [
     {
      "d": "2026-10-12",
@@ -5756,7 +5851,7 @@
    "first_seen": "2026-10-09T22:40:21Z",
    "last_seen": "2026-10-18T20:45:56Z",
    "available": false,
-   "misses": 26,
+   "misses": 27,
    "history": [
     {
      "d": "2026-10-09",
@@ -5815,7 +5910,7 @@
    "first_seen": "2026-10-26T13:12:01Z",
    "last_seen": "2026-10-26T22:41:32Z",
    "available": false,
-   "misses": 10,
+   "misses": 11,
    "history": [
     {
      "d": "2026-10-26",
@@ -5850,7 +5945,7 @@
    "first_seen": "2026-10-08T23:22:30Z",
    "last_seen": "2026-10-08T23:22:30Z",
    "available": false,
-   "misses": 46,
+   "misses": 47,
    "history": [
     {
      "d": "2026-10-08",
@@ -5889,7 +5984,7 @@
    "first_seen": "2026-10-08T23:22:30Z",
    "last_seen": "2026-10-08T23:22:30Z",
    "available": false,
-   "misses": 46,
+   "misses": 47,
    "history": [
     {
      "d": "2026-10-08",
@@ -5928,7 +6023,7 @@
    "first_seen": "2026-10-13T00:42:39Z",
    "last_seen": "2026-10-25T11:39:29Z",
    "available": false,
-   "misses": 13,
+   "misses": 14,
    "history": [
     {
      "d": "2026-10-13",
@@ -6015,7 +6110,7 @@
    "first_seen": "2026-10-08T13:37:52Z",
    "last_seen": "2026-10-14T21:42:51Z",
    "available": false,
-   "misses": 34,
+   "misses": 35,
    "history": [
     {
      "d": "2026-10-08",
@@ -6066,7 +6161,7 @@
    "first_seen": "2026-10-08T23:22:30Z",
    "last_seen": "2026-10-08T23:22:30Z",
    "available": false,
-   "misses": 46,
+   "misses": 47,
    "history": [
     {
      "d": "2026-10-08",
@@ -6099,7 +6194,7 @@
    "first_seen": "2026-10-08T23:22:30Z",
    "last_seen": "2026-10-08T23:22:30Z",
    "available": false,
-   "misses": 46,
+   "misses": 47,
    "history": [
     {
      "d": "2026-10-08",
@@ -6138,7 +6233,7 @@
    "first_seen": "2026-10-09T13:23:48Z",
    "last_seen": "2026-10-09T22:40:21Z",
    "available": false,
-   "misses": 44,
+   "misses": 45,
    "history": [
     {
      "d": "2026-10-09",
@@ -6177,7 +6272,7 @@
    "first_seen": "2026-10-11T12:58:12Z",
    "last_seen": "2026-10-26T22:41:32Z",
    "available": false,
-   "misses": 10,
+   "misses": 11,
    "history": [],
    "min_total": null,
    "change": 0,
@@ -6211,7 +6306,7 @@
    "first_seen": "2026-10-10T12:38:45Z",
    "last_seen": "2026-10-23T21:25:51Z",
    "available": false,
-   "misses": 16,
+   "misses": 17,
    "history": [],
    "min_total": null,
    "change": 0,
@@ -6245,7 +6340,7 @@
    "first_seen": "2026-10-08T13:37:52Z",
    "last_seen": "2026-10-17T20:38:19Z",
    "available": false,
-   "misses": 28,
+   "misses": 29,
    "history": [],
    "min_total": null,
    "change": 0,
@@ -6279,7 +6374,7 @@
    "first_seen": "2026-10-14T12:00:08Z",
    "last_seen": "2026-10-14T12:00:08Z",
    "available": false,
-   "misses": 35,
+   "misses": 36,
    "history": [],
    "min_total": null,
    "change": 0,
@@ -6310,7 +6405,7 @@
    "first_seen": "2026-10-11T12:58:12Z",
    "last_seen": "2026-10-11T12:58:12Z",
    "available": false,
-   "misses": 41,
+   "misses": 42,
    "history": [],
    "min_total": null,
    "change": 0,
@@ -6344,7 +6439,7 @@
    "first_seen": "2026-10-11T12:58:12Z",
    "last_seen": "2026-10-11T12:58:12Z",
    "available": false,
-   "misses": 41,
+   "misses": 42,
    "history": [],
    "min_total": null,
    "change": 0,
@@ -6378,7 +6473,7 @@
    "first_seen": "2026-10-11T12:58:12Z",
    "last_seen": "2026-10-11T12:58:12Z",
    "available": false,
-   "misses": 41,
+   "misses": 42,
    "history": [],
    "min_total": null,
    "change": 0,
@@ -6412,7 +6507,7 @@
    "first_seen": "2026-10-11T12:58:12Z",
    "last_seen": "2026-10-11T12:58:12Z",
    "available": false,
-   "misses": 41,
+   "misses": 42,
    "history": [],
    "min_total": null,
    "change": 0,
@@ -6444,7 +6539,7 @@
    "first_seen": "2026-10-11T12:58:12Z",
    "last_seen": "2026-10-11T12:58:12Z",
    "available": false,
-   "misses": 41,
+   "misses": 42,
    "history": [],
    "min_total": null,
    "change": 0,
@@ -6478,7 +6573,7 @@
    "first_seen": "2026-10-10T12:38:45Z",
    "last_seen": "2026-10-10T12:38:45Z",
    "available": false,
-   "misses": 43,
+   "misses": 44,
    "history": [],
    "min_total": null,
    "change": 0,
@@ -6487,6 +6582,159 @@
   }
  ],
  "events": [
+  {
+   "t": "2026-11-01T13:32:09Z",
+   "type": "drop",
+   "id": "palazzo-paruta-wellness-suites",
+   "name": "Hotel Palazzo Paruta & Wellness Suites",
+   "zone": "centro",
+   "total": 899,
+   "prev_total": 943
+  },
+  {
+   "t": "2026-11-01T13:32:09Z",
+   "type": "drop",
+   "id": "40-17-san-marco",
+   "name": "40.17 San Marco",
+   "zone": "centro",
+   "total": 562,
+   "prev_total": 693
+  },
+  {
+   "t": "2026-11-01T13:32:09Z",
+   "type": "back",
+   "id": "al-codega",
+   "name": "Hotel Al Codega",
+   "zone": "centro",
+   "total": 744,
+   "prev_total": 744
+  },
+  {
+   "t": "2026-11-01T13:32:09Z",
+   "type": "drop",
+   "id": "a-la-commedia",
+   "name": "Hotel A La Commedia",
+   "zone": "centro",
+   "total": 1182,
+   "prev_total": 1240
+  },
+  {
+   "t": "2026-11-01T13:32:09Z",
+   "type": "back",
+   "id": "all-angelo-art",
+   "name": "All'Angelo Art Hotel",
+   "zone": "centro",
+   "total": 843,
+   "prev_total": 775
+  },
+  {
+   "t": "2026-11-01T13:32:09Z",
+   "type": "back",
+   "id": "becher",
+   "name": "Hotel Becher Venice",
+   "zone": "centro",
+   "total": 1283,
+   "prev_total": 1111
+  },
+  {
+   "t": "2026-11-01T13:32:09Z",
+   "type": "new",
+   "id": "concordia",
+   "name": "Hotel Concordia",
+   "zone": "centro",
+   "total": 1051,
+   "prev_total": null
+  },
+  {
+   "t": "2026-11-01T13:32:09Z",
+   "type": "gone",
+   "id": "residenza-de-losmarin-suites",
+   "name": "Residenza de l’Osmarin Suites",
+   "zone": "centro",
+   "total": 579,
+   "prev_total": 579
+  },
+  {
+   "t": "2026-11-01T13:32:09Z",
+   "type": "gone",
+   "id": "ca-dalisera-b-b",
+   "name": "Ca Dalisera B&B Venezia",
+   "zone": "centro",
+   "total": 591,
+   "prev_total": 591
+  },
+  {
+   "t": "2026-11-01T13:32:09Z",
+   "type": "gone",
+   "id": "san-lio-tourist-house",
+   "name": "San Lio Tourist House",
+   "zone": "centro",
+   "total": 605,
+   "prev_total": 605
+  },
+  {
+   "t": "2026-11-01T13:32:09Z",
+   "type": "gone",
+   "id": "naturalmente",
+   "name": "Venezia Naturalmente",
+   "zone": "centro",
+   "total": 663,
+   "prev_total": 663
+  },
+  {
+   "t": "2026-11-01T13:32:09Z",
+   "type": "gone",
+   "id": "residenza-calle-larga-san-marco",
+   "name": "Residenza Calle Larga San Marco",
+   "zone": "centro",
+   "total": 677,
+   "prev_total": 677
+  },
+  {
+   "t": "2026-11-01T13:32:09Z",
+   "type": "gone",
+   "id": "casa-alla-fenice",
+   "name": "Casa Alla Fenice",
+   "zone": "centro",
+   "total": 682,
+   "prev_total": 682
+  },
+  {
+   "t": "2026-11-01T13:32:09Z",
+   "type": "gone",
+   "id": "san-marco",
+   "name": "Albergo San Marco",
+   "zone": "centro",
+   "total": 685,
+   "prev_total": 685
+  },
+  {
+   "t": "2026-11-01T13:32:09Z",
+   "type": "gone",
+   "id": "palazzo-sanluca",
+   "name": "Palazzo SanLuca",
+   "zone": "centro",
+   "total": 711,
+   "prev_total": 711
+  },
+  {
+   "t": "2026-11-01T13:32:09Z",
+   "type": "gone",
+   "id": "palazzina-fortuny",
+   "name": "Palazzina Fortuny",
+   "zone": "centro",
+   "total": 853,
+   "prev_total": 853
+  },
+  {
+   "t": "2026-11-01T13:32:09Z",
+   "type": "gone",
+   "id": "residenza-corte-antica",
+   "name": "Residenza Corte Antica",
+   "zone": "centro",
+   "total": 885,
+   "prev_total": 885
+  },
   {
    "t": "2026-10-31T21:37:13Z",
    "type": "drop",
@@ -7683,159 +7931,6 @@
    "zone": "centro",
    "total": 677,
    "prev_total": 677
-  },
-  {
-   "t": "2026-10-26T13:12:01Z",
-   "type": "gone",
-   "id": "palazzo-pianca",
-   "name": "PALAZZO PIANCA",
-   "zone": "centro",
-   "total": 679,
-   "prev_total": 679
-  },
-  {
-   "t": "2026-10-26T13:12:01Z",
-   "type": "gone",
-   "id": "unahotels-ala",
-   "name": "UNAHOTELS Ala Venezia",
-   "zone": "centro",
-   "total": 694,
-   "prev_total": 694
-  },
-  {
-   "t": "2026-10-26T13:12:01Z",
-   "type": "gone",
-   "id": "al-codega",
-   "name": "Hotel Al Codega",
-   "zone": "centro",
-   "total": 744,
-   "prev_total": 744
-  },
-  {
-   "t": "2026-10-26T13:12:01Z",
-   "type": "gone",
-   "id": "dell-opera",
-   "name": "Hotel dell'Opera",
-   "zone": "centro",
-   "total": 797,
-   "prev_total": 797
-  },
-  {
-   "t": "2026-10-26T13:12:01Z",
-   "type": "gone",
-   "id": "la-fenice-et-des-artistes",
-   "name": "Hotel La Fenice et Des Artistes",
-   "zone": "centro",
-   "total": 820,
-   "prev_total": 820
-  },
-  {
-   "t": "2026-10-26T13:12:01Z",
-   "type": "gone",
-   "id": "becher",
-   "name": "Hotel Becher Venice",
-   "zone": "centro",
-   "total": 1094,
-   "prev_total": 1094
-  },
-  {
-   "t": "2026-10-26T13:12:01Z",
-   "type": "gone",
-   "id": "palazzo-san-lorenzo",
-   "name": "Palazzo San Lorenzo",
-   "zone": "centro",
-   "total": 1157,
-   "prev_total": 1157
-  },
-  {
-   "t": "2026-10-26T13:12:01Z",
-   "type": "gone",
-   "id": "novecento-boutique",
-   "name": "Novecento Boutique Hotel",
-   "zone": "centro",
-   "total": 1241,
-   "prev_total": 1241
-  },
-  {
-   "t": "2026-10-26T13:12:01Z",
-   "type": "gone",
-   "id": "flora",
-   "name": "Hotel Flora",
-   "zone": "centro",
-   "total": 1245,
-   "prev_total": 1245
-  },
-  {
-   "t": "2026-10-25T20:53:08Z",
-   "type": "back",
-   "id": "san-cassiano-ca-favretto",
-   "name": "Hotel San Cassiano Ca' Favretto",
-   "zone": "centro",
-   "total": 720,
-   "prev_total": 725
-  },
-  {
-   "t": "2026-10-25T20:53:08Z",
-   "type": "back",
-   "id": "liassidi-palace",
-   "name": "Liassidi Palace Hotel",
-   "zone": "centro",
-   "total": 670,
-   "prev_total": 696
-  },
-  {
-   "t": "2026-10-25T20:53:08Z",
-   "type": "back",
-   "id": "ca-dalisera-b-b",
-   "name": "Ca Dalisera B&B Venezia",
-   "zone": "centro",
-   "total": 478,
-   "prev_total": 478
-  },
-  {
-   "t": "2026-10-25T20:53:08Z",
-   "type": "back",
-   "id": "san-giacomo",
-   "name": "San Giacomo Venezia",
-   "zone": "centro",
-   "total": 509,
-   "prev_total": 440
-  },
-  {
-   "t": "2026-10-25T20:53:08Z",
-   "type": "back",
-   "id": "ai-mori-doriente",
-   "name": "Ai Mori d’Oriente Hotel",
-   "zone": "centro",
-   "total": 726,
-   "prev_total": 726
-  },
-  {
-   "t": "2026-10-25T20:53:08Z",
-   "type": "new",
-   "id": "alberghiera",
-   "name": "Alberghiera Venezia",
-   "zone": "centro",
-   "total": 397,
-   "prev_total": null
-  },
-  {
-   "t": "2026-10-25T20:53:08Z",
-   "type": "back",
-   "id": "il-veliero-romantico",
-   "name": "Il Veliero Romantico",
-   "zone": "centro",
-   "total": 461,
-   "prev_total": 461
-  },
-  {
-   "t": "2026-10-25T20:53:08Z",
-   "type": "back",
-   "id": "canaletto",
-   "name": "Hotel Canaletto",
-   "zone": "centro",
-   "total": 633,
-   "prev_total": 725
   }
  ]
 }
