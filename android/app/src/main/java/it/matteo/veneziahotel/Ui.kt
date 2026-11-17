@@ -286,7 +286,8 @@ private fun Header(vm: MainVm, s: Snapshot?) {
                 )
             }
             val b = vm.booking?.takeIf { it.stay == stayKey(s.checkIn, s.checkOut, s.adults) }
-            val lidoBooking = b?.recs?.count { it.available } ?: 0
+            val lidoBooking = b?.recs?.count { it.available && it.offer.zone == "lido" } ?: 0
+            val centroBooking = b?.recs?.count { it.available && it.offer.zone == "centro" } ?: 0
             Spacer(Modifier.height(4.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(Modifier.size(7.dp).clip(CircleShape).background(
@@ -297,7 +298,8 @@ private fun Header(vm: MainVm, s: Snapshot?) {
                         vm.bookingLoading -> "Booking: sto cercando al Lido…"
                         b == null -> "Booking: non ancora controllato"
                         !b.ok -> "Booking: ${b.error ?: "errore"} · riprovo al prossimo aggiornamento"
-                        else -> "Booking: $lidoBooking al Lido · controllato ${ago(b.checkedAt)}"
+                        else -> "Booking: $lidoBooking al Lido" + (if (centroBooking > 0) " + $centroBooking in centro" else "") +
+                            " · controllato ${ago(b.checkedAt)}"
                     },
                     style = MaterialTheme.typography.bodySmall, color = C.Faint
                 )
