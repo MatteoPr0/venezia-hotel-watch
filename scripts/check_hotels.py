@@ -127,6 +127,37 @@ def parse_property(p: dict, nights: int) -> dict | None:
     }
 
 
+def ad_to_property(a: dict) -> dict:
+    """Gli annunci sponsorizzati in cima a Google Hotels ("ads" in SerpApi) hanno un prezzo a notte
+    anche quando lo stesso hotel, nella lista normale, non ne mostra: li trattiamo come proprietà."""
+    thumb = a.get("thumbnail")
+    return {
+        "type": "hotel",
+        "name": a.get("name"),
+        "gps_coordinates": a.get("gps_coordinates"),
+        "rate_per_night": {"extracted_lowest": a.get("extracted_price")},
+        "extracted_hotel_class": a.get("extracted_hotel_class") or a.get("hotel_class"),
+        "overall_rating": a.get("overall_rating"),
+        "reviews": a.get("reviews"),
+        "link": a.get("link"),
+        "property_token": a.get("property_token"),
+        "images": [{"thumbnail": thumb}] if thumb else [],
+        "amenities": a.get("amenities") or [],
+    }
+
+
+def pick(prev: dict | None, h: dict) -> dict:
+    """Tra due righe dello stesso hotel tiene quella col prezzo più basso e completa i campi mancanti."""
+    if prev is None:
+        return h
+    best, other = (h, prev) if (h["total"] or 1e9) < (prev["total"] or 1e9) else (prev, h)
+    for k, v in other.items():
+        if k not in ("source", "refundable", "refundable_total") and best.get(k) in (None, [], "") \
+                and v not in (None, [], ""):
+            best[k] = v
+    return best
+
+
 def max_for(cfg: dict, zone: str | None) -> int:
     """Budget massimo per zona: al Lido si può spendere di più."""
     if zone == "lido":
@@ -169,10 +200,17 @@ def run_searches(cfg: dict, fetcher: Fetcher, ignore_prices: bool = False,
             if res.get("error"):
                 errors.append(f"{s['zone']} p{page + 1}: {res['error']}")
                 break
-            for p in res.get("properties", []):
+            items = [(p, None) for p in res.get("properties", [])]
+            items += [(ad_to_property(a), a) for a in res.get("ads", [])]
+            for p, ad in items:
                 h = parse_property(p, nights)
                 if not h:
                     continue
+                if ad is not None:
+                    h["source"] = ad.get("source")
+                    if ad.get("free_cancellation") is not None:
+                        h["refundable"] = bool(ad["free_cancellation"])
+                        h["refundable_total"] = h["total"] if ad["free_cancellation"] else None
                 zone = classify_zone(h["lat"], h["lon"])
                 if zone not in ("lido", "centro"):
                     continue  # Mestre, terraferma, isole minori
@@ -181,9 +219,7 @@ def run_searches(cfg: dict, fetcher: Fetcher, ignore_prices: bool = False,
                 elif h["total"] is not None and h["total"] > max_for(cfg, zone) * factor:
                     continue
                 h["zone"] = zone
-                prev = found.get(h["id"])
-                if prev is None or (h["total"] or 1e9) < (prev["total"] or 1e9):
-                    found[h["id"]] = h
+                found[h["id"]] = pick(found.get(h["id"]), h)
             token = (res.get("serpapi_pagination") or {}).get("next_page_token")
             if not token:
                 break
@@ -222,7 +258,7 @@ def mark_refundable(s: dict, params: dict, nights: int, cap: float, fetcher: Fet
         if hid in fc:
             h["refundable"] = True
             h["refundable_total"] = fc[hid]
-        elif complete and h.get("total") is not None:
+        elif complete and h.get("total") is not None and not h.get("source"):
             h["refundable"] = False
             h["refundable_total"] = None
 
