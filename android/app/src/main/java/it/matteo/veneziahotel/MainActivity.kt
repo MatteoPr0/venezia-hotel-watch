@@ -2,6 +2,7 @@ package it.matteo.veneziahotel
 
 import android.Manifest
 import android.app.Application
+import java.io.File
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -39,6 +40,7 @@ class MainVm(app: Application) : AndroidViewModel(app) {
     var checkedTick by mutableStateOf(0)
     var tab by mutableStateOf(0)
     var selected by mutableStateOf<Hotel?>(null)
+    var festival by mutableStateOf(FestivalWatch.load(app))
 
     init { refresh(forceBooking = false) }
 
@@ -60,6 +62,12 @@ class MainVm(app: Application) : AndroidViewModel(app) {
                 .onSuccess { s -> google = s; error = null; publish() }
                 .onFailure { error = it.message ?: "errore di rete" }
             runCatching { repo.fetchCurated(getApplication()) }.onSuccess { curated = it }
+            // annunci della Mostra (feed RSS della Biennale); nel collaudo si può usare un feed finto
+            val testRss = File(getApplication<Application>().filesDir, "festival_test_rss.xml").takeIf { BuildConfig.DEBUG && it.exists() }?.readText()
+            runCatching { FestivalWatch.check(getApplication(), festivalYear(google), rssOverride = testRss) }.onSuccess { festival = it }
+            // collaudo: sveglia "30 minuti prima" fra un minuto
+            if (BuildConfig.DEBUG && File(getApplication<Application>().filesDir, "festival_test_alarm").exists())
+                FestivalAlarm.schedule(getApplication(), System.currentTimeMillis() + 31 * 60_000L)
             loading = false
             val g = google ?: return@launch
             if (bookingLoading || airbnbLoading) return@launch
@@ -105,6 +113,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         CheckWorker.ensureChannel(this)
         CheckWorker.schedule(this)
+        FestivalWorker.schedule(this)
         if (Build.VERSION.SDK_INT >= 33) askNotif.launch(Manifest.permission.POST_NOTIFICATIONS)
         setContent {
             VeneziaTheme {

@@ -295,7 +295,36 @@ private fun Header(vm: MainVm, s: Snapshot?) {
             }
             SourceLine("Booking", vm.booking, s, vm.bookingLoading)
             SourceLine("Airbnb", vm.airbnb, s, vm.airbnbLoading)
+            FestivalLine(vm.festival, festivalYear(s))
         }
+    }
+}
+
+/** Riga sulla Mostra: annunci della Biennale e apertura dei biglietti. Tocca per aprire. */
+@Composable
+private fun FestivalLine(f: FestivalState?, year: Int) {
+    val ctx = LocalContext.current
+    val st = f?.takeIf { it.year == year }
+    val now = System.currentTimeMillis()
+    val dates = st?.festStart?.let { a -> st.festEnd?.let { b -> " · ${a.takeLast(2).trimStart('0')}–${b.takeLast(2).trimStart('0')} set confermate" } } ?: ""
+    val latest = st?.news?.firstOrNull { it.kind != "altro" } ?: st?.news?.firstOrNull()
+    val (text, color, url) = when {
+        st == null -> Triple("Mostra $year: controllo gli annunci della Biennale…", C.Faint, null)
+        st.saleAt != null && st.saleAt > now ->
+            Triple("Biglietti Mostra: in vendita da ${saleLabel(st.saleAt)} · avviso 30 min prima$dates", C.Gold, TICKETS_URL)
+        st.saleAt != null && st.festEnd != null && LocalDate.now().toString() <= st.festEnd ->
+            Triple("Biglietti Mostra: in vendita dal ${saleLabel(st.saleAt).substringBefore(",")} · tocca per Vivaticket$dates", C.Good, TICKETS_URL)
+        latest != null -> Triple("Mostra $year: «${latest.title}»$dates", C.Good, latest.link)
+        else -> Triple("Mostra $year: ancora nessun annuncio su film e biglietti · ti avviso io$dates", C.Faint, null)
+    }
+    Spacer(Modifier.height(4.dp))
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = if (url != null) Modifier.clickable { open(ctx, url) } else Modifier,
+    ) {
+        Box(Modifier.size(7.dp).clip(CircleShape).background(if (color == C.Faint) C.Muted else color))
+        Spacer(Modifier.width(8.dp))
+        Text(text, style = MaterialTheme.typography.bodySmall, color = if (url != null) color else C.Faint, maxLines = 2, overflow = TextOverflow.Ellipsis)
     }
 }
 
