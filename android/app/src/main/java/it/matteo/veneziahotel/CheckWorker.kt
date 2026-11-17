@@ -31,9 +31,9 @@ class CheckWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx,
         // Google (da GitHub): se la rete non va si riprova più tardi
         val google = runCatching { repo.fetch() }.getOrElse { repo.cached() ?: return Result.retry() }
         // Booking per il Lido, dal telefono (Google lì non ha tariffe)
-        val booking = checkBooking(applicationContext, google, force = false, minMinutes = 60)
-        val airbnb = checkAirbnb(applicationContext, google, force = false, minMinutes = 60)
-        notifyNew(applicationContext, repo, mergeBooking(mergeBooking(google, booking), airbnb))
+        // e gli altri siti (Airbnb, Holidu, Trip.com): uno dopo l'altro, ognuno ricorda il suo risultato
+        val states = SITES.associate { it.key to checkSite(applicationContext, google, it, force = false, minMinutes = 60) }
+        notifyNew(applicationContext, repo, mergeAll(google, states))
         return Result.success()
     }
 

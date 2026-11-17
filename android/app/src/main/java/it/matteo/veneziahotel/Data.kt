@@ -39,7 +39,11 @@ data class Hotel(
     /** prezzo più basso rimborsabile (se diverso da total, la tariffa più economica non lo è) */
     val refundableTotal: Int? = null,
     val refundSource: String? = null,
+    /** prezzi dello stesso hotel sui vari siti (il più basso è quello principale) */
+    val offers: List<SiteOffer> = emptyList(),
 )
+
+data class SiteOffer(val source: String, val total: Int, val link: String?)
 
 data class HotelEvent(
     val time: String,

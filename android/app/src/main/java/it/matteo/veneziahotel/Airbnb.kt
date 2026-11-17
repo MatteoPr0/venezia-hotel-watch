@@ -17,7 +17,7 @@ import java.net.URLEncoder
 fun classifyZone(lat: Double?, lon: Double?): String? {
     if (lat == null || lon == null) return null
     if (lat in 45.425..45.450 && lon in 12.300..12.372) return "centro"
-    if (lat >= 45.33 && lat < 45.40 && lon >= 12.32) return "lido"
+    if (lat >= 45.33 && lat < 45.40 && lon >= 12.31) return "lido"   // fino agli Alberoni
     if (lat in 45.40..45.437 && lon >= 12.35) return "lido"
     return null
 }

@@ -86,7 +86,7 @@ fun bookingSearchUrl(checkIn: String, checkOut: String, adults: Int, freeCancel:
         "&group_adults=$adults&no_rooms=1&group_children=0&selected_currency=EUR&lang=it" +
         (if (freeCancel) "&nflt=fc%3D2" else "") + (if (offset > 0) "&offset=$offset" else "")
 
-private const val DESKTOP_UA =
+internal const val DESKTOP_UA =
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36"
 
 /** Legge le schede dei risultati. "wait" finché la pagina (o la verifica anti-bot) non ha finito. */
@@ -401,36 +401,69 @@ fun mergeBooking(s: Snapshot, st: BookingState?): Snapshot {
         val o = r.offer
         val idx = hotels.indexOfFirst { it.id == o.id }
         val g = hotels.getOrNull(idx)
-        if (g != null && g.available && g.total != null) {
-            // c'è già un prezzo (Google): resta quello, ma se non si sa se è rimborsabile lo dice Booking
-            if (g.refundable == null && o.refundable != null)
-                hotels[idx] = g.copy(refundable = o.refundable, refundableTotal = o.refundableTotal, refundSource = o.source)
-            continue
-        }
-        // Airbnb: al Lido ci sono anche case da 5.000 €, teniamo quelle vicine al budget
-        if (o.source == "airbnb" && o.total > s.budgetMaxLido * 1.25) continue
+        // case e appartamenti (Airbnb, Holidu): al Lido ce ne sono anche da 5.000 €, teniamo quelli vicini al budget
+        if (o.source in RENTAL_SOURCES && o.total > s.budgetMaxLido * 1.25 && (g == null || g.total == null)) continue
         if (g == null && !r.available) continue
         // del centro storico ci interessano solo quelli entro budget (Google li copre già bene)
-        if (o.zone == "centro" && o.total > s.budgetMax * 1.25) continue
+        if (o.zone == "centro" && o.total > s.budgetMax * 1.25 && g == null) continue
         val link = if (o.source != "booking") o.link else o.link?.let { "$it?checkin=${s.checkIn}&checkout=${s.checkOut}&group_adults=${s.adults}&no_rooms=1&group_children=0&selected_currency=EUR&lang=it" }
+        val priced = g != null && g.available && g.total != null
+        // prezzi già noti di questo hotel (il primo è quello di Google, se c'è)
+        val known = when {
+            g == null -> emptyList()
+            g.offers.isNotEmpty() -> g.offers
+            priced -> listOf(SiteOffer(g.source, g.total!!, g.link))
+            else -> emptyList()
+        }
+        val offers = if (r.available) (known.filter { it.source != o.source } + SiteOffer(o.source, o.total, link)).sortedBy { it.total } else known
+        if (priced && (!r.available || o.total >= g!!.total!!)) {
+            // il prezzo principale resta quello già noto (più basso); questo sito si aggiunge al confronto
+            var keep = g!!.copy(offers = offers)
+            if (keep.refundable == null && o.refundable != null)
+                keep = keep.copy(refundable = o.refundable, refundableTotal = o.refundableTotal, refundSource = o.source)
+            hotels[idx] = keep
+            continue
+        }
         val h = Hotel(
-            id = o.id, name = g?.name ?: o.name, zone = o.zone,
+            id = o.id, name = g?.name ?: o.name, zone = g?.zone ?: o.zone,
             stars = o.stars ?: g?.stars,
             rating = o.score10?.let { (it / 2 * 10).roundToInt() / 10.0 } ?: g?.rating,
             reviews = o.reviews ?: g?.reviews,
             total = o.total, perNight = (o.total.toDouble() / s.nights).roundToInt(),
-            link = link, image = o.image ?: g?.image, lat = g?.lat ?: o.lat, lon = g?.lon ?: o.lon,
+            link = link, image = g?.image ?: o.image, lat = g?.lat ?: o.lat, lon = g?.lon ?: o.lon,
             available = r.available, badge = r.badge, change = r.change,
             minTotal = r.history.minOfOrNull { it.total }, firstSeen = r.firstSeen, lastSeen = r.lastSeen,
-            amenities = listOfNotNull(o.kind, o.dist?.takeIf { o.zone == "lido" }?.replace("dal centro", "dal centro del Lido")) + (g?.amenities ?: emptyList()),
+            amenities = (listOfNotNull(o.kind, o.dist?.takeIf { o.zone == "lido" }?.replace("dal centro", "dal centro del Lido")) + (g?.amenities ?: emptyList())).distinct(),
             history = r.history, source = o.source,
             refundable = o.refundable, refundableTotal = o.refundableTotal, refundSource = o.source,
+            offers = offers,
         )
         if (g != null) hotels[idx] = h else hotels.add(h)
     }
     val events = (s.events + st.events).sortedByDescending { it.time }
     return s.copy(hotels = hotels, events = events)
 }
+
+/** Siti di case vacanza: tanti annunci molto cari, si mostrano solo quelli vicini al budget. */
+val RENTAL_SOURCES = setOf("airbnb", "holidu")
+
+/** Un sito letto dal telefono: nome, file dove si ricordano i risultati, lettura. */
+class Site(val key: String, val label: String, val file: String,
+           val fetch: suspend (Context, String, String, Int) -> List<BookingOffer>)
+
+/** Nell'ordine in cui si controllano. */
+val SITES = listOf(
+    Site("booking", "Booking", "booking.json", ::fetchBookingLido),
+    Site("airbnb", "Airbnb", "airbnb.json", ::fetchAirbnbLido),
+    Site("holidu", "Holidu", "holidu.json", ::fetchHoliduLido),
+    Site("trip", "Trip.com", "trip.json", ::fetchTripLido),
+)
+
+fun loadSites(ctx: Context): Map<String, BookingState?> = SITES.associate { it.key to BookingStore(ctx, it.file).load() }
+
+/** Google + tutti i siti del telefono. */
+fun mergeAll(g: Snapshot, states: Map<String, BookingState?>): Snapshot =
+    SITES.fold(g) { acc, site -> mergeBooking(acc, states[site.key]) }
 
 /** Esegue il controllo (se serve) e salva il risultato. Non lancia eccezioni. */
 private suspend fun checkSource(
@@ -446,8 +479,5 @@ private suspend fun checkSource(
         .getOrElse { store.saveError(stay, it.message ?: "errore") }
 }
 
-suspend fun checkBooking(ctx: Context, s: Snapshot, force: Boolean, minMinutes: Long = 30) =
-    checkSource(ctx, s, force, minMinutes, "booking.json", ::fetchBookingLido)
-
-suspend fun checkAirbnb(ctx: Context, s: Snapshot, force: Boolean, minMinutes: Long = 30) =
-    checkSource(ctx, s, force, minMinutes, "airbnb.json", ::fetchAirbnbLido)
+suspend fun checkSite(ctx: Context, s: Snapshot, site: Site, force: Boolean, minMinutes: Long = 30) =
+    checkSource(ctx, s, force, minMinutes, site.file, site.fetch)

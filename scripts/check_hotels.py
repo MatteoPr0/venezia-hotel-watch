@@ -47,7 +47,7 @@ def classify_zone(lat: float | None, lon: float | None) -> str | None:
         return None
     if 45.425 <= lat <= 45.450 and 12.300 <= lon <= 12.372:
         return "centro"
-    if 45.33 <= lat < 45.40 and lon >= 12.32:
+    if 45.33 <= lat < 45.40 and lon >= 12.31:  # fino agli Alberoni
         return "lido"
     if 45.40 <= lat <= 45.437 and lon >= 12.35:
         return "lido"

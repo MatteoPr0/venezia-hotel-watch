@@ -98,7 +98,7 @@ private fun priceColor(total: Int?, s: Snapshot, zone: String? = null) = when {
     else -> C.Bad
 }
 
-internal fun sourceName(src: String?) = when (src) { "booking" -> "Booking"; "airbnb" -> "Airbnb"; else -> null }
+internal fun sourceName(src: String?) = SITES.firstOrNull { it.key == src }?.label
 
 /** Testo e colore della rimborsabilità per il prezzo mostrato. */
 internal fun refundInfo(h: Hotel): Pair<String, Color>? {
@@ -293,8 +293,7 @@ private fun Header(vm: MainVm, s: Snapshot?) {
                     style = MaterialTheme.typography.bodySmall, color = C.Faint
                 )
             }
-            SourceLine("Booking", vm.booking, s, vm.bookingLoading)
-            SourceLine("Airbnb", vm.airbnb, s, vm.airbnbLoading)
+            SITES.forEach { SourceLine(it.label, vm.sites[it.key], s, vm.siteLoading == it.key) }
             FestivalLine(vm.festival, festivalYear(s))
         }
     }
@@ -336,7 +335,7 @@ private fun SourceLine(label: String, st: BookingState?, s: Snapshot, loading: B
             val b = st?.takeIf { it.stay == stayKey(s.checkIn, s.checkOut, s.adults) }
             // Airbnb: contiamo solo quelli che l'app mostra (entro 1,25 × il massimo del Lido)
             val lidoBooking = b?.recs?.count {
-                it.available && it.offer.zone == "lido" && (it.offer.source != "airbnb" || it.offer.total <= s.budgetMaxLido * 1.25)
+                it.available && it.offer.zone == "lido" && (it.offer.source !in RENTAL_SOURCES || it.offer.total <= s.budgetMaxLido * 1.25)
             } ?: 0
             val centroBooking = b?.recs?.count { it.available && it.offer.zone == "centro" } ?: 0
             Spacer(Modifier.height(4.dp))
@@ -496,6 +495,7 @@ private fun HotelCard(h: Hotel, s: Snapshot, onClick: () -> Unit) {
                         fontSize = 12.sp, color = C.Muted
                     )
                     sourceName(h.source)?.let { Text("su $it", fontSize = 11.sp, color = if (h.source == "airbnb") C.Bad else C.Gold) }
+                    if (h.offers.size > 1) Text("confronto su ${h.offers.size} siti", fontSize = 11.sp, color = C.Muted)
                 }
             }
         }
@@ -611,6 +611,20 @@ private fun HotelSheet(h: Hotel, s: Snapshot, onDismiss: () -> Unit) {
                     color = c, fontSize = 13.sp, fontWeight = FontWeight.Medium)
             }
             if (h.zone == "lido") palazzoLabel(h.lat, h.lon)?.let { Text(it, color = C.Muted, fontSize = 13.sp) }
+            if (h.offers.size > 1) {
+                Spacer(Modifier.height(16.dp))
+                Text("PREZZI SUI SITI · ${s.nights} NOTTI", style = MaterialTheme.typography.labelSmall, color = C.Muted)
+                Spacer(Modifier.height(6.dp))
+                h.offers.forEachIndexed { i, so ->
+                    val l = so.link
+                    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()
+                        .then(if (l != null) Modifier.clickable { open(ctx, l) } else Modifier).padding(vertical = 5.dp)) {
+                        Text(sourceName(so.source) ?: "Google", color = if (i == 0) C.Text else C.Muted, fontSize = 14.sp, modifier = Modifier.weight(1f))
+                        if (i > 0) Text("+${eur(so.total - h.offers[0].total)}  ", color = C.Faint, fontSize = 12.sp)
+                        Text(eur(so.total), color = if (i == 0) C.Good else C.Text, fontSize = 14.sp, fontWeight = if (i == 0) FontWeight.SemiBold else FontWeight.Normal)
+                    }
+                }
+            }
             if (h.total == null) Text(
                 if (s.waitingUntil != null) "Prezzi Google disponibili ${dalLabel(runCatching { LocalDate.parse(s.waitingUntil).format(DateTimeFormatter.ofPattern("d MMMM", IT)) }.getOrDefault(""))}. Intanto verifica sul sito dell'hotel."
                 else "Nessuna tariffa su Google per queste date: verifica sul sito dell'hotel.",

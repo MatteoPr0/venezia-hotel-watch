@@ -23,13 +23,13 @@ enum class SortBy { PRICE, RATING }
 class MainVm(app: Application) : AndroidViewModel(app) {
     val repo = Repo(app)
     private var google: Snapshot? = repo.cached()
-    var booking by mutableStateOf(BookingStore(app).load())
-    var airbnb by mutableStateOf(BookingStore(app, "airbnb.json").load())
-    var snap by mutableStateOf(google?.let { mergeBooking(mergeBooking(it, booking), airbnb) })
+    /** risultati di ogni sito letto dal telefono (chiave = Site.key) */
+    var sites by mutableStateOf(loadSites(app))
+    var snap by mutableStateOf(google?.let { mergeAll(it, sites) })
     var showAirbnb by mutableStateOf(true)
     var loading by mutableStateOf(false)
-    var bookingLoading by mutableStateOf(false)
-    var airbnbLoading by mutableStateOf(false)
+    /** il sito che si sta controllando adesso */
+    var siteLoading by mutableStateOf<String?>(null)
     var error by mutableStateOf<String?>(null)
     var zone by mutableStateOf(ZoneFilter.ALL)
     var sort by mutableStateOf(SortBy.PRICE)
@@ -48,7 +48,7 @@ class MainVm(app: Application) : AndroidViewModel(app) {
 
     private fun publish() {
         val g = google ?: return
-        val s = mergeBooking(mergeBooking(g, booking), airbnb)
+        val s = mergeAll(g, sites)
         snap = s
         // allinea il "visto" delle notifiche: ciò che vedi in app non ti viene ri-notificato
         s.events.firstOrNull()?.time?.let { if (it > repo.lastNotifiedEvent) repo.lastNotifiedEvent = it }
@@ -70,15 +70,14 @@ class MainVm(app: Application) : AndroidViewModel(app) {
                 FestivalAlarm.schedule(getApplication(), System.currentTimeMillis() + 31 * 60_000L)
             loading = false
             val g = google ?: return@launch
-            if (bookingLoading || airbnbLoading) return@launch
-            bookingLoading = true
-            booking = checkBooking(getApplication(), g, force = forceBooking)
-            bookingLoading = false
-            publish()
-            airbnbLoading = true
-            airbnb = checkAirbnb(getApplication(), g, force = forceBooking)
-            airbnbLoading = false
-            publish()
+            if (siteLoading != null) return@launch
+            for (site in SITES) {
+                siteLoading = site.key
+                val st = checkSite(getApplication(), g, site, force = forceBooking)
+                sites = sites + (site.key to st)
+                publish()
+            }
+            siteLoading = null
         }
     }
 
@@ -114,6 +113,7 @@ class MainActivity : ComponentActivity() {
         CheckWorker.ensureChannel(this)
         CheckWorker.schedule(this)
         FestivalWorker.schedule(this)
+        if (BuildConfig.DEBUG && java.io.File(filesDir, "probe").exists()) startProbe(this)
         if (Build.VERSION.SDK_INT >= 33) askNotif.launch(Manifest.permission.POST_NOTIFICATIONS)
         setContent {
             VeneziaTheme {
