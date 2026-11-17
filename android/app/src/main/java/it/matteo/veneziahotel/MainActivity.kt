@@ -23,9 +23,12 @@ class MainVm(app: Application) : AndroidViewModel(app) {
     val repo = Repo(app)
     private var google: Snapshot? = repo.cached()
     var booking by mutableStateOf(BookingStore(app).load())
-    var snap by mutableStateOf(google?.let { mergeBooking(it, booking) })
+    var airbnb by mutableStateOf(BookingStore(app, "airbnb.json").load())
+    var snap by mutableStateOf(google?.let { mergeBooking(mergeBooking(it, booking), airbnb) })
+    var showAirbnb by mutableStateOf(true)
     var loading by mutableStateOf(false)
     var bookingLoading by mutableStateOf(false)
+    var airbnbLoading by mutableStateOf(false)
     var error by mutableStateOf<String?>(null)
     var zone by mutableStateOf(ZoneFilter.ALL)
     var sort by mutableStateOf(SortBy.PRICE)
@@ -43,7 +46,7 @@ class MainVm(app: Application) : AndroidViewModel(app) {
 
     private fun publish() {
         val g = google ?: return
-        val s = mergeBooking(g, booking)
+        val s = mergeBooking(mergeBooking(g, booking), airbnb)
         snap = s
         // allinea il "visto" delle notifiche: ciò che vedi in app non ti viene ri-notificato
         s.events.firstOrNull()?.time?.let { if (it > repo.lastNotifiedEvent) repo.lastNotifiedEvent = it }
@@ -59,10 +62,14 @@ class MainVm(app: Application) : AndroidViewModel(app) {
             runCatching { repo.fetchCurated(getApplication()) }.onSuccess { curated = it }
             loading = false
             val g = google ?: return@launch
-            if (bookingLoading) return@launch
+            if (bookingLoading || airbnbLoading) return@launch
             bookingLoading = true
             booking = checkBooking(getApplication(), g, force = forceBooking)
             bookingLoading = false
+            publish()
+            airbnbLoading = true
+            airbnb = checkAirbnb(getApplication(), g, force = forceBooking)
+            airbnbLoading = false
             publish()
         }
     }
@@ -80,6 +87,7 @@ class MainVm(app: Application) : AndroidViewModel(app) {
             }
             .filter { !onlyWithinMax || (it.total != null && it.total <= s.maxFor(it.zone)) }
             .filter { !onlyRefundable || it.refundable == true || it.refundableTotal != null }
+            .filter { showAirbnb || it.source != "airbnb" }
             .sortedWith(
                 when (sort) {
                     SortBy.PRICE -> compareBy<Hotel>({ !it.available }, { it.total == null }, { it.total ?: 0 })

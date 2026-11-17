@@ -56,7 +56,7 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 private val IT = Locale.ITALIAN
-private fun eur(v: Int?) = if (v == null) "—" else "€ " + NumberFormat.getIntegerInstance(IT).format(v)
+internal fun eur(v: Int?) = if (v == null) "—" else "€ " + NumberFormat.getIntegerInstance(IT).format(v)
 
 private fun ago(iso: String?): String {
     if (iso.isNullOrBlank()) return "mai"
@@ -98,8 +98,10 @@ private fun priceColor(total: Int?, s: Snapshot, zone: String? = null) = when {
     else -> C.Bad
 }
 
+internal fun sourceName(src: String?) = when (src) { "booking" -> "Booking"; "airbnb" -> "Airbnb"; else -> null }
+
 /** Testo e colore della rimborsabilità per il prezzo mostrato. */
-private fun refundInfo(h: Hotel): Pair<String, Color>? {
+internal fun refundInfo(h: Hotel): Pair<String, Color>? {
     val t = h.total ?: return null
     val rt = h.refundableTotal
     return when {
@@ -137,6 +139,8 @@ fun AppScreen(vm: MainVm) {
                 )
                 NavigationBarItem(vm.tab == 0, { vm.tab = 0 }, { Icon(Icons.Rounded.Hotel, null) },
                     label = { Text("Hotel") }, colors = colors)
+                NavigationBarItem(vm.tab == 4, { vm.tab = 4 }, { Icon(Icons.Rounded.Map, null) },
+                    label = { Text("Mappa") }, colors = colors)
                 NavigationBarItem(vm.tab == 3, { vm.tab = 3 }, { Icon(Icons.Rounded.Star, null) },
                     label = { Text("Scelte") }, colors = colors)
                 NavigationBarItem(vm.tab == 1, { vm.tab = 1 }, {
@@ -145,7 +149,7 @@ fun AppScreen(vm: MainVm) {
                     }
                 }, label = { Text("Novità") }, colors = colors)
                 NavigationBarItem(vm.tab == 2, { vm.tab = 2 }, { Icon(Icons.Rounded.Tune, null) },
-                    label = { Text("Impostazioni") }, colors = colors)
+                    label = { Text("Opzioni") }, colors = colors)
             }
         },
     ) { pad ->
@@ -154,6 +158,7 @@ fun AppScreen(vm: MainVm) {
                 0 -> HotelsTab(vm)
                 1 -> EventsTab(vm)
                 3 -> CuratedTab(vm)
+                4 -> MapTab(vm)
                 else -> SettingsTab(vm)
             }
         }
@@ -189,7 +194,7 @@ private fun HotelsTab(vm: MainVm) {
                 items(priced, key = { it.id }) { h -> HotelCard(h, s) { vm.selected = h } }
                 if (priced.isNotEmpty()) item {
                     Text(
-                        "Prezzi totali per ${s.nights} notti, 2 persone, da Google Hotels (tassa di soggiorno esclusa) e, per il Lido, da Booking (tasse incluse).",
+                        "Prezzi totali per ${s.nights} notti, 2 persone, da Google Hotels (tassa di soggiorno esclusa) e, per il Lido, da Booking e Airbnb (tasse e costi inclusi).",
                         style = MaterialTheme.typography.bodySmall, color = C.Faint,
                         modifier = Modifier.padding(top = 4.dp)
                     )
@@ -288,20 +293,34 @@ private fun Header(vm: MainVm, s: Snapshot?) {
                     style = MaterialTheme.typography.bodySmall, color = C.Faint
                 )
             }
-            val b = vm.booking?.takeIf { it.stay == stayKey(s.checkIn, s.checkOut, s.adults) }
-            val lidoBooking = b?.recs?.count { it.available && it.offer.zone == "lido" } ?: 0
+            SourceLine("Booking", vm.booking, s, vm.bookingLoading)
+            SourceLine("Airbnb", vm.airbnb, s, vm.airbnbLoading)
+        }
+    }
+}
+
+/** Riga di stato di una fonte letta dal telefono (Booking, Airbnb). */
+@Composable
+private fun SourceLine(label: String, st: BookingState?, s: Snapshot, loading: Boolean) {
+    run {
+        run {
+            val b = st?.takeIf { it.stay == stayKey(s.checkIn, s.checkOut, s.adults) }
+            // Airbnb: contiamo solo quelli che l'app mostra (entro 1,25 × il massimo del Lido)
+            val lidoBooking = b?.recs?.count {
+                it.available && it.offer.zone == "lido" && (it.offer.source != "airbnb" || it.offer.total <= s.budgetMaxLido * 1.25)
+            } ?: 0
             val centroBooking = b?.recs?.count { it.available && it.offer.zone == "centro" } ?: 0
             Spacer(Modifier.height(4.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(Modifier.size(7.dp).clip(CircleShape).background(
-                    when { vm.bookingLoading -> C.Gold; b == null || !b.ok -> C.Warn; else -> C.Good }))
+                    when { loading -> C.Gold; b == null || !b.ok -> C.Warn; else -> C.Good }))
                 Spacer(Modifier.width(8.dp))
                 Text(
                     when {
-                        vm.bookingLoading -> "Booking: sto cercando al Lido…"
-                        b == null -> "Booking: non ancora controllato"
-                        !b.ok -> "Booking: ${b.error ?: "errore"} · riprovo al prossimo aggiornamento"
-                        else -> "Booking: $lidoBooking al Lido" + (if (centroBooking > 0) " + $centroBooking in centro" else "") +
+                        loading -> "$label: sto cercando al Lido…"
+                        b == null -> "$label: non ancora controllato"
+                        !b.ok -> "$label: ${b.error ?: "errore"} · riprovo al prossimo aggiornamento"
+                        else -> "$label: $lidoBooking al Lido" + (if (centroBooking > 0) " + $centroBooking in centro" else "") +
                             " · controllato ${ago(b.checkedAt)}"
                     },
                     style = MaterialTheme.typography.bodySmall, color = C.Faint
@@ -356,7 +375,7 @@ private fun Stat(value: String, label: String, color: Color, modifier: Modifier)
 }
 
 @Composable
-private fun Filters(vm: MainVm, s: Snapshot) {
+internal fun Filters(vm: MainVm, s: Snapshot) {
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             Pill("Tutti", vm.zone == ZoneFilter.ALL) { vm.zone = ZoneFilter.ALL }
@@ -367,6 +386,7 @@ private fun Filters(vm: MainVm, s: Snapshot) {
             if (s.waitingUntil == null) {
                 Pill(if (s.budgetMaxLido != s.budgetMax) "Entro il max" else "≤ ${eur(s.budgetMax)}", vm.onlyWithinMax) { vm.onlyWithinMax = !vm.onlyWithinMax }
                 Pill("Rimborsabili", vm.onlyRefundable, C.Good) { vm.onlyRefundable = !vm.onlyRefundable }
+                if (s.hotels.any { it.source == "airbnb" }) Pill(if (vm.showAirbnb) "Con Airbnb" else "Senza Airbnb", vm.showAirbnb, C.Bad) { vm.showAirbnb = !vm.showAirbnb }
                 Pill(if (vm.sort == SortBy.PRICE) "Prezzo ↑" else "Voto ↓", true, C.Muted) {
                     vm.sort = if (vm.sort == SortBy.PRICE) SortBy.RATING else SortBy.PRICE
                 }
@@ -446,7 +466,7 @@ private fun HotelCard(h: Hotel, s: Snapshot, onClick: () -> Unit) {
                         },
                         fontSize = 12.sp, color = C.Muted
                     )
-                    if (h.source == "booking") Text("su Booking", fontSize = 11.sp, color = C.Gold)
+                    sourceName(h.source)?.let { Text("su $it", fontSize = 11.sp, color = if (h.source == "airbnb") C.Bad else C.Gold) }
                 }
             }
         }
@@ -554,11 +574,11 @@ private fun HotelSheet(h: Hotel, s: Snapshot, onDismiss: () -> Unit) {
             if (h.total != null) Row(verticalAlignment = Alignment.Bottom) {
                 Text(eur(h.total), fontFamily = Serif, fontSize = 34.sp, color = priceColor(h.total, s, h.zone))
                 Spacer(Modifier.width(10.dp))
-                Text("${s.nights} notti · ${eur(h.perNight)}/notte" + if (h.source == "booking") " · Booking, tasse incluse" else "", color = C.Muted, fontSize = 13.sp,
+                Text("${s.nights} notti · ${eur(h.perNight)}/notte" + (sourceName(h.source)?.let { " · $it, tasse e costi inclusi" } ?: ""), color = C.Muted, fontSize = 13.sp,
                     modifier = Modifier.padding(bottom = 6.dp))
             }
             refundInfo(h)?.let { (t, c) ->
-                Text(t + if (h.refundSource == "booking") " (Booking)" else if (h.refundSource == "google") " (Google)" else "",
+                Text(t + (sourceName(h.refundSource)?.let { " ($it)" } ?: if (h.refundSource == "google") " (Google)" else ""),
                     color = c, fontSize = 13.sp, fontWeight = FontWeight.Medium)
             }
             if (h.zone == "lido") palazzoLabel(h.lat, h.lon)?.let { Text(it, color = C.Muted, fontSize = 13.sp) }
@@ -587,15 +607,16 @@ private fun HotelSheet(h: Hotel, s: Snapshot, onDismiss: () -> Unit) {
             Spacer(Modifier.height(10.dp))
             val q = enc("${h.name} Venezia")
             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                val bookingLink = h.link?.takeIf { h.source == "booking" }
-                LinkButton(if (bookingLink != null) "Prenota su Booking" else "Booking", Icons.Rounded.Hotel, primary = true) {
-                    open(ctx, bookingLink ?: ("https://www.booking.com/searchresults.it.html?ss=$q&checkin=${s.checkIn}&checkout=${s.checkOut}" +
-                        "&group_adults=${s.adults}&no_rooms=1&group_children=0"))
+                val directLink = h.link?.takeIf { h.source != "google" }
+                if (directLink != null) LinkButton("Prenota su ${sourceName(h.source)}", Icons.Rounded.Hotel, primary = true) { open(ctx, directLink) }
+                if (h.source != "airbnb") LinkButton("Booking", Icons.Rounded.Hotel, primary = directLink == null) {
+                    open(ctx, "https://www.booking.com/searchresults.it.html?ss=$q&checkin=${s.checkIn}&checkout=${s.checkOut}" +
+                        "&group_adults=${s.adults}&no_rooms=1&group_children=0")
                 }
                 LinkButton("Google Hotels", Icons.Rounded.TravelExplore) {
                     open(ctx, "https://www.google.com/travel/search?q=$q&hl=it&gl=it")
                 }
-                h.link?.takeIf { h.source != "booking" }?.let { l -> LinkButton("Sito hotel", Icons.Rounded.Language) { open(ctx, l) } }
+                h.link?.takeIf { h.source == "google" }?.let { l -> LinkButton("Sito hotel", Icons.Rounded.Language) { open(ctx, l) } }
                 if (h.lat != null && h.lon != null) LinkButton("Mappa", Icons.Rounded.Map) {
                     open(ctx, "geo:${h.lat},${h.lon}?q=${h.lat},${h.lon}(${enc(h.name)})")
                 }
@@ -853,7 +874,7 @@ private fun CuratedCard(h: CuratedHotel, vm: MainVm) {
             Spacer(Modifier.height(10.dp))
             // stato live dalla ricerca Google
             val status = when {
-                live?.total != null && live.available -> (if (live.source == "booking") "Su Booking ora: " else "Su Google ora: ") +
+                live?.total != null && live.available -> "Su ${sourceName(live.source) ?: "Google"} ora: " +
                     "${eur(live.total)} per ${s.nights} notti" to priceColor(live.total, s, live.zone)
                 s?.waitingUntil != null -> "Prezzi Google ${dalLabel(runCatching { LocalDate.parse(s.waitingUntil).format(DateTimeFormatter.ofPattern("d MMMM", IT)) }.getOrDefault(""))}" to C.Faint
                 live != null -> "Su Google: nessuna tariffa per queste date" to C.Warn

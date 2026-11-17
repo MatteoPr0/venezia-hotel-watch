@@ -32,7 +32,8 @@ class CheckWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx,
         val google = runCatching { repo.fetch() }.getOrElse { repo.cached() ?: return Result.retry() }
         // Booking per il Lido, dal telefono (Google lì non ha tariffe)
         val booking = checkBooking(applicationContext, google, force = false, minMinutes = 60)
-        notifyNew(applicationContext, repo, mergeBooking(google, booking))
+        val airbnb = checkAirbnb(applicationContext, google, force = false, minMinutes = 60)
+        notifyNew(applicationContext, repo, mergeBooking(mergeBooking(google, booking), airbnb))
         return Result.success()
     }
 

@@ -65,8 +65,9 @@ fun parseCurated(text: String): Curated {
 
 /* ── Distanze dal Palazzo del Cinema ── */
 
-const val PALAZZO_LAT = 45.4047
-const val PALAZZO_LON = 12.3681
+// Sala Grande, da OpenStreetMap
+const val PALAZZO_LAT = 45.405883
+const val PALAZZO_LON = 12.367082
 
 fun distPalazzoM(lat: Double?, lon: Double?): Int? {
     if (lat == null || lon == null) return null

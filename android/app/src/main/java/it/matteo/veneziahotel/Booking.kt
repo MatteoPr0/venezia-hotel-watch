@@ -43,6 +43,12 @@ data class BookingOffer(
     val refundable: Boolean? = null,
     /** prezzo più basso con cancellazione gratuita, se esiste */
     val refundableTotal: Int? = null,
+    /** "booking" o "airbnb" */
+    val source: String = "booking",
+    /** tipo di alloggio (Airbnb: "Appartamento", "Stanza"…) */
+    val kind: String? = null,
+    val lat: Double? = null,
+    val lon: Double? = null,
 )
 
 data class BookingRec(
@@ -88,6 +94,10 @@ private const val EXTRACT_JS = """(function(){
 var cs=document.querySelectorAll('[data-testid="property-card"]');
 if(!cs.length){var t=document.body?document.body.innerText:'';
  return JSON.stringify({state:/\b0 strutture|nessuna struttura|non abbiamo trovato/i.test(t)?'empty':'wait',n:0});}
+var html=document.documentElement.innerHTML,geo={};
+html.split('"basicPropertyData":').slice(1).forEach(function(p){
+ var pg=(p.match(/"pageName":"([^"]+)"/)||[])[1],la=(p.match(/"latitude":([\d.]+)/)||[])[1],lo=(p.match(/"longitude":([\d.]+)/)||[])[1];
+ if(pg&&la&&lo&&!geo[pg])geo[pg]=[parseFloat(la),parseFloat(lo)];});
 var out=[];
 cs.forEach(function(c){
  function q(s){var e=c.querySelector(s);return e?e.innerText.replace(/\s+/g,' ').trim():null;}
@@ -97,6 +107,7 @@ cs.forEach(function(c){
   score:q('[data-testid="review-score"]'),
   stars:c.querySelectorAll('[data-testid="rating-stars"] span, [data-testid="rating-squares"] span').length,
   link:a?a.href.split('?')[0]:null,image:img?img.src:null,
+  geo:a?(geo[((a.href.split('?')[0].match(/\/hotel\/[a-z]+\/([^.\/]+)/)||[])[1])]||null):null,
   fc:/cancellazione gratuita/i.test(c.innerText),nonref:/non rimborsabile/i.test(c.innerText)});
 });
 return JSON.stringify({state:'ok',n:cs.length,items:out});
@@ -135,6 +146,7 @@ fun parseBookingCards(json: String): Pair<String, List<BookingOffer>> {
         }
         if (name.isEmpty() || total == null) return@mapNotNull null
         val fc = c.optBoolean("fc")
+        val geo = c.optJSONArray("geo")
         BookingOffer(
             id = hotelSlug(name), name = name, total = total,
             link = c.optString("link").ifBlank { null },
@@ -146,6 +158,8 @@ fun parseBookingCards(json: String): Pair<String, List<BookingOffer>> {
             zone = zone,
             refundable = if (fc) true else false,   // Booking scrive "Cancellazione gratuita" quando c'è
             refundableTotal = if (fc) total else null,
+            lat = geo?.optDouble(0)?.takeIf { !it.isNaN() },
+            lon = geo?.optDouble(1)?.takeIf { !it.isNaN() },
         )
     }.distinctBy { it.id }
     return state to offers
@@ -155,9 +169,12 @@ private suspend fun WebView.eval(js: String): String? = suspendCancellableCorout
     evaluateJavascript(js) { raw -> if (c.isActive) c.resume(raw) }
 }
 
-/** Una pagina di risultati Booking letta in una WebView invisibile. Restituisce (n. schede, strutture). */
+/**
+ * Apre [url] in una WebView invisibile (con UA desktop) e ripete [js] finché la pagina non
+ * risponde con uno stato diverso da "wait". [js] deve restituire una stringa JSON con "state".
+ */
 @SuppressLint("SetJavaScriptEnabled")
-private suspend fun loadPage(ctx: Context, url: String): Pair<Int, List<BookingOffer>> = withContext(Dispatchers.Main) {
+internal suspend fun readPageJson(ctx: Context, url: String, js: String, label: String): JSONObject = withContext(Dispatchers.Main) {
     val wv = WebView(ctx.applicationContext)
     try {
         CookieManager.getInstance().setAcceptCookie(true)
@@ -172,22 +189,29 @@ private suspend fun loadPage(ctx: Context, url: String): Pair<Int, List<BookingO
         wv.measure(1366, 3000)
         wv.layout(0, 0, 1366, 3000)
         wv.loadUrl(url)
-        var lastState = "wait"
         repeat(30) {                       // fino a ~45 s
             delay(1500)
-            val raw = wv.eval(EXTRACT_JS) ?: return@repeat
+            val raw = wv.eval(js) ?: return@repeat
             val str = runCatching { JSONTokener(raw).nextValue() as? String }.getOrNull() ?: return@repeat
-            val n = runCatching { JSONObject(str).optInt("n") }.getOrDefault(0)
-            val (state, offers) = runCatching { parseBookingCards(str) }.getOrElse { return@repeat }
-            lastState = state
-            if (state == "ok") { delay(800); return@withContext n to offers }
-            if (state == "empty") return@withContext 0 to emptyList()
+            val o = runCatching { JSONObject(str) }.getOrNull() ?: return@repeat
+            when (o.optString("state", "wait")) {
+                "wait" -> {}
+                "ok" -> { delay(800); return@withContext o }
+                else -> return@withContext o
+            }
         }
-        error(if (lastState == "wait") "Booking non ha risposto in tempo" else "pagina Booking non riconosciuta")
+        error("$label non ha risposto in tempo")
     } finally {
         wv.stopLoading()
         wv.destroy()
     }
+}
+
+/** Una pagina di risultati Booking. Restituisce (n. schede, strutture). */
+private suspend fun loadPage(ctx: Context, url: String): Pair<Int, List<BookingOffer>> {
+    val o = readPageJson(ctx, url, EXTRACT_JS, "Booking")
+    if (o.optString("state") != "ok") return 0 to emptyList()
+    return o.optInt("n") to parseBookingCards(o.toString()).second
 }
 
 /** Tutte le pagine finché ci sono strutture del Lido (Booking mette prima quelle, poi riempie col resto). */
@@ -229,8 +253,8 @@ suspend fun fetchBookingLido(ctx: Context, checkIn: String, checkOut: String, ad
 
 /* ── Memoria locale dei risultati Booking: storico prezzi, novità, esauriti ── */
 
-class BookingStore(ctx: Context) {
-    private val file = File(ctx.filesDir, "booking.json")
+class BookingStore(ctx: Context, fileName: String = "booking.json") {
+    private val file = File(ctx.filesDir, fileName)
 
     fun load(): BookingState? = runCatching { if (file.exists()) parseState(JSONObject(file.readText())) else null }.getOrNull()
 
@@ -311,6 +335,10 @@ class BookingStore(ctx: Context) {
                         zone = r.optString("zone", "lido"),
                         refundable = if (r.has("refundable")) r.optBoolean("refundable") else null,
                         refundableTotal = if (r.has("refundable_total")) r.optInt("refundable_total") else null,
+                        source = r.optString("source", "booking"),
+                        kind = r.optString("kind").ifBlank { null },
+                        lat = if (r.has("lat")) r.optDouble("lat") else null,
+                        lon = if (r.has("lon")) r.optDouble("lon") else null,
                     ),
                     firstSeen = r.optString("first_seen"), lastSeen = r.optString("last_seen"),
                     available = r.optBoolean("available", true), misses = r.optInt("misses"),
@@ -337,6 +365,7 @@ class BookingStore(ctx: Context) {
                     o.score10?.let { put("score10", it) }; o.reviews?.let { put("reviews", it) }; o.stars?.let { put("stars", it) }
                     put("dist", o.dist); put("zone", o.zone)
                     o.refundable?.let { put("refundable", it) }; o.refundableTotal?.let { put("refundable_total", it) }
+                    put("source", o.source); put("kind", o.kind); o.lat?.let { put("lat", it) }; o.lon?.let { put("lon", it) }
                     put("first_seen", r.firstSeen); put("last_seen", r.lastSeen); put("available", r.available)
                     put("misses", r.misses); put("badge", r.badge); put("badge_at", r.badgeAt); put("change", r.change)
                     put("history", JSONArray().apply { r.history.forEach { put(JSONObject().put("d", it.day).put("total", it.total)) } })
@@ -366,27 +395,29 @@ fun mergeBooking(s: Snapshot, st: BookingState?): Snapshot {
         val idx = hotels.indexOfFirst { it.id == o.id }
         val g = hotels.getOrNull(idx)
         if (g != null && g.available && g.total != null) {
-            // Google ha già un prezzo: resta quello, ma se Google non sa se è rimborsabile lo dice Booking
+            // c'è già un prezzo (Google): resta quello, ma se non si sa se è rimborsabile lo dice Booking
             if (g.refundable == null && o.refundable != null)
-                hotels[idx] = g.copy(refundable = o.refundable, refundableTotal = o.refundableTotal, refundSource = "booking")
+                hotels[idx] = g.copy(refundable = o.refundable, refundableTotal = o.refundableTotal, refundSource = o.source)
             continue
         }
+        // Airbnb: al Lido ci sono anche case da 5.000 €, teniamo quelle vicine al budget
+        if (o.source == "airbnb" && o.total > s.budgetMaxLido * 1.25) continue
         if (g == null && !r.available) continue
         // del centro storico ci interessano solo quelli entro budget (Google li copre già bene)
         if (o.zone == "centro" && o.total > s.budgetMax * 1.25) continue
-        val link = o.link?.let { "$it?checkin=${s.checkIn}&checkout=${s.checkOut}&group_adults=${s.adults}&no_rooms=1&group_children=0&selected_currency=EUR&lang=it" }
+        val link = if (o.source != "booking") o.link else o.link?.let { "$it?checkin=${s.checkIn}&checkout=${s.checkOut}&group_adults=${s.adults}&no_rooms=1&group_children=0&selected_currency=EUR&lang=it" }
         val h = Hotel(
             id = o.id, name = g?.name ?: o.name, zone = o.zone,
             stars = o.stars ?: g?.stars,
             rating = o.score10?.let { (it / 2 * 10).roundToInt() / 10.0 } ?: g?.rating,
             reviews = o.reviews ?: g?.reviews,
             total = o.total, perNight = (o.total.toDouble() / s.nights).roundToInt(),
-            link = link, image = o.image ?: g?.image, lat = g?.lat, lon = g?.lon,
+            link = link, image = o.image ?: g?.image, lat = g?.lat ?: o.lat, lon = g?.lon ?: o.lon,
             available = r.available, badge = r.badge, change = r.change,
             minTotal = r.history.minOfOrNull { it.total }, firstSeen = r.firstSeen, lastSeen = r.lastSeen,
-            amenities = listOfNotNull(o.dist?.takeIf { o.zone == "lido" }?.replace("dal centro", "dal centro del Lido")) + (g?.amenities ?: emptyList()),
-            history = r.history, source = "booking",
-            refundable = o.refundable, refundableTotal = o.refundableTotal, refundSource = "booking",
+            amenities = listOfNotNull(o.kind, o.dist?.takeIf { o.zone == "lido" }?.replace("dal centro", "dal centro del Lido")) + (g?.amenities ?: emptyList()),
+            history = r.history, source = o.source,
+            refundable = o.refundable, refundableTotal = o.refundableTotal, refundSource = o.source,
         )
         if (g != null) hotels[idx] = h else hotels.add(h)
     }
@@ -394,13 +425,22 @@ fun mergeBooking(s: Snapshot, st: BookingState?): Snapshot {
     return s.copy(hotels = hotels, events = events)
 }
 
-/** Esegue il controllo Booking (se serve) e salva il risultato. Non lancia eccezioni. */
-suspend fun checkBooking(ctx: Context, s: Snapshot, force: Boolean, minMinutes: Long = 30): BookingState? {
-    val store = BookingStore(ctx)
+/** Esegue il controllo (se serve) e salva il risultato. Non lancia eccezioni. */
+private suspend fun checkSource(
+    ctx: Context, s: Snapshot, force: Boolean, minMinutes: Long, file: String,
+    fetch: suspend (Context, String, String, Int) -> List<BookingOffer>,
+): BookingState? {
+    val store = BookingStore(ctx, file)
     val stay = stayKey(s.checkIn, s.checkOut, s.adults)
     val age = store.minutesSinceCheck(stay)
     if (!force && age != null && age < minMinutes) return store.load()
-    return runCatching { fetchBookingLido(ctx, s.checkIn, s.checkOut, s.adults) }
+    return runCatching { fetch(ctx, s.checkIn, s.checkOut, s.adults) }
         .map { store.update(stay, it) }
         .getOrElse { store.saveError(stay, it.message ?: "errore") }
 }
+
+suspend fun checkBooking(ctx: Context, s: Snapshot, force: Boolean, minMinutes: Long = 30) =
+    checkSource(ctx, s, force, minMinutes, "booking.json", ::fetchBookingLido)
+
+suspend fun checkAirbnb(ctx: Context, s: Snapshot, force: Boolean, minMinutes: Long = 30) =
+    checkSource(ctx, s, force, minMinutes, "airbnb.json", ::fetchAirbnbLido)
