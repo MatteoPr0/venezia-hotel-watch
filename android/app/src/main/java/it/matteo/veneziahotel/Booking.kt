@@ -91,6 +91,8 @@ private const val DESKTOP_UA =
 
 /** Legge le schede dei risultati. "wait" finché la pagina (o la verifica anti-bot) non ha finito. */
 private const val EXTRACT_JS = """(function(){
+// i dati con le coordinate stanno in fondo alla pagina: si legge solo a pagina caricata
+if(document.readyState==='loading')return JSON.stringify({state:'wait',n:0});
 var cs=document.querySelectorAll('[data-testid="property-card"]');
 if(!cs.length){var t=document.body?document.body.innerText:'';
  return JSON.stringify({state:/\b0 strutture|nessuna struttura|non abbiamo trovato/i.test(t)?'empty':'wait',n:0});}
@@ -196,7 +198,12 @@ internal suspend fun readPageJson(ctx: Context, url: String, js: String, label: 
             val o = runCatching { JSONObject(str) }.getOrNull() ?: return@repeat
             when (o.optString("state", "wait")) {
                 "wait" -> {}
-                "ok" -> { delay(800); return@withContext o }
+                // una seconda lettura poco dopo: la pagina può finire di comporsi
+                "ok" -> {
+                    delay(800)
+                    val again = wv.eval(js)?.let { r -> runCatching { JSONObject(JSONTokener(r).nextValue() as String) }.getOrNull() }
+                    return@withContext if (again?.optString("state") == "ok") again else o
+                }
                 else -> return@withContext o
             }
         }

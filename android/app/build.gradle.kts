@@ -37,6 +37,8 @@ android {
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"))
             signingConfig = signingConfigs.getByName("release")
+            // -Pqa: release ottimizzata ma ispezionabile con run-as (solo per il collaudo)
+            isDebuggable = project.hasProperty("qa")
         }
         debug { signingConfig = signingConfigs.getByName("release") }
     }
