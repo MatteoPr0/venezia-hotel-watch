@@ -21,15 +21,18 @@ import androidx.work.WorkerParameters
 import java.util.concurrent.TimeUnit
 
 /**
- * Leggero: ogni ~6 ore scarica il JSON (pochi KB) aggiornato in cloud da GitHub Actions
- * e notifica solo le novità rilevanti. Nessun servizio sempre attivo.
+ * Ogni ~6 ore scarica il JSON (pochi KB) aggiornato in cloud da GitHub Actions, controlla
+ * Booking per il Lido e notifica solo le novità rilevanti. Nessun servizio sempre attivo.
  */
 class CheckWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx, params) {
     override suspend fun doWork(): Result {
         val repo = Repo(applicationContext)
         if (!repo.notificationsOn) return Result.success()
-        val snap = runCatching { repo.fetch() }.getOrElse { return Result.retry() }
-        notifyNew(applicationContext, repo, snap)
+        // Google (da GitHub): se la rete non va si riprova più tardi
+        val google = runCatching { repo.fetch() }.getOrElse { repo.cached() ?: return Result.retry() }
+        // Booking per il Lido, dal telefono (Google lì non ha tariffe)
+        val booking = checkBooking(applicationContext, google, force = false, minMinutes = 60)
+        notifyNew(applicationContext, repo, mergeBooking(google, booking))
         return Result.success()
     }
 

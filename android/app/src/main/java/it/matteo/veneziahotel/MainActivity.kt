@@ -21,33 +21,49 @@ enum class SortBy { PRICE, RATING }
 
 class MainVm(app: Application) : AndroidViewModel(app) {
     val repo = Repo(app)
-    var snap by mutableStateOf(repo.cached())
+    private var google: Snapshot? = repo.cached()
+    var booking by mutableStateOf(BookingStore(app).load())
+    var snap by mutableStateOf(google?.let { mergeBooking(it, booking) })
     var loading by mutableStateOf(false)
+    var bookingLoading by mutableStateOf(false)
     var error by mutableStateOf<String?>(null)
     var zone by mutableStateOf(ZoneFilter.ALL)
     var sort by mutableStateOf(SortBy.PRICE)
     var onlyWithinMax by mutableStateOf(false)
+    var onlyRefundable by mutableStateOf(false)
     var showGone by mutableStateOf(false)
     var curated by mutableStateOf(repo.cachedCurated(app))
     var checkedTick by mutableStateOf(0)
     var tab by mutableStateOf(0)
     var selected by mutableStateOf<Hotel?>(null)
 
-    init { refresh() }
+    init { refresh(forceBooking = false) }
 
-    fun refresh() {
+    fun refresh() = refresh(forceBooking = true)
+
+    private fun publish() {
+        val g = google ?: return
+        val s = mergeBooking(g, booking)
+        snap = s
+        // allinea il "visto" delle notifiche: ciò che vedi in app non ti viene ri-notificato
+        s.events.firstOrNull()?.time?.let { if (it > repo.lastNotifiedEvent) repo.lastNotifiedEvent = it }
+    }
+
+    fun refresh(forceBooking: Boolean) {
         if (loading) return
         loading = true
         viewModelScope.launch {
             runCatching { repo.fetch() }
-                .onSuccess { s ->
-                    snap = s; error = null
-                    // allinea il "visto" delle notifiche: ciò che vedi in app non ti viene ri-notificato
-                    s.events.firstOrNull()?.time?.let { if (it > repo.lastNotifiedEvent) repo.lastNotifiedEvent = it }
-                }
+                .onSuccess { s -> google = s; error = null; publish() }
                 .onFailure { error = it.message ?: "errore di rete" }
             runCatching { repo.fetchCurated(getApplication()) }.onSuccess { curated = it }
             loading = false
+            val g = google ?: return@launch
+            if (bookingLoading) return@launch
+            bookingLoading = true
+            booking = checkBooking(getApplication(), g, force = forceBooking)
+            bookingLoading = false
+            publish()
         }
     }
 
@@ -63,6 +79,7 @@ class MainVm(app: Application) : AndroidViewModel(app) {
                 }
             }
             .filter { !onlyWithinMax || (it.total != null && it.total <= s.budgetMax) }
+            .filter { !onlyRefundable || it.refundable == true || it.refundableTotal != null }
             .sortedWith(
                 when (sort) {
                     SortBy.PRICE -> compareBy<Hotel>({ !it.available }, { it.total == null }, { it.total ?: 0 })

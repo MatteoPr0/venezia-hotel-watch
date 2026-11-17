@@ -32,6 +32,13 @@ data class Hotel(
     val lastSeen: String,
     val amenities: List<String>,
     val history: List<PricePoint>,
+    /** "google" (controllo su GitHub) o "booking" (letto dal telefono) */
+    val source: String = "google",
+    /** true = c'è una tariffa rimborsabile; false = solo non rimborsabili; null = non si sa */
+    val refundable: Boolean? = null,
+    /** prezzo più basso rimborsabile (se diverso da total, la tariffa più economica non lo è) */
+    val refundableTotal: Int? = null,
+    val refundSource: String? = null,
 )
 
 data class HotelEvent(
@@ -100,6 +107,9 @@ fun parseSnapshot(text: String): Snapshot {
             lastSeen = h.optString("last_seen"),
             amenities = h.optJSONArray("amenities")?.let { a -> (0 until a.length()).map { a.optString(it) } } ?: emptyList(),
             history = h.optJSONArray("history").mapObj { p -> PricePoint(p.optString("d"), p.optInt("total")) },
+            refundable = if (h.has("refundable") && !h.isNull("refundable")) h.optBoolean("refundable") else null,
+            refundableTotal = h.optIntOrNull("refundable_total"),
+            refundSource = if (h.has("refundable") && !h.isNull("refundable")) "google" else null,
         )
     }
     val events = o.optJSONArray("events").mapObj { e ->

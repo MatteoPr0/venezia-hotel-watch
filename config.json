@@ -1,7 +1,7 @@
 {
   "trip_name": "Mostra del Cinema · Venezia 2027",
-  "check_in": "2027-09-03",
-  "check_out": "2027-09-06",
+  "check_in": "2027-09-02",
+  "check_out": "2027-09-05",
   "adults": 2,
   "currency": "EUR",
   "budget_target": 1000,
@@ -19,8 +19,12 @@
       "zone": "centro",
       "q": "hotel Venezia centro storico Castello San Marco",
       "pages": 1,
-      "params": { "rating": "8", "min_price": "110" },
-      "use_max_price": true
+      "params": {
+        "rating": "8",
+        "min_price": "110"
+      },
+      "use_max_price": true,
+      "refundable_check": true
     }
   ]
 }

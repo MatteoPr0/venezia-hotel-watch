@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.OpenInNew
@@ -92,6 +93,19 @@ private fun priceColor(total: Int?, s: Snapshot) = when {
     total <= s.budgetTarget -> C.Good
     total <= s.budgetMax -> C.Gold
     else -> C.Bad
+}
+
+/** Testo e colore della rimborsabilità per il prezzo mostrato. */
+private fun refundInfo(h: Hotel): Pair<String, Color>? {
+    val t = h.total ?: return null
+    val rt = h.refundableTotal
+    return when {
+        h.refundable == true && (rt == null || rt <= t) -> "Rimborsabile" to C.Good
+        rt != null && h.refundable == false -> "Non rimborsabile · rimborsabile a ${eur(rt)}" to C.Gold
+        rt != null -> "Rimborsabile da ${eur(rt)}" to C.Gold
+        h.refundable == false -> "Non rimborsabile" to C.Bad
+        else -> "Rimborsabilità da verificare" to C.Faint
+    }
 }
 
 private fun open(ctx: Context, url: String) = runCatching {
@@ -172,7 +186,7 @@ private fun HotelsTab(vm: MainVm) {
                 items(priced, key = { it.id }) { h -> HotelCard(h, s) { vm.selected = h } }
                 if (priced.isNotEmpty()) item {
                     Text(
-                        "Prezzi totali per ${s.nights} notti, 2 persone, da Google Hotels. Tassa di soggiorno esclusa.",
+                        "Prezzi totali per ${s.nights} notti, 2 persone, da Google Hotels (tassa di soggiorno esclusa) e, per il Lido, da Booking (tasse incluse).",
                         style = MaterialTheme.typography.bodySmall, color = C.Faint,
                         modifier = Modifier.padding(top = 4.dp)
                     )
@@ -182,7 +196,7 @@ private fun HotelsTab(vm: MainVm) {
                         SectionTitle(
                             if (s.waitingUntil != null) "Hotel trovati in zona (${unpriced.size})" else "Senza tariffe su Google (${unpriced.size})",
                             if (s.waitingUntil != null) "Prezzi da Google appena si apre la finestra. Intanto puoi controllare sul sito di ciascun hotel."
-                            else "Google non ha prezzi per queste date: possono essere chiusi o vendere solo dal proprio sito."
+                            else "Né Google né Booking hanno prezzi per queste date: possono essere pieni, chiusi o vendere solo dal proprio sito."
                         )
                     }
                     items(unpriced, key = { "u" + it.id }) { h -> CompactHotelRow(h) { vm.selected = h } }
@@ -271,6 +285,23 @@ private fun Header(vm: MainVm, s: Snapshot?) {
                     style = MaterialTheme.typography.bodySmall, color = C.Faint
                 )
             }
+            val b = vm.booking?.takeIf { it.stay == stayKey(s.checkIn, s.checkOut, s.adults) }
+            val lidoBooking = b?.recs?.count { it.available } ?: 0
+            Spacer(Modifier.height(4.dp))
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Box(Modifier.size(7.dp).clip(CircleShape).background(
+                    when { vm.bookingLoading -> C.Gold; b == null || !b.ok -> C.Warn; else -> C.Good }))
+                Spacer(Modifier.width(8.dp))
+                Text(
+                    when {
+                        vm.bookingLoading -> "Booking: sto cercando al Lido…"
+                        b == null -> "Booking: non ancora controllato"
+                        !b.ok -> "Booking: ${b.error ?: "errore"} · riprovo al prossimo aggiornamento"
+                        else -> "Booking: $lidoBooking al Lido · controllato ${ago(b.checkedAt)}"
+                    },
+                    style = MaterialTheme.typography.bodySmall, color = C.Faint
+                )
+            }
         }
     }
 }
@@ -322,9 +353,10 @@ private fun Filters(vm: MainVm, s: Snapshot) {
             Pill("Lido", vm.zone == ZoneFilter.LIDO, C.Lido) { vm.zone = ZoneFilter.LIDO }
             Pill("Centro storico", vm.zone == ZoneFilter.CENTRO, C.Centro) { vm.zone = ZoneFilter.CENTRO }
         }
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             if (s.waitingUntil == null) {
                 Pill("≤ ${eur(s.budgetMax)}", vm.onlyWithinMax) { vm.onlyWithinMax = !vm.onlyWithinMax }
+                Pill("Rimborsabili", vm.onlyRefundable, C.Good) { vm.onlyRefundable = !vm.onlyRefundable }
                 Pill(if (vm.sort == SortBy.PRICE) "Prezzo ↑" else "Voto ↓", true, C.Muted) {
                     vm.sort = if (vm.sort == SortBy.PRICE) SortBy.RATING else SortBy.PRICE
                 }
@@ -389,6 +421,9 @@ private fun HotelCard(h: Hotel, s: Snapshot, onClick: () -> Unit) {
                         Spacer(Modifier.height(8.dp))
                         Sparkline(h.history.map { it.total }, Modifier.width(110.dp).height(22.dp))
                     }
+                    if (h.available) refundInfo(h)?.let { (t, c) ->
+                        Spacer(Modifier.height(4.dp)); Text(t, color = c, fontSize = 12.sp, fontWeight = FontWeight.Medium)
+                    }
                     if (!h.available) Text("Non più disponibile", color = C.Bad, fontSize = 12.sp)
                 }
                 Column(horizontalAlignment = Alignment.End) {
@@ -401,6 +436,7 @@ private fun HotelCard(h: Hotel, s: Snapshot, onClick: () -> Unit) {
                         },
                         fontSize = 12.sp, color = C.Muted
                     )
+                    if (h.source == "booking") Text("su Booking", fontSize = 11.sp, color = C.Gold)
                 }
             }
         }
@@ -508,8 +544,12 @@ private fun HotelSheet(h: Hotel, s: Snapshot, onDismiss: () -> Unit) {
             if (h.total != null) Row(verticalAlignment = Alignment.Bottom) {
                 Text(eur(h.total), fontFamily = Serif, fontSize = 34.sp, color = priceColor(h.total, s))
                 Spacer(Modifier.width(10.dp))
-                Text("${s.nights} notti · ${eur(h.perNight)}/notte", color = C.Muted, fontSize = 13.sp,
+                Text("${s.nights} notti · ${eur(h.perNight)}/notte" + if (h.source == "booking") " · Booking, tasse incluse" else "", color = C.Muted, fontSize = 13.sp,
                     modifier = Modifier.padding(bottom = 6.dp))
+            }
+            refundInfo(h)?.let { (t, c) ->
+                Text(t + if (h.refundSource == "booking") " (Booking)" else if (h.refundSource == "google") " (Google)" else "",
+                    color = c, fontSize = 13.sp, fontWeight = FontWeight.Medium)
             }
             if (h.zone == "lido") palazzoLabel(h.lat, h.lon)?.let { Text(it, color = C.Muted, fontSize = 13.sp) }
             if (h.total == null) Text(
@@ -537,14 +577,15 @@ private fun HotelSheet(h: Hotel, s: Snapshot, onDismiss: () -> Unit) {
             Spacer(Modifier.height(10.dp))
             val q = enc("${h.name} Venezia")
             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                LinkButton("Booking", Icons.Rounded.Hotel, primary = true) {
-                    open(ctx, "https://www.booking.com/searchresults.it.html?ss=$q&checkin=${s.checkIn}&checkout=${s.checkOut}" +
-                        "&group_adults=${s.adults}&no_rooms=1&group_children=0")
+                val bookingLink = h.link?.takeIf { h.source == "booking" }
+                LinkButton(if (bookingLink != null) "Prenota su Booking" else "Booking", Icons.Rounded.Hotel, primary = true) {
+                    open(ctx, bookingLink ?: ("https://www.booking.com/searchresults.it.html?ss=$q&checkin=${s.checkIn}&checkout=${s.checkOut}" +
+                        "&group_adults=${s.adults}&no_rooms=1&group_children=0"))
                 }
                 LinkButton("Google Hotels", Icons.Rounded.TravelExplore) {
                     open(ctx, "https://www.google.com/travel/search?q=$q&hl=it&gl=it")
                 }
-                h.link?.let { l -> LinkButton("Sito hotel", Icons.Rounded.Language) { open(ctx, l) } }
+                h.link?.takeIf { h.source != "booking" }?.let { l -> LinkButton("Sito hotel", Icons.Rounded.Language) { open(ctx, l) } }
                 if (h.lat != null && h.lon != null) LinkButton("Mappa", Icons.Rounded.Map) {
                     open(ctx, "geo:${h.lat},${h.lon}?q=${h.lat},${h.lon}(${enc(h.name)})")
                 }
@@ -801,7 +842,8 @@ private fun CuratedCard(h: CuratedHotel, vm: MainVm) {
             Spacer(Modifier.height(10.dp))
             // stato live dalla ricerca Google
             val status = when {
-                live?.total != null -> "Su Google ora: ${eur(live.total)} per ${s.nights} notti" to priceColor(live.total, s)
+                live?.total != null && live.available -> (if (live.source == "booking") "Su Booking ora: " else "Su Google ora: ") +
+                    "${eur(live.total)} per ${s.nights} notti" to priceColor(live.total, s)
                 s?.waitingUntil != null -> "Prezzi Google ${dalLabel(runCatching { LocalDate.parse(s.waitingUntil).format(DateTimeFormatter.ofPattern("d MMMM", IT)) }.getOrDefault(""))}" to C.Faint
                 live != null -> "Su Google: nessuna tariffa per queste date" to C.Warn
                 else -> "Non compare nella ricerca Google: controlla sul sito" to C.Faint

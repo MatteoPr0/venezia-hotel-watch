@@ -127,7 +127,8 @@ def parse_property(p: dict, nights: int) -> dict | None:
     }
 
 
-def run_searches(cfg: dict, fetcher: Fetcher, ignore_prices: bool = False) -> tuple[dict, list[str]]:
+def run_searches(cfg: dict, fetcher: Fetcher, ignore_prices: bool = False,
+                 check_refundable: bool = False) -> tuple[dict, list[str]]:
     ci, co = cfg["check_in"], cfg["check_out"]
     nights = (dt.date.fromisoformat(co) - dt.date.fromisoformat(ci)).days
     cap = cfg["budget_max"] * cfg.get("show_up_to_factor", 1.25)
@@ -178,7 +179,44 @@ def run_searches(cfg: dict, fetcher: Fetcher, ignore_prices: bool = False) -> tu
             token = (res.get("serpapi_pagination") or {}).get("next_page_token")
             if not token:
                 break
+        if check_refundable and s.get("refundable_check") and not ignore_prices:
+            mark_refundable(s, params, nights, cap, fetcher, found, errors)
     return found, errors
+
+
+def mark_refundable(s: dict, params: dict, nights: int, cap: float, fetcher: Fetcher,
+                    found: dict, errors: list[str]) -> None:
+    """Una ricerca in più con il filtro "cancellazione gratuita" di Google Hotels.
+    Chi compare lì ha una tariffa rimborsabile (refundable_total = la più bassa rimborsabile).
+    Se la ricerca sta tutta in una pagina, chi ha un prezzo ma non compare è non rimborsabile."""
+    p = {k: v for k, v in params.items() if k != "next_page_token"}
+    p["free_cancellation"] = "true"
+    p["_mock"] = f"{s['zone']}_fc"
+    try:
+        res = fetcher.search(p)
+    except Exception as e:
+        errors.append(f"{s['zone']} rimborsabili: {e}")
+        return
+    if res.get("error"):
+        if "hasn't returned any results" not in str(res["error"]):
+            errors.append(f"{s['zone']} rimborsabili: {res['error']}")
+            return
+        res = {"properties": []}
+    fc: dict[str, int | None] = {}
+    for prop in res.get("properties", []):
+        h = parse_property(prop, nights)
+        if h:
+            fc[h["id"]] = h["total"]
+    complete = not (res.get("serpapi_pagination") or {}).get("next_page_token")
+    for hid, h in found.items():
+        if h.get("zone") != s["zone"]:
+            continue
+        if hid in fc:
+            h["refundable"] = True
+            h["refundable_total"] = fc[hid]
+        elif complete and h.get("total") is not None:
+            h["refundable"] = False
+            h["refundable_total"] = None
 
 
 def merge(old: dict, found: dict, cfg: dict, ts: str, run_ok: bool) -> tuple[list, list]:
@@ -203,6 +241,8 @@ def merge(old: dict, found: dict, cfg: dict, ts: str, run_ok: bool) -> tuple[lis
             else:
                 hist.append({"d": today, "total": h["total"]})
         hist = hist[-MAX_HISTORY:]
+        if "refundable" not in h and o:  # controllo rimborsabilità fatto una volta al giorno
+            h = {**h, "refundable": o.get("refundable"), "refundable_total": o.get("refundable_total")}
         rec = {**h,
                "first_seen": o["first_seen"] if o else ts,
                "last_seen": ts,
@@ -278,6 +318,10 @@ def main() -> int:
         print("SERPAPI_KEY mancante: aggiungila nei Secrets del repository.", file=sys.stderr)
         return 1
     old = json.loads(DATA.read_text()) if DATA.exists() else {}
+    old_stay = old.get("stay") or {}
+    if old_stay and (old_stay.get("check_in"), old_stay.get("check_out")) != (cfg["check_in"], cfg["check_out"]):
+        print("Date cambiate: si riparte da zero.")
+        old = {}
     ts = now_iso()
     nights = (dt.date.fromisoformat(cfg["check_out"]) - dt.date.fromisoformat(cfg["check_in"])).days
     check_in = dt.date.fromisoformat(cfg["check_in"])
@@ -322,13 +366,15 @@ def main() -> int:
         print(f"In attesa tariffe (dal {opens}). Hotel in elenco: {len(hotels)}, chiamate API: {calls}.")
         return 0
     fetcher = Fetcher(key, mock)
-    found, errors = run_searches(cfg, fetcher)
+    check_ref = old.get("refundable_checked_on") != today.isoformat()
+    found, errors = run_searches(cfg, fetcher, check_refundable=check_ref)
     run_ok = not errors
     if (old.get("last_run") or {}).get("waiting_until"):
         old = {}  # primo controllo vero dopo l'attesa: si parte puliti
     hotels, events = merge(old, found, cfg, ts, run_ok)
     data = {
         "updated_at": ts,
+        "refundable_checked_on": today.isoformat() if check_ref and run_ok else old.get("refundable_checked_on"),
         "trip_name": cfg.get("trip_name"),
         "stay": {"check_in": cfg["check_in"], "check_out": cfg["check_out"], "nights": nights,
                  "adults": cfg.get("adults", 2)},
