@@ -78,7 +78,7 @@ class MainVm(app: Application) : AndroidViewModel(app) {
                     ZoneFilter.CENTRO -> it.zone == "centro"
                 }
             }
-            .filter { !onlyWithinMax || (it.total != null && it.total <= s.budgetMax) }
+            .filter { !onlyWithinMax || (it.total != null && it.total <= s.maxFor(it.zone)) }
             .filter { !onlyRefundable || it.refundable == true || it.refundableTotal != null }
             .sortedWith(
                 when (sort) {

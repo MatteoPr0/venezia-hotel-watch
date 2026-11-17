@@ -60,6 +60,8 @@ data class Snapshot(
     val adults: Int,
     val budgetTarget: Int,
     val budgetMax: Int,
+    /** al Lido il massimo è più alto */
+    val budgetMaxLido: Int = budgetMax,
     val runOk: Boolean,
     val runErrors: List<String>,
     val searchesLeft: Int?,
@@ -132,6 +134,7 @@ fun parseSnapshot(text: String): Snapshot {
         adults = stay.optInt("adults", 2),
         budgetTarget = budget.optInt("target", 1000),
         budgetMax = budget.optInt("max", 1200),
+        budgetMaxLido = budget.optInt("max_lido", budget.optInt("max", 1200)),
         runOk = run.optBoolean("ok", true),
         runErrors = run.optJSONArray("errors")?.let { a -> (0 until a.length()).map { a.optString(it) } } ?: emptyList(),
         searchesLeft = run.optIntOrNull("searches_left"),
@@ -140,6 +143,8 @@ fun parseSnapshot(text: String): Snapshot {
         events = events,
     )
 }
+
+fun Snapshot.maxFor(zone: String?) = if (zone == "lido") budgetMaxLido else budgetMax
 
 class Repo(private val ctx: Context) {
     private val prefs = ctx.getSharedPreferences("settings", Context.MODE_PRIVATE)

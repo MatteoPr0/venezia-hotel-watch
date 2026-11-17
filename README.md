@@ -1,7 +1,7 @@
 # Venezia Hotel Watch 🎬
 
 App Android che tiene d'occhio gli hotel per la **Mostra del Cinema di Venezia 2027**
-(gio 2 → dom 5 settembre, 2 adulti, budget ideale 1.000 €, massimo 1.200 €;
+(gio 2 → dom 5 settembre, 2 adulti, budget ideale 1.000 €, massimo 1.200 € in centro e 1.500 € al Lido;
 la Mostra 2027 è annunciata dal 1° all'11 settembre).
 
 ## Come funziona

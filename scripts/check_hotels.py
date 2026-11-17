@@ -127,11 +127,19 @@ def parse_property(p: dict, nights: int) -> dict | None:
     }
 
 
+def max_for(cfg: dict, zone: str | None) -> int:
+    """Budget massimo per zona: al Lido si può spendere di più."""
+    if zone == "lido":
+        return cfg.get("budget_max_lido", cfg["budget_max"])
+    return cfg["budget_max"]
+
+
 def run_searches(cfg: dict, fetcher: Fetcher, ignore_prices: bool = False,
                  check_refundable: bool = False) -> tuple[dict, list[str]]:
     ci, co = cfg["check_in"], cfg["check_out"]
     nights = (dt.date.fromisoformat(co) - dt.date.fromisoformat(ci)).days
-    cap = cfg["budget_max"] * cfg.get("show_up_to_factor", 1.25)
+    factor = cfg.get("show_up_to_factor", 1.25)
+    cap = cfg["budget_max"] * factor  # per max_price della ricerca centro
     found: dict[str, dict] = {}
     errors: list[str] = []
     for s in cfg["searches"]:
@@ -170,7 +178,7 @@ def run_searches(cfg: dict, fetcher: Fetcher, ignore_prices: bool = False,
                     continue  # Mestre, terraferma, isole minori
                 if ignore_prices:
                     h["total"] = h["per_night"] = None  # prezzi non validi per le nostre date
-                elif h["total"] is not None and h["total"] > cap:
+                elif h["total"] is not None and h["total"] > max_for(cfg, zone) * factor:
                     continue
                 h["zone"] = zone
                 prev = found.get(h["id"])
@@ -292,7 +300,7 @@ def merge(old: dict, found: dict, cfg: dict, ts: str, run_ok: bool) -> tuple[lis
 
 def notify_ntfy(topic: str, events: list[dict], cfg: dict):
     good = [e for e in events if e["type"] in ("new", "back", "drop", "priced")
-            and (e["total"] is None or e["total"] <= cfg["budget_max"])]
+            and (e["total"] is None or e["total"] <= max_for(cfg, e["zone"]))]
     if not good:
         return
     lines = []
@@ -355,7 +363,8 @@ def main() -> int:
             "trip_name": cfg.get("trip_name"),
             "stay": {"check_in": cfg["check_in"], "check_out": cfg["check_out"], "nights": nights,
                      "adults": cfg.get("adults", 2)},
-            "budget": {"target": cfg["budget_target"], "max": cfg["budget_max"], "currency": cfg.get("currency", "EUR")},
+            "budget": {"target": cfg["budget_target"], "max": cfg["budget_max"], "max_lido": max_for(cfg, "lido"),
+                       "currency": cfg.get("currency", "EUR")},
             "last_run": {"ok": not errors, "errors": errors, "api_calls": calls, "found": len(hotels),
                          "searches_left": left, "waiting_until": opens.isoformat()},
             "hotels": hotels,
@@ -378,7 +387,8 @@ def main() -> int:
         "trip_name": cfg.get("trip_name"),
         "stay": {"check_in": cfg["check_in"], "check_out": cfg["check_out"], "nights": nights,
                  "adults": cfg.get("adults", 2)},
-        "budget": {"target": cfg["budget_target"], "max": cfg["budget_max"], "currency": cfg.get("currency", "EUR")},
+        "budget": {"target": cfg["budget_target"], "max": cfg["budget_max"], "max_lido": max_for(cfg, "lido"),
+                       "currency": cfg.get("currency", "EUR")},
         "last_run": {"ok": run_ok, "errors": errors, "api_calls": fetcher.calls,
                      "found": len(found), "searches_left": fetcher.searches_left()},
         "hotels": hotels,

@@ -68,7 +68,7 @@ class CheckWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx,
             repo.lastNotifiedEvent = maxOf(last, newest)
             val relevant = fresh.filter { e ->
                 e.type in setOf("new", "back", "drop", "priced") && e.total != null &&
-                    (!repo.notifyOnlyWithinMax || e.total <= snap.budgetMax)
+                    (!repo.notifyOnlyWithinMax || e.total <= snap.maxFor(e.zone))
             }
             if (relevant.isEmpty()) return
             if (Build.VERSION.SDK_INT >= 33 &&

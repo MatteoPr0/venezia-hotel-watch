@@ -88,10 +88,13 @@ private fun stayLabel(s: Snapshot): String = runCatching {
     "${a.format(f)} → ${b.format(f)} ${b.format(DateTimeFormatter.ofPattern("MMMM", IT))} · ${s.nights} notti · ${s.adults} adulti"
 }.getOrDefault("${s.checkIn} → ${s.checkOut}")
 
-private fun priceColor(total: Int?, s: Snapshot) = when {
+private fun maxLabel(s: Snapshot) =
+    if (s.budgetMaxLido != s.budgetMax) "${eur(s.budgetMax)}, Lido ${eur(s.budgetMaxLido)}" else eur(s.budgetMax)
+
+private fun priceColor(total: Int?, s: Snapshot, zone: String? = null) = when {
     total == null -> C.Muted
     total <= s.budgetTarget -> C.Good
-    total <= s.budgetMax -> C.Gold
+    total <= s.maxFor(zone) -> C.Gold
     else -> C.Bad
 }
 
@@ -312,7 +315,7 @@ private fun Header(vm: MainVm, s: Snapshot?) {
 private fun BudgetCard(s: Snapshot) {
     val avail = s.hotels.filter { it.available && it.total != null }
     val inTarget = avail.count { it.total!! <= s.budgetTarget }
-    val inMax = avail.count { it.total!! <= s.budgetMax }
+    val inMax = avail.count { it.total!! <= s.maxFor(it.zone) }
     val best = avail.filter { it.zone == "lido" }.minByOrNull { it.total!! }
     Surface(
         color = C.Surface, shape = RoundedCornerShape(22.dp), border = BorderStroke(1.dp, C.Line),
@@ -321,8 +324,13 @@ private fun BudgetCard(s: Snapshot) {
         Column(Modifier.padding(18.dp)) {
             Row {
                 Stat("$inTarget", "entro ${eur(s.budgetTarget)}", C.Good, Modifier.weight(1f))
-                Stat("$inMax", "entro ${eur(s.budgetMax)}", C.Gold, Modifier.weight(1f))
+                Stat("$inMax", if (s.budgetMaxLido != s.budgetMax) "entro il max" else "entro ${eur(s.budgetMax)}", C.Gold, Modifier.weight(1f))
                 Stat(best?.total?.let { eur(it) } ?: "—", if (best != null) "miglior Lido" else "Lido: ancora nessuna tariffa", C.Lido, Modifier.weight(1.2f))
+            }
+            if (s.budgetMaxLido != s.budgetMax) {
+                Spacer(Modifier.height(10.dp))
+                Text("Massimo: ${eur(s.budgetMax)} in centro, ${eur(s.budgetMaxLido)} al Lido.",
+                    style = MaterialTheme.typography.bodySmall, color = C.Muted)
             }
             val waiting = s.hotels.count { it.available && it.total == null }
             if (waiting > 0) {
@@ -357,7 +365,7 @@ private fun Filters(vm: MainVm, s: Snapshot) {
         }
         Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             if (s.waitingUntil == null) {
-                Pill("≤ ${eur(s.budgetMax)}", vm.onlyWithinMax) { vm.onlyWithinMax = !vm.onlyWithinMax }
+                Pill(if (s.budgetMaxLido != s.budgetMax) "Entro il max" else "≤ ${eur(s.budgetMax)}", vm.onlyWithinMax) { vm.onlyWithinMax = !vm.onlyWithinMax }
                 Pill("Rimborsabili", vm.onlyRefundable, C.Good) { vm.onlyRefundable = !vm.onlyRefundable }
                 Pill(if (vm.sort == SortBy.PRICE) "Prezzo ↑" else "Voto ↓", true, C.Muted) {
                     vm.sort = if (vm.sort == SortBy.PRICE) SortBy.RATING else SortBy.PRICE
@@ -429,11 +437,11 @@ private fun HotelCard(h: Hotel, s: Snapshot, onClick: () -> Unit) {
                     if (!h.available) Text("Non più disponibile", color = C.Bad, fontSize = 12.sp)
                 }
                 Column(horizontalAlignment = Alignment.End) {
-                    Text(eur(h.total), fontFamily = Serif, fontSize = 26.sp, color = priceColor(h.total, s))
+                    Text(eur(h.total), fontFamily = Serif, fontSize = 26.sp, color = priceColor(h.total, s, h.zone))
                     Text(
                         when {
                             h.total == null -> "nessuna tariffa per queste date"
-                            h.total > s.budgetMax -> "sopra budget · ${eur(h.perNight)}/notte"
+                            h.total > s.maxFor(h.zone) -> "sopra budget · ${eur(h.perNight)}/notte"
                             else -> "${eur(h.perNight)}/notte"
                         },
                         fontSize = 12.sp, color = C.Muted
@@ -544,7 +552,7 @@ private fun HotelSheet(h: Hotel, s: Snapshot, onDismiss: () -> Unit) {
             }
             Spacer(Modifier.height(18.dp))
             if (h.total != null) Row(verticalAlignment = Alignment.Bottom) {
-                Text(eur(h.total), fontFamily = Serif, fontSize = 34.sp, color = priceColor(h.total, s))
+                Text(eur(h.total), fontFamily = Serif, fontSize = 34.sp, color = priceColor(h.total, s, h.zone))
                 Spacer(Modifier.width(10.dp))
                 Text("${s.nights} notti · ${eur(h.perNight)}/notte" + if (h.source == "booking") " · Booking, tasse incluse" else "", color = C.Muted, fontSize = 13.sp,
                     modifier = Modifier.padding(bottom = 6.dp))
@@ -562,15 +570,15 @@ private fun HotelSheet(h: Hotel, s: Snapshot, onDismiss: () -> Unit) {
             val delta = (h.total ?: 0) - s.budgetTarget
             if (h.total != null) Text(
                 if (delta <= 0) "${eur(-delta)} sotto il budget ideale" else "${eur(delta)} sopra il budget ideale",
-                color = if (delta <= 0) C.Good else if (h.total <= s.budgetMax) C.Gold else C.Bad, fontSize = 13.sp
+                color = if (delta <= 0) C.Good else if (h.total <= s.maxFor(h.zone)) C.Gold else C.Bad, fontSize = 13.sp
             )
 
             if (h.history.size >= 2) {
                 Spacer(Modifier.height(20.dp))
                 Text("ANDAMENTO PREZZO", style = MaterialTheme.typography.labelSmall, color = C.Muted)
                 Spacer(Modifier.height(8.dp))
-                PriceChart(h.history, s, Modifier.fillMaxWidth().height(140.dp))
-                Text("Minimo visto: ${eur(h.minTotal)}  ·  linee: ${eur(s.budgetTarget)} ideale, ${eur(s.budgetMax)} max",
+                PriceChart(h.history, s, h.zone, Modifier.fillMaxWidth().height(140.dp))
+                Text("Minimo visto: ${eur(h.minTotal)}  ·  linee: ${eur(s.budgetTarget)} ideale, ${eur(s.maxFor(h.zone))} max",
                     color = C.Faint, fontSize = 12.sp)
             }
 
@@ -628,15 +636,16 @@ private fun LinkButton(text: String, icon: ImageVector, primary: Boolean = false
 }
 
 @Composable
-private fun PriceChart(points: List<PricePoint>, s: Snapshot, modifier: Modifier) {
+private fun PriceChart(points: List<PricePoint>, s: Snapshot, zone: String, modifier: Modifier) {
+    val max = s.maxFor(zone)
     val values = points.map { it.total }
     Canvas(modifier.padding(vertical = 8.dp)) {
         val lo = minOf(values.min(), s.budgetTarget) * 0.95f
-        val hi = maxOf(values.max(), s.budgetMax) * 1.03f
+        val hi = maxOf(values.max(), max) * 1.03f
         fun y(v: Float) = size.height - (v - lo) / (hi - lo) * size.height
         val dash = PathEffect.dashPathEffect(floatArrayOf(8f, 8f))
         drawLine(C.Good.copy(alpha = .5f), Offset(0f, y(s.budgetTarget.toFloat())), Offset(size.width, y(s.budgetTarget.toFloat())), 1.dp.toPx(), pathEffect = dash)
-        drawLine(C.Gold.copy(alpha = .5f), Offset(0f, y(s.budgetMax.toFloat())), Offset(size.width, y(s.budgetMax.toFloat())), 1.dp.toPx(), pathEffect = dash)
+        drawLine(C.Gold.copy(alpha = .5f), Offset(0f, y(max.toFloat())), Offset(size.width, y(max.toFloat())), 1.dp.toPx(), pathEffect = dash)
         val step = size.width / (values.size - 1)
         val path = Path()
         values.forEachIndexed { i, v ->
@@ -706,7 +715,7 @@ private fun EventRow(e: HotelEvent, s: Snapshot, onClick: () -> Unit) {
             Text(e.name, color = C.Text, fontWeight = FontWeight.Medium, maxLines = 1, overflow = TextOverflow.Ellipsis)
             Text("$label · ${zoneLabel(e.zone)}", color = C.Muted, fontSize = 12.sp)
         }
-        Text(eur(e.total), fontFamily = Serif, fontSize = 18.sp, color = if (e.type == "gone") C.Faint else priceColor(e.total, s))
+        Text(eur(e.total), fontFamily = Serif, fontSize = 18.sp, color = if (e.type == "gone") C.Faint else priceColor(e.total, s, e.zone))
     }
 }
 
@@ -730,7 +739,7 @@ private fun SettingsTab(vm: MainVm) {
         )
         Spacer(Modifier.height(24.dp))
         SettingSwitch("Notifiche", "Avvisami delle novità", notify) { notify = it; vm.repo.notificationsOn = it }
-        SettingSwitch("Solo entro il budget massimo", "Ignora novità sopra ${eur(vm.snap?.budgetMax ?: 1200)}", withinMax) {
+        SettingSwitch("Solo entro il budget massimo", "Ignora novità sopra ${vm.snap?.let { maxLabel(it) } ?: eur(1200)}", withinMax) {
             withinMax = it; vm.repo.notifyOnlyWithinMax = it
         }
         Spacer(Modifier.height(8.dp))
@@ -845,7 +854,7 @@ private fun CuratedCard(h: CuratedHotel, vm: MainVm) {
             // stato live dalla ricerca Google
             val status = when {
                 live?.total != null && live.available -> (if (live.source == "booking") "Su Booking ora: " else "Su Google ora: ") +
-                    "${eur(live.total)} per ${s.nights} notti" to priceColor(live.total, s)
+                    "${eur(live.total)} per ${s.nights} notti" to priceColor(live.total, s, live.zone)
                 s?.waitingUntil != null -> "Prezzi Google ${dalLabel(runCatching { LocalDate.parse(s.waitingUntil).format(DateTimeFormatter.ofPattern("d MMMM", IT)) }.getOrDefault(""))}" to C.Faint
                 live != null -> "Su Google: nessuna tariffa per queste date" to C.Warn
                 else -> "Non compare nella ricerca Google: controlla sul sito" to C.Faint
