@@ -347,21 +347,70 @@ def notify_ntfy(topic: str, events: list[dict], cfg: dict):
         lines.append(f"{tag}: {e['name']} · {e['zone'].capitalize()} · {price}{extra}")
     req = urllib.request.Request(
         f"https://ntfy.sh/{topic}", data="\n".join(lines).encode(),
-        headers={"Title": f"Venezia 2027: {len(good)} novità hotel", "Tags": "hotel,clapper"})
+        headers={"Title": f"Venezia 2027{' · ' + cfg['stay_label'] if cfg.get('stay_label') else ''}: "
+                          f"{len(good)} novità hotel", "Tags": "hotel,clapper"})
     try:
         urllib.request.urlopen(req, timeout=20)
     except Exception as e:
         print("ntfy fallito:", e, file=sys.stderr)
 
 
-def main() -> int:
-    cfg = json.loads(CONFIG.read_text())
-    key = os.environ.get("SERPAPI_KEY")
-    mock = os.environ.get("SERPAPI_MOCK_DIR")
-    if not key and not mock:
-        print("SERPAPI_KEY mancante: aggiungila nei Secrets del repository.", file=sys.stderr)
-        return 1
-    old = json.loads(DATA.read_text()) if DATA.exists() else {}
+def stay_info(cfg: dict, nights: int) -> dict:
+    return {"check_in": cfg["check_in"], "check_out": cfg["check_out"], "nights": nights,
+            "adults": cfg.get("adults", 2)}
+
+
+def budget_info(cfg: dict) -> dict:
+    return {"target": cfg["budget_target"], "max": cfg["budget_max"], "max_lido": max_for(cfg, "lido"),
+            "currency": cfg.get("currency", "EUR")}
+
+
+def alt_stays_info(cfg: dict) -> list[dict]:
+    """Elenco dei soggiorni alternativi scritto in hotels.json: l'app lo usa per trovare gli altri file."""
+    return [{"label": a.get("label"), "check_in": a["check_in"], "check_out": a["check_out"], "file": a["file"]}
+            for a in cfg.get("alt_stays", [])]
+
+
+def alt_config(cfg: dict, alt: dict) -> dict:
+    """Configurazione di un soggiorno alternativo: stesse ricerche, ma solo le zone scelte e meno pagine
+    (il piano gratuito SerpApi dà 250 ricerche al mese)."""
+    zones = alt.get("zones")
+    searches = []
+    for s in cfg["searches"]:
+        if zones and s["zone"] not in zones:
+            continue
+        s = dict(s)
+        s["pages"] = min(s.get("pages", 1), alt.get("pages", 1))
+        s["refundable_check"] = False
+        searches.append(s)
+    return {**cfg, "check_in": alt["check_in"], "check_out": alt["check_out"], "searches": searches,
+            "trip_name": cfg.get("trip_name"), "stay_label": alt.get("label")}
+
+
+def checked_today(path: Path, today: dt.date) -> bool:
+    if not path.exists():
+        return False
+    try:
+        old = json.loads(path.read_text())
+    except ValueError:
+        return False
+    return (old.get("updated_at") or "")[:10] == today.isoformat() and (old.get("last_run") or {}).get("ok", False)
+
+
+def refundable_due(old: dict, today: dt.date, every_days: int) -> bool:
+    last = old.get("refundable_checked_on")
+    if not last:
+        return True
+    try:
+        return (today - dt.date.fromisoformat(last)).days >= every_days
+    except ValueError:
+        return True
+
+
+def run_stay(cfg: dict, path: Path, key: str | None, mock: str | None, extra: dict | None = None) -> list[dict]:
+    """Controlla un soggiorno e salva il risultato in [path]. Restituisce i nuovi eventi."""
+    extra = extra or {}
+    old = json.loads(path.read_text()) if path.exists() else {}
     old_stay = old.get("stay") or {}
     if old_stay and (old_stay.get("check_in"), old_stay.get("check_out")) != (cfg["check_in"], cfg["check_out"]):
         print("Date cambiate: si riparte da zero.")
@@ -371,6 +420,7 @@ def main() -> int:
     check_in = dt.date.fromisoformat(cfg["check_in"])
     opens = check_in - dt.timedelta(days=BOOKING_WINDOW_DAYS)
     today = dt.datetime.now(dt.timezone.utc).date()
+    label = cfg.get("stay_label") or f"{cfg['check_in']} → {cfg['check_out']}"
     if today < opens:
         # Fuori finestra: Google non ha tariffe vere per le nostre date. Facciamo solo
         # "scoperta" degli hotel in zona (una volta al giorno), senza prezzi né notifiche.
@@ -397,21 +447,20 @@ def main() -> int:
             "updated_at": ts,
             "discovered_on": discovered_on,
             "trip_name": cfg.get("trip_name"),
-            "stay": {"check_in": cfg["check_in"], "check_out": cfg["check_out"], "nights": nights,
-                     "adults": cfg.get("adults", 2)},
-            "budget": {"target": cfg["budget_target"], "max": cfg["budget_max"], "max_lido": max_for(cfg, "lido"),
-                       "currency": cfg.get("currency", "EUR")},
+            "stay": stay_info(cfg, nights),
+            "budget": budget_info(cfg),
             "last_run": {"ok": not errors, "errors": errors, "api_calls": calls, "found": len(hotels),
                          "searches_left": left, "waiting_until": opens.isoformat()},
             "hotels": hotels,
             "events": [],
+            **extra,
         }
-        DATA.parent.mkdir(parents=True, exist_ok=True)
-        DATA.write_text(json.dumps(data, ensure_ascii=False, indent=1))
-        print(f"In attesa tariffe (dal {opens}). Hotel in elenco: {len(hotels)}, chiamate API: {calls}.")
-        return 0
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(data, ensure_ascii=False, indent=1))
+        print(f"[{label}] In attesa tariffe (dal {opens}). Hotel in elenco: {len(hotels)}, chiamate API: {calls}.")
+        return []
     fetcher = Fetcher(key, mock)
-    check_ref = old.get("refundable_checked_on") != today.isoformat()
+    check_ref = refundable_due(old, today, cfg.get("refundable_every_days", 1))
     found, errors = run_searches(cfg, fetcher, check_refundable=check_ref)
     run_ok = not errors
     if (old.get("last_run") or {}).get("waiting_until"):
@@ -421,20 +470,43 @@ def main() -> int:
         "updated_at": ts,
         "refundable_checked_on": today.isoformat() if check_ref and run_ok else old.get("refundable_checked_on"),
         "trip_name": cfg.get("trip_name"),
-        "stay": {"check_in": cfg["check_in"], "check_out": cfg["check_out"], "nights": nights,
-                 "adults": cfg.get("adults", 2)},
-        "budget": {"target": cfg["budget_target"], "max": cfg["budget_max"], "max_lido": max_for(cfg, "lido"),
-                       "currency": cfg.get("currency", "EUR")},
+        "stay": stay_info(cfg, nights),
+        "budget": budget_info(cfg),
         "last_run": {"ok": run_ok, "errors": errors, "api_calls": fetcher.calls,
                      "found": len(found), "searches_left": fetcher.searches_left()},
         "hotels": hotels,
         "events": (events + old.get("events", []))[:MAX_EVENTS],
+        **extra,
     }
-    DATA.parent.mkdir(parents=True, exist_ok=True)
-    DATA.write_text(json.dumps(data, ensure_ascii=False, indent=1))
-    print(f"OK: {len(found)} hotel trovati, {len(events)} eventi, {fetcher.calls} chiamate. Errori: {errors or 'nessuno'}")
-    if os.environ.get("NTFY_TOPIC"):
-        notify_ntfy(os.environ["NTFY_TOPIC"], events, cfg)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(data, ensure_ascii=False, indent=1))
+    print(f"[{label}] OK: {len(found)} hotel trovati, {len(events)} eventi, {fetcher.calls} chiamate. "
+          f"Errori: {errors or 'nessuno'}")
+    return events
+
+
+def main() -> int:
+    cfg = json.loads(CONFIG.read_text())
+    key = os.environ.get("SERPAPI_KEY")
+    mock = os.environ.get("SERPAPI_MOCK_DIR")
+    if not key and not mock:
+        print("SERPAPI_KEY mancante: aggiungila nei Secrets del repository.", file=sys.stderr)
+        return 1
+    today = dt.datetime.now(dt.timezone.utc).date()
+    topic = os.environ.get("NTFY_TOPIC")
+    events = run_stay(cfg, DATA, key, mock, extra={"alt_stays": alt_stays_info(cfg)})
+    if topic:
+        notify_ntfy(topic, events, cfg)
+    # Soggiorni alternativi (es. il secondo weekend della Mostra): di norma una volta al giorno
+    for alt in cfg.get("alt_stays", []):
+        path = DATA.parent / alt["file"]
+        if alt.get("once_a_day", True) and checked_today(path, today):
+            print(f"[{alt.get('label')}] già controllato oggi.")
+            continue
+        acfg = alt_config(cfg, alt)
+        alt_events = run_stay(acfg, path, key, mock)
+        if topic:
+            notify_ntfy(topic, alt_events, acfg)
     return 0
 
 

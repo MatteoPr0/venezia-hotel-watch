@@ -277,6 +277,10 @@ private fun Header(vm: MainVm, s: Snapshot?) {
             IconButton(onClick = vm::refresh) { Icon(Icons.Rounded.Refresh, "Aggiorna", tint = C.Muted) }
         }
         if (s != null) {
+            if (vm.stays.size > 1) {
+                StayPicker(vm)
+                Spacer(Modifier.height(8.dp))
+            }
             Text(stayLabel(s), style = MaterialTheme.typography.bodyMedium, color = C.Muted)
             Spacer(Modifier.height(10.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -422,6 +426,23 @@ internal fun Filters(vm: MainVm, s: Snapshot) {
             val gone = s.hotels.count { !it.available }
             if (gone > 0) Pill("Esauriti ($gone)", vm.showGone, C.Faint) { vm.showGone = !vm.showGone }
         }
+    }
+}
+
+/** "gio 2 → dom 5 set" */
+private fun weekendLabel(s: Snapshot): String = runCatching {
+    val f = DateTimeFormatter.ofPattern("EEE d", IT)
+    val a = LocalDate.parse(s.checkIn)
+    val b = LocalDate.parse(s.checkOut)
+    "${a.format(f)} → ${b.format(f)} ${b.format(DateTimeFormatter.ofPattern("MMM", IT))}"
+}.getOrDefault("${s.checkIn} → ${s.checkOut}")
+
+/** Scelta del weekend (compare solo se su GitHub se ne controlla più di uno). */
+@Composable
+internal fun StayPicker(vm: MainVm) {
+    if (vm.stays.size < 2) return
+    Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        vm.stays.forEachIndexed { i, st -> Pill(weekendLabel(st), vm.stayIdx == i) { vm.selectStay(i) } }
     }
 }
 
@@ -738,6 +759,7 @@ private fun EventsTab(vm: MainVm) {
                 Text("Diario dei controlli", style = MaterialTheme.typography.headlineSmall, color = C.Text)
                 Spacer(Modifier.height(6.dp))
             }
+            if (vm.stays.size > 1) item { StayPicker(vm) }
             if (events.isEmpty()) item {
                 Text("Ancora nessun evento. Qui vedrai nuovi hotel, cali di prezzo e camere esaurite.",
                     color = C.Muted, style = MaterialTheme.typography.bodyMedium)
@@ -796,7 +818,8 @@ private fun SettingsTab(vm: MainVm) {
         Text("Come funziona", style = MaterialTheme.typography.headlineSmall, color = C.Text)
         Spacer(Modifier.height(8.dp))
         Text(
-            "Due volte al giorno GitHub Actions interroga Google Hotels (via SerpApi) per Lido e centro storico e salva i risultati. " +
+            "Due volte al giorno GitHub Actions interroga Google Hotels (via SerpApi) per Lido e centro storico e salva i risultati; " +
+                "il secondo weekend (solo Lido) una volta al giorno. Booking, Airbnb, Holidu e Trip.com li legge il telefono, per entrambi i weekend. " +
                 "L'app legge quel file ogni ~6 ore in background e ti notifica nuovi hotel, cali di prezzo e camere tornate libere. " +
                 "Date e budget si cambiano in config.json nel repository.",
             color = C.Muted, style = MaterialTheme.typography.bodyMedium
@@ -927,10 +950,10 @@ private fun CuratedCard(h: CuratedHotel, vm: MainVm) {
             Spacer(Modifier.height(10.dp))
             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 h.site?.let { url -> LinkButton("Sito", Icons.Rounded.Language, primary = true, small = true) { open(ctx, url) } }
-                h.email?.let { mail -> LinkButton("Scrivi", Icons.Rounded.Mail, small = true) { open(ctx, mailDraft(mail, h.name, s)) } }
+                h.email?.let { mail -> LinkButton("Scrivi", Icons.Rounded.Mail, small = true) { open(ctx, mailDraft(mail, h.name, vm.stays)) } }
                 LinkButton("Booking", Icons.Rounded.Hotel, small = true) {
-                    open(ctx, "https://www.booking.com/searchresults.it.html?ss=${enc(h.name + " Venezia")}&checkin=${s?.checkIn ?: "2027-09-03"}" +
-                        "&checkout=${s?.checkOut ?: "2027-09-06"}&group_adults=2&no_rooms=1&group_children=0")
+                    open(ctx, "https://www.booking.com/searchresults.it.html?ss=${enc(h.name + " Venezia")}&checkin=${s?.checkIn ?: "2027-09-02"}" +
+                        "&checkout=${s?.checkOut ?: "2027-09-05"}&group_adults=2&no_rooms=1&group_children=0")
                 }
                 LinkButton("Mappa", Icons.Rounded.Map, small = true) { open(ctx, "geo:${h.lat},${h.lon}?q=${h.lat},${h.lon}(${enc(h.name)})") }
             }
@@ -950,15 +973,31 @@ private fun CuratedCard(h: CuratedHotel, vm: MainVm) {
     }
 }
 
-private fun mailDraft(to: String, hotel: String, s: Snapshot?): String {
-    val subject = "Richiesta disponibilità 3–6 settembre 2027 (Mostra del Cinema)"
-    val body = """Buongiorno,
-        |
-        |vorrei soggiornare presso $hotel dal 3 al 6 settembre 2027 (3 notti), 2 adulti, camera matrimoniale.
-        |
-        |Al momento sul vostro sito quelle date risultano non disponibili: potreste indicarmi quando aprirete le prenotazioni per il periodo della Mostra del Cinema, e se è già possibile fare una richiesta o un'opzione?
-        |
-        |Grazie mille,
-        |Matteo""".trimMargin()
+/** "da giovedì 2 a domenica 5 settembre 2027 (3 notti)" */
+private fun stayPhrase(s: Snapshot): String = runCatching {
+    val a = LocalDate.parse(s.checkIn)
+    val b = LocalDate.parse(s.checkOut)
+    val start = a.format(DateTimeFormatter.ofPattern(if (a.month == b.month) "EEEE d" else "EEEE d MMMM", IT))
+    "da $start a ${b.format(DateTimeFormatter.ofPattern("EEEE d MMMM yyyy", IT))} (${s.nights} notti)"
+}.getOrDefault("dal ${s.checkIn} al ${s.checkOut}")
+
+private fun mailDraft(to: String, hotel: String, stays: List<Snapshot>): String {
+    val subject = "Richiesta disponibilità – Mostra del Cinema, settembre 2027"
+    val dates = stays.ifEmpty { null }?.map { stayPhrase(it) }
+        ?: listOf("da giovedì 2 a domenica 5 settembre 2027 (3 notti)", "da giovedì 9 a domenica 12 settembre 2027 (3 notti)")
+    val which = if (dates.size > 1) "in una di queste date" else "nelle date"
+    val each = if (dates.size > 1) "Per ciascuna opzione vorrei sapere" else "Vorrei sapere"
+    val body = buildString {
+        append("Buongiorno,\n\n")
+        append("vorrei un preventivo per una camera matrimoniale per 2 adulti presso $hotel durante la Mostra del Cinema 2027, $which:\n\n")
+        dates.forEach { append("- $it\n") }
+        append("\n$each:\n")
+        append("- la tariffa totale (con o senza colazione)\n")
+        append("- se è prevista la cancellazione gratuita e fino a quando\n")
+        append("- se serve un acconto e di quanto\n\n")
+        append("Se le tariffe per il 2027 non sono ancora definite, vi chiederei di ricontattarmi appena disponibili ")
+        append("o di indicarmi se è possibile una pre-prenotazione o un'opzione.\n\n")
+        append("Grazie mille e buona giornata,\nMatteo")
+    }
     return "mailto:$to?subject=" + android.net.Uri.encode(subject) + "&body=" + android.net.Uri.encode(body)
 }

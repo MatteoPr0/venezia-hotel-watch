@@ -55,6 +55,9 @@ data class HotelEvent(
     val prevTotal: Int?,
 )
 
+/** Un altro soggiorno controllato su GitHub (es. il secondo weekend della Mostra), in un file a parte. */
+data class StayRef(val label: String?, val checkIn: String, val checkOut: String, val file: String)
+
 data class Snapshot(
     val updatedAt: String?,
     val tripName: String,
@@ -72,6 +75,8 @@ data class Snapshot(
     val waitingUntil: String?,
     val hotels: List<Hotel>,
     val events: List<HotelEvent>,
+    /** solo nel file principale: gli altri soggiorni controllati */
+    val altStays: List<StayRef> = emptyList(),
 )
 
 private fun JSONObject.optIntOrNull(k: String): Int? =
@@ -145,6 +150,9 @@ fun parseSnapshot(text: String): Snapshot {
         waitingUntil = run.optStr("waiting_until"),
         hotels = hotels,
         events = events,
+        altStays = o.optJSONArray("alt_stays").mapObj { a ->
+            StayRef(a.optStr("label"), a.optString("check_in"), a.optString("check_out"), a.optString("file"))
+        }.filter { it.file.isNotBlank() && it.checkIn.isNotBlank() },
     )
 }
 
@@ -171,11 +179,50 @@ class Repo(private val ctx: Context) {
         get() = prefs.getString("last_event", "") ?: ""
         set(v) = prefs.edit().putString("last_event", v).apply()
 
+    /** Ultimo evento già notificato, separato per soggiorno (0 = principale). */
+    fun lastNotified(stayIdx: Int): String =
+        if (stayIdx == 0) lastNotifiedEvent else prefs.getString("last_event_$stayIdx", "") ?: ""
+
+    fun setLastNotified(stayIdx: Int, v: String) {
+        if (stayIdx == 0) lastNotifiedEvent = v else prefs.edit().putString("last_event_$stayIdx", v).apply()
+    }
+
+    /** Soggiorno mostrato nell'app (0 = principale, 1 = primo alternativo…). */
+    var stayIdx: Int
+        get() = prefs.getInt("stay_idx", 0)
+        set(v) = prefs.edit().putInt("stay_idx", v).apply()
+
     fun cached(): Snapshot? = runCatching { if (cache.exists()) parseSnapshot(cache.readText()) else null }.getOrNull()
 
-    suspend fun fetch(): Snapshot = withContext(Dispatchers.IO) {
+    /** Copia locale del file di un soggiorno alternativo. */
+    fun cachedAlt(ref: StayRef): Snapshot? = runCatching {
+        File(ctx.filesDir, altCacheName(ref)).takeIf { it.exists() }?.let { parseSnapshot(it.readText()) }
+    }.getOrNull()
+
+    private fun altCacheName(ref: StayRef) = "stay_" + ref.file.substringAfterLast('/')
+
+    /** Scarica il file di un soggiorno alternativo, nella stessa cartella di hotels.json. */
+    suspend fun fetchAlt(ref: StayRef): Snapshot =
+        download(dataUrl.substringBeforeLast('/') + "/" + ref.file.substringAfterLast('/'), File(ctx.filesDir, altCacheName(ref)))
+
+    /** Principale + alternativi (dalla rete se possibile, altrimenti dalla copia locale). */
+    suspend fun fetchAll(): List<Snapshot> {
+        val main = fetch()
+        return listOf(main) + main.altStays.mapNotNull { ref ->
+            (runCatching { fetchAlt(ref) }.getOrNull() ?: cachedAlt(ref))?.takeIf { it.checkIn == ref.checkIn }
+        }
+    }
+
+    fun cachedAll(): List<Snapshot> {
+        val main = cached() ?: return emptyList()
+        return listOf(main) + main.altStays.mapNotNull { ref -> cachedAlt(ref)?.takeIf { it.checkIn == ref.checkIn } }
+    }
+
+    suspend fun fetch(): Snapshot = download(dataUrl, cache)
+
+    private suspend fun download(base: String, dest: File): Snapshot = withContext(Dispatchers.IO) {
         // parametro anti-cache: raw.githubusercontent.com tiene una cache di ~5 minuti
-        val url = URL(dataUrl + (if ('?' in dataUrl) "&" else "?") + "t=" + System.currentTimeMillis() / 60000)
+        val url = URL(base + (if ('?' in base) "&" else "?") + "t=" + System.currentTimeMillis() / 60000)
         val conn = (url.openConnection() as HttpURLConnection).apply {
             connectTimeout = 15000
             readTimeout = 20000
@@ -185,7 +232,7 @@ class Repo(private val ctx: Context) {
             if (conn.responseCode !in 200..299) error("HTTP ${conn.responseCode}")
             val text = conn.inputStream.bufferedReader().use { it.readText() }
             val snap = parseSnapshot(text)
-            cache.writeText(text)
+            dest.writeText(text)
             snap
         } finally {
             conn.disconnect()

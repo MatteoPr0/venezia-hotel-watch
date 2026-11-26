@@ -449,7 +449,10 @@ val RENTAL_SOURCES = setOf("airbnb", "holidu")
 
 /** Un sito letto dal telefono: nome, file dove si ricordano i risultati, lettura. */
 class Site(val key: String, val label: String, val file: String,
-           val fetch: suspend (Context, String, String, Int) -> List<BookingOffer>)
+           val fetch: suspend (Context, String, String, Int) -> List<BookingOffer>) {
+    /** File dei risultati per un soggiorno: il principale resta "booking.json", gli altri "booking-2.json"… */
+    fun fileFor(stayIdx: Int) = if (stayIdx == 0) file else file.removeSuffix(".json") + "-${stayIdx + 1}.json"
+}
 
 /** Nell'ordine in cui si controllano. */
 val SITES = listOf(
@@ -459,7 +462,8 @@ val SITES = listOf(
     Site("trip", "Trip.com", "trip.json", ::fetchTripLido),
 )
 
-fun loadSites(ctx: Context): Map<String, BookingState?> = SITES.associate { it.key to BookingStore(ctx, it.file).load() }
+fun loadSites(ctx: Context, stayIdx: Int = 0): Map<String, BookingState?> =
+    SITES.associate { it.key to BookingStore(ctx, it.fileFor(stayIdx)).load() }
 
 /** Google + tutti i siti del telefono. */
 fun mergeAll(g: Snapshot, states: Map<String, BookingState?>): Snapshot =
@@ -479,5 +483,9 @@ private suspend fun checkSource(
         .getOrElse { store.saveError(stay, it.message ?: "errore") }
 }
 
-suspend fun checkSite(ctx: Context, s: Snapshot, site: Site, force: Boolean, minMinutes: Long = 30) =
-    checkSource(ctx, s, force, minMinutes, site.file, site.fetch)
+suspend fun checkSite(ctx: Context, s: Snapshot, site: Site, force: Boolean, minMinutes: Long = 30, stayIdx: Int = 0) =
+    checkSource(ctx, s, force, minMinutes, site.fileFor(stayIdx), site.fetch)
+
+/** Minuti dall'ultimo controllo riuscito di un sito per quel soggiorno (null = mai). */
+fun siteAgeMinutes(ctx: Context, s: Snapshot, site: Site, stayIdx: Int): Long? =
+    BookingStore(ctx, site.fileFor(stayIdx)).minutesSinceCheck(stayKey(s.checkIn, s.checkOut, s.adults))

@@ -1,6 +1,6 @@
 {
- "updated": "2026-10-01",
- "intro": "Selezione per la Mostra con budget 1.000–1.200 € per 3 notti in due (~330–400 €/notte). La fascia di prezzo è una mia stima: le tariffe vere della Mostra 2027 non sono ancora pubbliche.",
+ "updated": "2026-11-26",
+ "intro": "Selezione per la Mostra 2027 (1–11 settembre): 3 notti in due, ideale 1.000 €, massimo 1.200 € in centro e 1.500 € al Lido. Il secondo weekend (gio 9 → dom 12, con la premiazione sabato 11) di solito costa meno dell'apertura. La fascia di prezzo è una mia stima: le tariffe vere della Mostra 2027 non sono ancora pubbliche.",
  "palazzo": {
   "lat": 45.4047,
   "lon": 12.3681
@@ -152,6 +152,23 @@
    "title": "Lido · Santa Maria Elisabetta",
    "subtitle": "1,2–1,5 km dal Palazzo (bus 10 min o bici). In cambio: vaporetto per Venezia sotto casa.",
    "hotels": [
+    {
+     "name": "Hotel Meliá Lido Venezia",
+     "match": "melia",
+     "stars": 4,
+     "rating": 4.7,
+     "reviews": 119,
+     "lat": 45.4166,
+     "lon": 12.369,
+     "site": null,
+     "email": null,
+     "phone": null,
+     "address": "Gran Viale, Lido",
+     "fit": "limite",
+     "note": "Nuovo 4 stelle superior sul Gran Viale (ex Hotel Helvetia), aperto da poco: 60 camere, ancora senza tariffe per la Mostra. Da tenere d'occhio.",
+     "dist_palazzo_m": 1240,
+     "walk_palazzo_min": 21
+    },
     {
      "name": "Hotel Villa delle Palme",
      "match": "villa-delle-palme",

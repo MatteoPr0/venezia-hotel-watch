@@ -9,6 +9,7 @@
   "budget_max_lido": 1500,
   "show_up_to_factor": 1.25,
   "drop_alert_min_eur": 25,
+  "refundable_every_days": 2,
   "searches": [
     {
       "zone": "lido",
@@ -26,6 +27,19 @@
       },
       "use_max_price": true,
       "refundable_check": true
+    }
+  ],
+  "alt_stays": [
+    {
+      "label": "Secondo weekend 9-12 settembre",
+      "check_in": "2027-09-09",
+      "check_out": "2027-09-12",
+      "file": "hotels-2.json",
+      "zones": [
+        "lido"
+      ],
+      "pages": 1,
+      "once_a_day": true
     }
   ]
 }
