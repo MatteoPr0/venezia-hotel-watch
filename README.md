@@ -1,8 +1,9 @@
 # Venezia Hotel Watch 🎬
 
 App Android che tiene d'occhio gli hotel per la **Mostra del Cinema di Venezia 2027**
-(gio 2 → dom 5 settembre, 2 adulti, budget ideale 1.000 €, massimo 1.200 € in centro e 1.500 € al Lido;
-la Mostra 2027 è annunciata dal 1° all'11 settembre).
+(2 adulti, budget ideale 1.000 €, massimo 1.200 € in centro e 1.500 € al Lido;
+la Mostra 2027 è annunciata dal 1° all'11 settembre). Si controllano due weekend:
+**gio 2 → dom 5** (apertura) e **gio 9 → dom 12** (chiusura, premiazione sabato 11): in alto nell'app si sceglie quale vedere.
 
 ## Come funziona
 
@@ -21,7 +22,11 @@ GitHub Actions (2×/giorno) ──► SerpApi · Google Hotels ──► data/ho
   Google (una ricerca al giorno con `free_cancellation=true` per il centro).
 - **Notifiche**: nuovo hotel, prezzo sceso di almeno 25 €, camera tornata disponibile.
   Un hotel viene segnato "esaurito" dopo 2 controlli consecutivi in cui non compare.
-- **Consumo**: 3 ricerche SerpApi a controllo + 1 al giorno per i rimborsabili → ~217 al mese (il piano gratuito ne dà 250).
+- **Secondo weekend**: in `config.json` → `alt_stays`. Su Google solo il Lido, una ricerca al giorno, salvata in
+  `data/hotels-2.json`; Booking, Airbnb, Holidu e Trip.com li legge il telefono per entrambi i weekend.
+  Le notifiche dicono a quale weekend si riferiscono.
+- **Consumo**: 3 ricerche SerpApi a controllo (2 al giorno) + 1 ogni 2 giorni per i rimborsabili + 1 al giorno per il
+  secondo weekend → ~233 al mese (il piano gratuito ne dà 250).
 
 ## Setup (una volta sola, ~10 minuti)
 

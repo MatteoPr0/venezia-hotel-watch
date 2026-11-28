@@ -22,10 +22,16 @@ enum class SortBy { PRICE, RATING }
 
 class MainVm(app: Application) : AndroidViewModel(app) {
     val repo = Repo(app)
-    private var google: Snapshot? = repo.cached()
-    /** risultati di ogni sito letto dal telefono (chiave = Site.key) */
-    var sites by mutableStateOf(loadSites(app))
-    var snap by mutableStateOf(google?.let { mergeAll(it, sites) })
+    /** fotografie Google per ogni weekend (0 = principale, poi gli alternativi) */
+    private var googles: List<Snapshot> = repo.cachedAll()
+    /** weekend mostrato */
+    var stayIdx by mutableStateOf(repo.stayIdx.coerceIn(0, maxOf(0, googles.size - 1)))
+        private set
+    /** risultati di ogni sito letto dal telefono per il weekend mostrato (chiave = Site.key) */
+    var sites by mutableStateOf(loadSites(app, stayIdx))
+    var snap by mutableStateOf(googles.getOrNull(stayIdx)?.let { mergeAll(it, sites) })
+    /** i weekend controllati, per il selettore in alto */
+    var stays by mutableStateOf(googles)
     var showAirbnb by mutableStateOf(true)
     var loading by mutableStateOf(false)
     /** il sito che si sta controllando adesso */
@@ -47,36 +53,67 @@ class MainVm(app: Application) : AndroidViewModel(app) {
     fun refresh() = refresh(forceBooking = true)
 
     private fun publish() {
-        val g = google ?: return
+        stays = googles
+        if (stayIdx >= googles.size) stayIdx = 0
+        val g = googles.getOrNull(stayIdx) ?: return
+        sites = loadSites(getApplication(), stayIdx)
         val s = mergeAll(g, sites)
         snap = s
         // allinea il "visto" delle notifiche: ciò che vedi in app non ti viene ri-notificato
-        s.events.firstOrNull()?.time?.let { if (it > repo.lastNotifiedEvent) repo.lastNotifiedEvent = it }
+        s.events.firstOrNull()?.time?.let { if (it > repo.lastNotified(stayIdx)) repo.setLastNotified(stayIdx, it) }
+    }
+
+    /** Cambia weekend; se i siti del telefono non l'hanno ancora controllato di recente, parte un controllo. */
+    fun selectStay(i: Int) {
+        if (i == stayIdx || i !in googles.indices) return
+        stayIdx = i
+        repo.stayIdx = i
+        publish()
+        checkSites(force = false)
     }
 
     fun refresh(forceBooking: Boolean) {
         if (loading) return
         loading = true
         viewModelScope.launch {
-            runCatching { repo.fetch() }
-                .onSuccess { s -> google = s; error = null; publish() }
+            runCatching { repo.fetchAll() }
+                .onSuccess { all -> googles = all; error = null; publish() }
                 .onFailure { error = it.message ?: "errore di rete" }
             runCatching { repo.fetchCurated(getApplication()) }.onSuccess { curated = it }
             // annunci della Mostra (feed RSS della Biennale); nel collaudo si può usare un feed finto
             val testRss = File(getApplication<Application>().filesDir, "festival_test_rss.xml").takeIf { BuildConfig.DEBUG && it.exists() }?.readText()
-            runCatching { FestivalWatch.check(getApplication(), festivalYear(google), rssOverride = testRss) }.onSuccess { festival = it }
+            runCatching { FestivalWatch.check(getApplication(), festivalYear(googles.firstOrNull()), rssOverride = testRss) }.onSuccess { festival = it }
             // collaudo: sveglia "30 minuti prima" fra un minuto
             if (BuildConfig.DEBUG && File(getApplication<Application>().filesDir, "festival_test_alarm").exists())
                 FestivalAlarm.schedule(getApplication(), System.currentTimeMillis() + 31 * 60_000L)
             loading = false
-            val g = google ?: return@launch
-            if (siteLoading != null) return@launch
-            for (site in SITES) {
-                siteLoading = site.key
-                val st = checkSite(getApplication(), g, site, force = forceBooking)
-                sites = sites + (site.key to st)
-                publish()
+            runSiteChecks(forceBooking)
+        }
+    }
+
+    private fun checkSites(force: Boolean) {
+        viewModelScope.launch { runSiteChecks(force) }
+    }
+
+    /** Siti letti dal telefono: prima il weekend mostrato, poi gli altri (senza forzare, max 1 volta l'ora). */
+    private var checkingSites = false
+
+    private suspend fun runSiteChecks(force: Boolean) {
+        if (checkingSites) return
+        checkingSites = true
+        try {
+            val first = stayIdx
+            val order = listOf(first) + googles.indices.filter { it != first }
+            for (i in order) {
+                val g = googles.getOrNull(i) ?: continue
+                for (site in SITES) {
+                    siteLoading = if (i == stayIdx) site.key else null
+                    checkSite(getApplication(), g, site, force = force && i == first, minMinutes = if (i == first) 30 else 60, stayIdx = i)
+                    publish()
+                }
             }
+        } finally {
+            checkingSites = false
             siteLoading = null
         }
     }

@@ -28,12 +28,25 @@ class CheckWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx,
     override suspend fun doWork(): Result {
         val repo = Repo(applicationContext)
         if (!repo.notificationsOn) return Result.success()
-        // Google (da GitHub): se la rete non va si riprova più tardi
-        val google = runCatching { repo.fetch() }.getOrElse { repo.cached() ?: return Result.retry() }
-        // Booking per il Lido, dal telefono (Google lì non ha tariffe)
-        // e gli altri siti (Airbnb, Holidu, Trip.com): uno dopo l'altro, ognuno ricorda il suo risultato
-        val states = SITES.associate { it.key to checkSite(applicationContext, google, it, force = false, minMinutes = 60) }
-        notifyNew(applicationContext, repo, mergeAll(google, states))
+        // Google (da GitHub), per tutti i weekend: se la rete non va si riprova più tardi
+        val stays = runCatching { repo.fetchAll() }.getOrElse { repo.cachedAll().ifEmpty { return Result.retry() } }
+        // Booking per il Lido, dal telefono (Google lì non ha tariffe), e gli altri siti
+        // (Airbnb, Holidu, Trip.com): uno dopo l'altro, ognuno ricorda il suo risultato.
+        // Prima il weekend controllato da più tempo; Android concede ~10 minuti a ogni giro,
+        // quindi dopo 6 minuti non si iniziano altre letture (le altre al giro successivo).
+        val started = System.currentTimeMillis()
+        val order = stays.indices.sortedByDescending { i ->
+            SITES.maxOfOrNull { siteAgeMinutes(applicationContext, stays[i], it, i) ?: Long.MAX_VALUE } ?: 0L
+        }
+        for (i in order) {
+            for (site in SITES) {
+                if (System.currentTimeMillis() - started > 6 * 60_000L) break
+                checkSite(applicationContext, stays[i], site, force = false, minMinutes = 60, stayIdx = i)
+            }
+        }
+        stays.forEachIndexed { i, g ->
+            notifyNew(applicationContext, repo, mergeAll(g, loadSites(applicationContext, i)), i, stays.size > 1)
+        }
         return Result.success()
     }
 
@@ -57,16 +70,19 @@ class CheckWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx,
             )
         }
 
-        /** Notifica gli eventi più recenti dell'ultimo visto. Al primo avvio segna tutto come già visto. */
-        fun notifyNew(ctx: Context, repo: Repo, snap: Snapshot) {
+        /**
+         * Notifica gli eventi più recenti dell'ultimo visto per quel soggiorno.
+         * Al primo avvio (o col primo controllo di un nuovo weekend) segna tutto come già visto.
+         */
+        fun notifyNew(ctx: Context, repo: Repo, snap: Snapshot, stayIdx: Int = 0, showStay: Boolean = false) {
             val newest = snap.events.firstOrNull()?.time ?: return
-            val last = repo.lastNotifiedEvent
+            val last = repo.lastNotified(stayIdx)
             if (last.isEmpty()) {
-                repo.lastNotifiedEvent = newest
+                repo.setLastNotified(stayIdx, newest)
                 return
             }
             val fresh = snap.events.filter { it.time > last }
-            repo.lastNotifiedEvent = maxOf(last, newest)
+            repo.setLastNotified(stayIdx, maxOf(last, newest))
             val relevant = fresh.filter { e ->
                 e.type in setOf("new", "back", "drop", "priced") && e.total != null &&
                     (!repo.notifyOnlyWithinMax || e.total <= snap.maxFor(e.zone))
@@ -88,9 +104,10 @@ class CheckWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx,
                 }
             }
             val inBudget = relevant.count { it.total != null && it.total <= snap.budgetTarget }
+            val weekend = if (showStay) " · " + shortStay(snap) else ""
             val title = when {
-                relevant.size == 1 -> lines.first().substringBefore(" · ").let { "$it · Venezia '27" }
-                else -> "${relevant.size} novità hotel per la Mostra"
+                relevant.size == 1 -> lines.first().substringBefore(" · ").let { "$it · Venezia '27$weekend" }
+                else -> "${relevant.size} novità hotel per la Mostra$weekend"
             }
             val text = if (relevant.size == 1) lines.first().substringAfter(" · ")
             else if (inBudget > 0) "$inBudget entro € ${snap.budgetTarget}" else lines.first()
@@ -109,10 +126,18 @@ class CheckWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx,
                 .setContentIntent(pi)
                 .setAutoCancel(true)
                 .build()
-            NotificationManagerCompat.from(ctx).notify(newest.hashCode(), n)
+            NotificationManagerCompat.from(ctx).notify((newest + stayIdx).hashCode(), n)
         }
     }
 }
+
+/** "2–5 set" */
+fun shortStay(s: Snapshot): String = runCatching {
+    val a = java.time.LocalDate.parse(s.checkIn)
+    val b = java.time.LocalDate.parse(s.checkOut)
+    val m = b.format(java.time.format.DateTimeFormatter.ofPattern("MMM", java.util.Locale.ITALIAN))
+    if (a.month == b.month) "${a.dayOfMonth}–${b.dayOfMonth} $m" else "${a.dayOfMonth} ${a.format(java.time.format.DateTimeFormatter.ofPattern("MMM", java.util.Locale.ITALIAN))}–${b.dayOfMonth} $m"
+}.getOrDefault("${s.checkIn}→${s.checkOut}")
 
 fun zoneLabel(z: String) = when (z) {
     "lido" -> "Lido"

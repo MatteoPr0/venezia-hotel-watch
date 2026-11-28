@@ -6,6 +6,11 @@ on:
     paths:
       - "android/**"
       - ".github/workflows/build-apk.yml"
+  # sulle pull request si compila soltanto (nessuna release), per controllare che l'app si costruisca
+  pull_request:
+    paths:
+      - "android/**"
+      - ".github/workflows/build-apk.yml"
   workflow_dispatch: {}
 
 permissions:
@@ -37,6 +42,7 @@ jobs:
           name: VeneziaHotelWatch
           path: VeneziaHotelWatch.apk
       - name: Pubblica release
+        if: github.event_name != 'pull_request'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: build-${{ github.run_number }}
